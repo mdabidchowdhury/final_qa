@@ -15,7 +15,12 @@ MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] }, 
   --muted:#6b7280; --mark:#9c3b1e;
 }
 *{box-sizing:border-box; margin:0; padding:0;}
-body{background:var(--paper); color:var(--ink); font:16px/1.65 Georgia,'Times New Roman',serif;}
+html{-webkit-text-size-adjust:100%;}
+body{background:var(--paper); color:var(--ink); font:16px/1.65 Georgia,'Times New Roman',serif; overflow-x:hidden;}
+main{min-width:0; overflow-x:hidden;}
+mjx-container{max-width:100%; overflow-x:auto; overflow-y:hidden;}
+mjx-container[display="true"]{display:block; padding:3px 0;}
+.step, .ans{overflow-x:auto;}
 header{background:var(--ink); color:#f4f2ec; padding:28px 20px 22px; text-align:center;}
 header h1{font-size:1.45rem; font-weight:normal; letter-spacing:.04em;}
 header p{color:#b9c0cc; font-size:.85rem; margin-top:6px; font-family:Verdana,sans-serif;}
@@ -53,8 +58,7 @@ ol.tight{margin:8px 0 8px 24px;}
 ol.tight li{margin:6px 0;}
 .layout{display:flex; align-items:flex-start;}
 .layout main{flex:1; min-width:0; width:100%;}
-.layout main.pdf-mode{max-width:none; padding:30px 24px 40px;}
-aside#sidebar{width:290px; min-width:290px; background:var(--card); border-right:2px solid var(--rule); position:sticky; top:0; height:100vh; overflow-y:auto; box-shadow:1px 0 6px rgba(0,0,0,.05);}
+aside#sidebar{width:290px; min-width:290px; background:var(--card); border-right:2px solid var(--rule); position:sticky; top:0; height:100vh; height:100dvh; overflow-y:auto; padding-bottom:60px; box-shadow:1px 0 6px rgba(0,0,0,.05);}
 aside#sidebar .side-title{font-family:Verdana,sans-serif; font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); padding:16px 18px 10px; border-bottom:1px solid var(--rule);}
 .course{border-bottom:1px solid var(--rule);}
 .course-btn{width:100%; text-align:left; background:none; border:none; cursor:pointer; padding:13px 16px; display:flex; gap:10px; align-items:flex-start; font:inherit; color:var(--ink);}
@@ -68,19 +72,27 @@ aside#sidebar .side-title{font-family:Verdana,sans-serif; font-size:.7rem; lette
 .item-btn{display:block; width:100%; text-align:left; background:none; border:none; border-left:3px solid transparent; cursor:pointer; padding:8px 16px 8px 42px; font-family:Verdana,sans-serif; font-size:.74rem; color:var(--muted);}
 .item-btn:hover{color:var(--accent); background:var(--accent-soft);}
 .item-btn.active{color:var(--accent); border-left-color:var(--accent); background:var(--accent-soft); font-weight:bold;}
-.item-btn.pdf::before{content:"PDF"; font-size:.58rem; color:var(--gold); border:1px solid var(--gold); border-radius:2px; padding:0 3px; margin-right:7px;}
 .item-btn.empty{cursor:default; font-style:italic;}
 .item-btn.empty:hover{color:var(--muted); background:none;}
-#pdf-viewer{display:none;}
-#pdf-viewer.active{display:block;}
-#pdf-viewer iframe{width:100%; height:calc(100vh - 40px); border:1px solid var(--rule); background:#fff;}
+.lect-num{font-family:Verdana,sans-serif; font-size:.7rem; color:var(--gold); font-weight:bold; letter-spacing:.05em;}
 #menu-toggle{display:none;}
 @media(max-width:760px){
-  aside#sidebar{position:fixed; left:0; top:0; z-index:100; transform:translateX(-100%); transition:transform .25s;}
+  aside#sidebar{position:fixed; left:0; top:0; z-index:100; width:min(82vw,290px); min-width:0; transform:translateX(-100%); transition:transform .25s;}
   aside#sidebar.show{transform:translateX(0);}
   #menu-toggle{display:block; position:fixed; bottom:18px; right:18px; z-index:101; background:var(--accent); color:#fff; border:none; border-radius:4px; padding:10px 14px; font-family:Verdana,sans-serif; font-size:.75rem; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,.25);}
+  main{padding:20px 12px 70px;}
+  nav{overflow-x:auto;}
+  nav button{padding:12px 12px; font-size:.72rem; white-space:nowrap;}
+  .q-head{flex-wrap:wrap;}
+  .q-head h3{font-size:.95rem; min-width:0; overflow-wrap:break-word;}
+  table.vals{display:block; overflow-x:auto; max-width:100%; -webkit-overflow-scrolling:touch;}
+  table.vals th, table.vals td{padding:5px 8px; font-size:.85rem;}
+  .qtext, .part{overflow-wrap:break-word;}
+  ul.tight, ol.tight{margin-left:18px;}
+  .paper-head{padding:14px 14px;}
+  .paper-head h2{font-size:1.08rem;}
 }
-@media(max-width:600px){ .q-body{padding:16px 14px;} }
+@media(max-width:600px){ .q-body{padding:16px 12px;} .step{padding-left:8px;} header h1{font-size:1.15rem;} }
 </style>
 </head>
 <body>
@@ -94,14 +106,6 @@ aside#sidebar .side-title{font-family:Verdana,sans-serif; font-size:.7rem; lette
   <div id="course-list"></div>
 </aside>
 <main>
-
-<section id="pdf-viewer" class="tab">
-  <div class="paper-head">
-    <h2 id="pdf-title"></h2>
-    <div class="meta" id="pdf-meta"></div>
-  </div>
-  <div id="pdf-frame"></div>
-</section>
 
 <!-- ============================ TAB 1: 4221 INCOURSE ============================ -->
 <section id="t1" class="tab active">
@@ -1831,9 +1835,9 @@ Check: \(\theta(5)=5.2(25)-0.56(125)=130-70=60\) ✓; \(\dot\theta(5)=10.4(5)-1.
 </div>
 
 <div class="q">
-<div class="q-head"><h3>Example 7.1 — Worked Numerical Case</h3><span class="marks">Example</span></div>
+<div class="q-head"><h3>Example Problem 1 — Cubic Polynomial (Slide 16)</h3><span class="marks">Example</span></div>
 <div class="q-body">
-<div class="qtext">Given \(\theta_0 = 15\), \(\theta_f = 75\), \(t_f = 3\). Find the cubic trajectory and its derivatives.</div>
+<div class="qtext">A single-link robot with a rotary joint is motionless at \(\theta = 15^\circ\). It is desired to move the joint in a smooth manner to \(\theta = 75^\circ\) in 3 seconds. Find the coefficients of a cubic that accomplishes this motion and brings the manipulator to rest at the goal.</div>
 <div class="sol">
 <p>Substituting directly into the boxed formulas:</p>
 <div class="step">
@@ -1921,6 +1925,48 @@ Check: \(\theta(5)=5.2(25)-0.56(125)=130-70=60\) ✓; \(\dot\theta(5)=10.4(5)-1.
 <p>In each, the leading term is precisely the rest-to-rest answer; the rest is the correction demanded by non-zero end velocities. Setting \(\dot\theta_0=\dot\theta_f=0\) collapses these to the rest-to-rest coefficients, as it must.</p>
 </div>
 
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>Exercise Problem 2 — Two-Segment Spline with a Specified Via Velocity (Slide 20)</h3><span class="marks">Example</span></div>
+<div class="q-body">
+<div class="qtext">Sketch graphs of position, velocity, and acceleration for a two-segment spline where each segment is a cubic. Sketch them for a joint where \(\theta_0 = 5.0^\circ\) for the initial point, \(\theta_v = 15.0^\circ\) is a via point, and \(\theta_g = 40.0^\circ\) is the goal point. Assume that each segment has a duration of 1.0 second and that the velocity at the via point is to be 17.5 degrees/second.</div>
+<div class="sol">
+<p>Each segment is an independent application of the non-zero-end-velocity coefficients just derived, with the via velocity \(\dot\theta_v = 17.5^\circ/\mathrm{s}\) appearing as the <em>final</em> velocity of segment 1 and the <em>initial</em> velocity of segment 2. The joint is at rest at the start and at the goal.</p>
+
+<div class="part">Segment 1: \(\theta_0 = 5 \to \theta_v = 15\), \(\dot\theta_0 = 0\), \(\dot\theta_f = 17.5\), \(t_f = 1\)</div>
+<div class="step">
+\[a_{10} = \theta_0 = 5, \qquad a_{11} = \dot\theta_0 = 0\]
+\[a_{12} = \frac{3}{t_f^2}(\theta_v - \theta_0) - \frac{2\dot\theta_0}{t_f} - \frac{\dot\theta_f}{t_f} = \frac{3}{1}(10) - 0 - \frac{17.5}{1} = 30 - 17.5 = 12.5\]
+\[a_{13} = -\frac{2}{t_f^3}(\theta_v - \theta_0) + \frac{1}{t_f^2}(\dot\theta_f + \dot\theta_0) = -2(10) + 17.5 = -2.5\]
+</div>
+<div class="ans"><b>Segment 1:</b>
+\[\theta_1(t) = 5 + 12.5\,t^2 - 2.5\,t^3, \qquad \dot\theta_1(t) = 25t - 7.5t^2, \qquad \ddot\theta_1(t) = 25 - 15t\]
+</div>
+<p><b>Verification.</b> \(\theta_1(1) = 5 + 12.5 - 2.5 = 15 = \theta_v\ \checkmark\), and \(\dot\theta_1(1) = 25 - 7.5 = 17.5^\circ/\mathrm{s}\ \checkmark\) — the joint arrives at the via point at exactly the prescribed velocity, without stopping.</p>
+
+<div class="part">Segment 2: \(\theta_v = 15 \to \theta_g = 40\), \(\dot\theta_0 = 17.5\), \(\dot\theta_f = 0\), \(t_f = 1\) (time restarts at the via point)</div>
+<div class="step">
+\[a_{20} = \theta_v = 15, \qquad a_{21} = \dot\theta_0 = 17.5\]
+\[a_{22} = \frac{3}{1}(40-15) - \frac{2(17.5)}{1} - 0 = 75 - 35 = 40\]
+\[a_{23} = -\frac{2}{1}(25) + \frac{1}{1}(0 + 17.5) = -50 + 17.5 = -32.5\]
+</div>
+<div class="ans"><b>Segment 2:</b>
+\[\theta_2(t) = 15 + 17.5\,t + 40\,t^2 - 32.5\,t^3, \qquad \dot\theta_2(t) = 17.5 + 80t - 97.5t^2, \qquad \ddot\theta_2(t) = 80 - 195t\]
+</div>
+<p><b>Verification.</b> \(\theta_2(1) = 15 + 17.5 + 40 - 32.5 = 40 = \theta_g\ \checkmark\), and \(\dot\theta_2(1) = 17.5 + 80 - 97.5 = 0\ \checkmark\) — the joint comes to rest exactly at the goal.</p>
+
+<div class="part">Shape of the sketch</div>
+<div class="sol">
+<ul class="tight">
+<li><b>Position:</b> a monotonically rising curve from 5° through 15° at \(t = 1\,\mathrm{s}\) to 40° at \(t = 2\,\mathrm{s}\); smooth (no corner) at the via point because velocity is continuous there.</li>
+<li><b>Velocity:</b> rises from 0, passes through 17.5°/s at the splice, peaks inside segment 2 (at \(t \approx 0.41\,\mathrm{s}\) into segment 2, where \(\dot\theta_2 \approx 33.9^\circ/\mathrm{s}\)), then returns to 0.</li>
+<li><b>Acceleration:</b> two straight-line ramps, \(25 - 15t\) then \(80 - 195t\). At the via point segment 1 ends with \(\ddot\theta = 10^\circ/\mathrm{s}^2\) while segment 2 begins with \(\ddot\theta = 80^\circ/\mathrm{s}^2\).</li>
+</ul>
+<div class="note">The acceleration is <b>discontinuous</b> at the via point — a jump from 10 to 80 °/s². Specifying the via velocity by hand guarantees velocity continuity only. Removing this jump is precisely the motivation for the continuous-acceleration spline derived next.</div>
+</div>
+</div>
 </div>
 </div>
 
@@ -2083,6 +2129,50 @@ Check: \(\theta(5)=5.2(25)-0.56(125)=130-70=60\) ✓; \(\dot\theta(5)=10.4(5)-1.
 </div>
 
 <div class="q">
+<div class="q-head"><h3>Exercise Problem 3 — Two-Segment Continuous-Acceleration Spline (Slide 25)</h3><span class="marks">Example</span></div>
+<div class="q-body">
+<div class="qtext">A single-link robot with a rotary joint is motionless initially. Sketch graphs of position, velocity, and acceleration for the two-segment continuous-acceleration spline. Sketch them for a joint for which \(\theta_0 = 5.0^\circ\), \(\theta_v = 15.0^\circ\), and \(\theta_g = -10.0^\circ\), and each segment lasts 2.0 seconds.</div>
+<div class="sol">
+<p>Here the via velocity is <em>not</em> given; the system chooses it implicitly by enforcing continuous acceleration at the splice. The boxed eight-coefficient solution (for \(t_{f1} = t_{f2} = t_f = 2\,\mathrm{s}\)) applies directly. Note that the goal lies <em>below</em> the start, so the joint must overshoot upward through the via point and then reverse.</p>
+
+<div class="part">Segment 1 coefficients</div>
+<div class="step">
+\[a_{10} = \theta_0 = 5, \qquad a_{11} = 0\]
+\[a_{12} = \frac{12\theta_v - 3\theta_g - 9\theta_0}{4t_f^2} = \frac{12(15) - 3(-10) - 9(5)}{4(4)} = \frac{180 + 30 - 45}{16} = \frac{165}{16} = 10.3125\]
+\[a_{13} = \frac{-8\theta_v + 3\theta_g + 5\theta_0}{4t_f^3} = \frac{-120 - 30 + 25}{4(8)} = \frac{-125}{32} = -3.9063\]
+</div>
+<div class="ans"><b>Segment 1:</b> \(\theta_1(t) = 5 + 10.3125\,t^2 - 3.9063\,t^3\), so \(\dot\theta_1(t) = 20.625\,t - 11.719\,t^2\) and \(\ddot\theta_1(t) = 20.625 - 23.438\,t\).</div>
+
+<div class="part">Segment 2 coefficients</div>
+<div class="step">
+\[a_{20} = \theta_v = 15, \qquad a_{21} = \frac{3\theta_g - 3\theta_0}{4t_f} = \frac{3(-10) - 3(5)}{8} = \frac{-45}{8} = -5.625\]
+\[a_{22} = \frac{-12\theta_v + 6\theta_g + 6\theta_0}{4t_f^2} = \frac{-180 - 60 + 30}{16} = \frac{-210}{16} = -13.125\]
+\[a_{23} = \frac{8\theta_v - 5\theta_g - 3\theta_0}{4t_f^3} = \frac{120 + 50 - 15}{32} = \frac{155}{32} = 4.8438\]
+</div>
+<div class="ans"><b>Segment 2:</b> \(\theta_2(t) = 15 - 5.625\,t - 13.125\,t^2 + 4.8438\,t^3\), so \(\dot\theta_2(t) = -5.625 - 26.25\,t + 14.531\,t^2\) and \(\ddot\theta_2(t) = -26.25 + 29.063\,t\).</div>
+
+<div class="part">Verification of all splice conditions</div>
+<div class="step">
+\[\theta_1(2) = 5 + 10.3125(4) - 3.9063(8) = 5 + 41.25 - 31.25 = 15 = \theta_v \quad\checkmark\]
+\[\dot\theta_1(2) = 20.625(2) - 11.719(4) = 41.25 - 46.875 = -5.625 = a_{21} = \dot\theta_2(0) \quad\checkmark\]
+\[\ddot\theta_1(2) = 20.625 - 23.438(2) = -26.25 = 2a_{22} = \ddot\theta_2(0) \quad\checkmark\]
+\[\theta_2(2) = 15 - 11.25 - 52.5 + 38.75 = -10 = \theta_g \quad\checkmark, \qquad \dot\theta_2(2) = -5.625 - 52.5 + 58.125 = 0 \quad\checkmark\]
+</div>
+<p>Position, velocity, <em>and</em> acceleration all match across the via point, and the joint is at rest at both ends — every one of the eight constraints is honoured.</p>
+
+<div class="part">Shape of the sketch</div>
+<div class="sol">
+<ul class="tight">
+<li><b>Position:</b> rises from 5°, peaks above 15° shortly <em>before</em>/around the via point region (the joint overshoots to about 16.6° at \(t \approx 1.76\,\mathrm{s}\), where \(\dot\theta_1 = 0\)), passes through 15° at \(t = 2\,\mathrm{s}\) already moving downward, and descends to −10°.</li>
+<li><b>Velocity:</b> starts at 0, is positive during most of segment 1, crosses zero near the end of segment 1, equals −5.625°/s at the splice, dips to a minimum of about −17.5°/s inside segment 2 (at \(t \approx 0.90\,\mathrm{s}\) into it), and returns to 0 at the goal.</li>
+<li><b>Acceleration:</b> two straight lines, \(20.625 - 23.438\,t\) and \(-26.25 + 29.063\,t\), that <b>meet at −26.25°/s²</b> at the via point — a continuous, kink-only profile rather than a jump, which is the entire point of this formulation.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+<div class="q">
 <div class="q-head"><h3>4. Higher-Order Polynomial: The Quintic</h3><span class="marks">Derivation</span></div>
 <div class="q-body">
 
@@ -2213,6 +2303,945 @@ Check: \(\theta(5)=5.2(25)-0.56(125)=130-70=60\) ✓; \(\dot\theta(5)=10.4(5)-1.
 </div>
 </div>
 
+<div class="q">
+<div class="q-head"><h3>5. Linear Function with Parabolic Blends</h3><span class="marks">Derivation</span></div>
+<div class="q-body">
+
+<div class="part">Why blends are needed</div>
+<div class="sol">
+<p>A straightforward linear interpolation between two points causes the velocity to be <b>discontinuous</b> at the beginning and end of the motion — the joint would have to jump instantaneously from rest to the cruise speed and back — resulting in <b>infinite acceleration</b> at the start and end. To solve this, a <b>parabolic blend region</b> is added at each path point. During these blend regions a constant acceleration \(\ddot\theta\) is used to change the velocity smoothly, so the linear function is splined with two parabolic functions at the two ends.</p>
+<p>Assuming both parabolic blends have the same duration \(t_b\), the same constant acceleration (modulo a sign) is used during both blends, and the path is <b>symmetric</b> about the halfway point in time, \(t_h = t/2\), and the halfway point in position, \(\theta_h\).</p>
+</div>
+
+<div class="part">Step 1 — The velocity constraint</div>
+<div class="sol">
+<p>The trajectory must be smooth where the first blend hands over to the straight segment, so the velocity at the end of the initial blend region, \(\ddot\theta\,t_b\) (constant acceleration acting for time \(t_b\), starting from rest), must equal the constant velocity of the linear segment. The linear segment runs from the blend point \((t_b,\theta_b)\) to the halfway point \((t_h,\theta_h)\), so its slope is the change in position over the change in time:</p>
+<div class="step">
+\[\ddot\theta\,t_b = \frac{\theta_h - \theta_b}{t_h - t_b}\]
+</div>
+</div>
+
+<div class="part">Step 2 — Position at the end of the blend</div>
+<div class="sol">
+<p>During the blend the joint undergoes constant acceleration from rest, so the standard kinematic relation gives the position at the end of the blend:</p>
+<div class="step">
+\[\theta_b = \theta_0 + \tfrac{1}{2}\ddot\theta\,t_b^2\]
+</div>
+</div>
+
+<div class="part">Step 3 — Substitute and simplify</div>
+<div class="sol">
+<p>Substituting the expression for \(\theta_b\) into the velocity constraint:</p>
+<div class="step">
+\[\ddot\theta\,t_b = \frac{\theta_h - \left(\theta_0 + \tfrac{1}{2}\ddot\theta\,t_b^2\right)}{t_h - t_b}\]
+</div>
+<p>Multiplying both sides by the denominator \((t_h - t_b)\) to clear the fraction:</p>
+<div class="step">
+\[\ddot\theta\,t_b(t_h - t_b) = \theta_h - \theta_0 - \tfrac{1}{2}\ddot\theta\,t_b^2\]
+</div>
+<p>Because the trajectory is symmetric, \(t_h = \dfrac{t}{2}\) (where \(t\) is the desired total duration of the motion) and the halfway distance is \(\theta_h - \theta_0 = \dfrac{\theta_f - \theta_0}{2}\). Substituting both:</p>
+<div class="step">
+\[\ddot\theta\,t_b\!\left(\frac{t}{2} - t_b\right) = \frac{\theta_f - \theta_0}{2} - \frac{1}{2}\ddot\theta\,t_b^2\]
+</div>
+<p>Distributing the left side:</p>
+<div class="step">
+\[\ddot\theta\,t_b\frac{t}{2} - \ddot\theta\,t_b^2 = \frac{\theta_f - \theta_0}{2} - \frac{1}{2}\ddot\theta\,t_b^2\]
+</div>
+<p>Multiplying the entire equation by 2 to remove all fractions:</p>
+<div class="step">
+\[\ddot\theta\,t_b\,t - 2\ddot\theta\,t_b^2 = (\theta_f - \theta_0) - \ddot\theta\,t_b^2\]
+</div>
+</div>
+
+<div class="part">Step 4 — Form the quadratic in \(t_b\)</div>
+<div class="sol">
+<p>Grouping the terms by powers of \(t_b\) (the \(-2\ddot\theta t_b^2\) on the left and \(-\ddot\theta t_b^2\) on the right combine to a single \(+\ddot\theta t_b^2\) once everything is moved to one side) and setting the equation to zero:</p>
+<div class="step">
+\[\ddot\theta\,t_b^2 - \ddot\theta\,t\,t_b + (\theta_f - \theta_0) = 0\]
+</div>
+<div class="note">This is a quadratic in the blend time \(t_b\), with the acceleration \(\ddot\theta\) and total duration \(t\) as parameters — given how hard the joint may accelerate and how long the whole move should take, the equation determines how long each blend must last.</div>
+</div>
+
+<div class="part">Step 5 — Solve for \(t_b\)</div>
+<div class="sol">
+<p>Applying the quadratic formula with \(a = \ddot\theta\), \(b = -\ddot\theta t\), \(c = (\theta_f - \theta_0)\):</p>
+<div class="step">
+\[t_b = \frac{\ddot\theta t \pm \sqrt{(-\ddot\theta t)^2 - 4\,\ddot\theta\,(\theta_f - \theta_0)}}{2\ddot\theta}
+= \frac{t}{2} \pm \frac{\sqrt{\ddot\theta^2 t^2 - 4\ddot\theta(\theta_f - \theta_0)}}{2\ddot\theta}\]
+</div>
+<p>The blend time must satisfy \(t_b \le \dfrac{t}{2}\) — the two blends together cannot exceed the whole motion — so the <b>negative root</b> is taken:</p>
+<div class="ans"><b>Answer:</b>
+\[t_b = \frac{t}{2} - \frac{\sqrt{\ddot\theta^2 t^2 - 4\ddot\theta(\theta_f - \theta_0)}}{2\ddot\theta}\]
+</div>
+</div>
+
+<div class="part">Step 6 — Minimum acceleration constraint</div>
+<div class="sol">
+<p>For \(t_b\) to be a real number, the discriminant under the square root cannot be negative:</p>
+<div class="step">
+\[\ddot\theta^2 t^2 \ge 4\ddot\theta(\theta_f - \theta_0)\]
+</div>
+<div class="ans"><b>Constraint on the blend acceleration:</b>
+\[\ddot\theta \ge \frac{4(\theta_f - \theta_0)}{t^2}\]
+</div>
+<ul class="tight">
+<li><b>When equality occurs</b>, the linear portion has shrunk to zero length and the path is composed of two blends that connect with equivalent slope.</li>
+<li><b>As the acceleration becomes larger and larger</b>, the blend region becomes shorter and shorter.</li>
+<li><b>In the limit</b>, with infinite acceleration, we are back to the simple linear-interpolation case.</li>
+</ul>
+</div>
+
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>Example Problem — Linear Path with Parabolic Blends (Slide 31)</h3><span class="marks">Example</span></div>
+<div class="q-body">
+<div class="qtext">A single-link robot with a rotary joint is motionless at \(\theta = 15^\circ\). It is desired to move the joint in a smooth manner to \(\theta = 75^\circ\) in 3 seconds using a straight path with same size of parabolic blends at both ends. Calculate the straight segment velocity, blend times, and the linear time for an acceleration twice the minimum acceleration needed for this path.</div>
+<div class="sol">
+
+<div class="part">Step 1 — Minimum acceleration</div>
+<div class="step">
+\[\ddot\theta_{min} = \frac{4(\theta_f - \theta_0)}{t^2} = \frac{4(75 - 15)}{3^2} = \frac{4(60)}{9} = 26.67^\circ/\mathrm{s}^2\]
+</div>
+
+<div class="part">Step 2 — Target acceleration</div>
+<div class="sol">
+<p>The problem requires twice the minimum. Keeping the exact fraction \(\ddot\theta_{min} = \tfrac{80}{3}\) internally to avoid rounding errors:</p>
+<div class="step">
+\[\ddot\theta = 2 \times 26.67 = 53.33^\circ/\mathrm{s}^2 \quad \left(= \tfrac{160}{3}\right)\]
+</div>
+</div>
+
+<div class="part">Step 3 — Blend time \(t_b\)</div>
+<div class="sol">
+<p>Substituting into the boxed formula:</p>
+<div class="step">
+\[t_b = \frac{3}{2} - \frac{\sqrt{(53.33)^2(3^2) - 4(53.33)(60)}}{2(53.33)}\]
+\[= 1.5 - \frac{\sqrt{25600 - 12800}}{106.67} = 1.5 - \frac{\sqrt{12800}}{106.67} = 1.5 - \frac{113.14}{106.67}\]
+</div>
+<div class="ans"><b>Blend time:</b> \(t_b = 1.5 - 1.061 = 0.439\ \mathrm{s}\) (at each end).</div>
+</div>
+
+<div class="part">Step 4 — Linear time</div>
+<div class="sol">
+<p>The total duration consists of two blend times and one linear time:</p>
+<div class="step">
+\[t_{linear} = t - 2t_b = 3 - 2(0.439) = 3 - 0.878\]
+</div>
+<div class="ans"><b>Linear time:</b> \(t_{linear} = 2.122\ \mathrm{s}\).</div>
+</div>
+
+<div class="part">Step 5 — Straight-segment velocity</div>
+<div class="sol">
+<p>The constant velocity of the linear segment equals the velocity reached at the end of the acceleration blend:</p>
+<div class="step">
+\[\dot\theta = \ddot\theta\,t_b = 53.33 \times 0.439\]
+</div>
+<div class="ans"><b>Straight-segment velocity:</b> \(\dot\theta \approx 23.41^\circ/\mathrm{s}\).</div>
+<div class="note"><b>Consistency check.</b> Distance covered = blend + linear + blend \(= \tfrac{1}{2}\ddot\theta t_b^2 + \dot\theta\,t_{linear} + \tfrac{1}{2}\ddot\theta t_b^2 = 5.14 + 49.68 + 5.14 \approx 60^\circ = \theta_f - \theta_0\ \checkmark\). The small residual is rounding; carrying \(\tfrac{160}{3}\) exactly closes it.</div>
+</div>
+
+</div>
+</div>
+</div>
+
+</section>
+
+<!-- ============================ TAB 10: HRI LECTURE 1 SUMMARY ============================ -->
+<section id="t10" class="tab">
+<div class="paper-head">
+  <h2>Lecture 1 — Introduction to HRI</h2>
+  <div class="meta">RME 4201 · Enumerated sections, classifications, and point-based lists</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>1–3. Course Content, Text Books, Marks Distribution</h3><span class="marks">Summary</span></div>
+<div class="q-body">
+<div class="sol">
+<div class="part">Course modules (nine)</div>
+<ol class="tight">
+<li><b>Introduction</b> — overview of HRI; difference between HRI, Robotics and HCI; evolution of HRI; HRI taxonomies; applications of HRI.</li>
+<li><b>Design</b> — design in HRI; anthropomorphization in HRI; design methods; culture in HRI.</li>
+<li><b>Spatial Interaction</b> — role of space in HRI; spatial interaction for robots.</li>
+<li><b>Trajectory Generation</b> — mechanical manipulators; trajectory generation using cubic and higher-order polynomials.</li>
+<li><b>Verbal Interaction</b> — speech recognition; dialogue management; speech production for HRI.</li>
+<li><b>Nonverbal Interaction in HRI</b> — categories of nonverbal interaction; its importance; how robots perceive and generate nonverbal cues.</li>
+<li><b>Emotion in HRI</b> — expression and perception of emotion; models of emotions.</li>
+<li><b>Research Methods in HRI</b> — research question and approach; methods; choosing a robot and mode of interaction; HRI measures; research standards.</li>
+<li><b>Society and Ethics in HRI</b> — robots in society; robots in popular media; ethical concerns; future of HRI.</li>
+</ol>
+<div class="part">Text books (two)</div>
+<ol class="tight">
+<li>Bartneck, C., Belpaeme, T., Eyssel, F., Kanda, T., Keijsers, M. and Šabanović, S. (2020). <i>Human–Robot Interaction: An Introduction</i>. Cambridge University Press.</li>
+<li>Craig, J. J. <i>Introduction to Robotics</i>, 3rd edition, Prentice Hall.</li>
+</ol>
+<div class="part">Marks distribution</div>
+<table class="vals">
+<tr><th>Segment</th><th>Marks (100)</th></tr>
+<tr><td>Attendance</td><td>5</td></tr>
+<tr><td>In-course examination</td><td>25</td></tr>
+<tr><td>Final examination</td><td>70</td></tr>
+</table>
+<table class="vals">
+<tr><th>Attendance (%)</th><th>Marks (05)</th></tr>
+<tr><td>90 and above</td><td>05</td></tr>
+<tr><td>85–89</td><td>04</td></tr>
+<tr><td>80–84</td><td>03</td></tr>
+<tr><td>75–79</td><td>02</td></tr>
+<tr><td>60–74</td><td>01</td></tr>
+<tr><td>Less than 60</td><td>00</td></tr>
+</table>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>4–5. Disciplines Contributing to HRI · Evolution Milestones</h3><span class="marks">Summary</span></div>
+<div class="q-body">
+<div class="sol">
+<div class="part">Multidisciplinary composition (six disciplines)</div>
+<ol class="tight">
+<li>Human–Computer Interaction (HCI)</li>
+<li>Robotics</li>
+<li>Artificial Intelligence</li>
+<li>Natural-Language Understanding</li>
+<li>Design Engineering</li>
+<li>Psychology</li>
+</ol>
+<div class="part">Evolution of HRI — milestones</div>
+<ul class="tight">
+<li><b>1935</b> — first mention of "social robot" in print, used as a derogatory term for a person with a cold and distant personality.</li>
+<li><b>1978</b> — first mention of "social robot" in the context of robotics.</li>
+<li><b>1997</b> — Kismet (MIT): early social robot.</li>
+<li><b>2006</b> — Nao (Aldebaran Robotics) first sold; Paro commercially available in Japan.</li>
+<li><b>2009</b> — Paro available in the United States and Europe.</li>
+<li><b>Until 2018</b> — Baxter (Rethink Robotics) sold as industrial robot and HRI platform.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>6. Landmark Robot Platforms in HRI</h3><span class="marks">Summary</span></div>
+<div class="q-body">
+<div class="sol">
+<div class="part">Kismet (MIT, 1997)</div>
+<ul class="tight">
+<li>Could animate its eyes, eyebrows, lips, and neck.</li>
+<li>Reacted to objects and people in its visual field based on visual and auditory input.</li>
+<li>Extracted information on visual motion, sound amplitude, and emotion from speech prosody.</li>
+<li>Responded by animating facial expressions, ears, and neck, and by babbling in a nonhuman language.</li>
+</ul>
+<div class="part">Nao (Aldebaran Robotics, 2006)</div>
+<ul class="tight">
+<li>Perhaps the most influential robot in the study of social robotics.</li>
+<li>Widespread due to affordability, robustness, and ease of programming.</li>
+<li>Highly portable because of its size, allowing studies to be run outside the lab.</li>
+</ul>
+<div class="part">Keepon (Hideki Kozima)</div>
+<ul class="tight">
+<li>A minimal robot: two soft yellow spheres with a nose and two eyes added.</li>
+<li>Can swivel, bend, and bop using motors built into its base.</li>
+<li>Later commercialized as an affordable toy; usable as an HRI research tool with moderate hacking.</li>
+<li>Demonstrated that a social robot need not appear humanlike — a simple form suffices to achieve interaction outcomes.</li>
+</ul>
+<div class="part">Paro (companion and therapy robot)</div>
+<ul class="tight">
+<li>Shaped like a baby seal; popular in the study of socially assistive robots in eldercare.</li>
+<li>Commercially available in Japan since 2006; in the USA and Europe since 2009.</li>
+<li>Used by psychologists, anthropologists, and health researchers to study psychological and physiological effects and adoption in healthcare organizations.</li>
+<li><b>Limitation:</b> a closed platform — robot logs/sensor data cannot be extracted and behaviors cannot be changed.</li>
+</ul>
+<div class="part">Baxter (Rethink Robotics)</div>
+<ul class="tight">
+<li>Both an industrial robot and a platform for HRI.</li>
+<li>Arms move in response to an externally applied force (unlike stiff conventional industrial arms).</li>
+<li>Safe to work near, making it suitable for collaborative tasks.</li>
+<li>Head-height display screen shows facial animations.</li>
+<li>Face communicates internal state; eye fixations communicate a sense of attention to the human co-worker.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>7. Challenges in HRI as an Interdisciplinary Endeavor — Three Barriers</h3><span class="marks">Summary</span></div>
+<div class="q-body">
+<div class="sol">
+<p>Barriers between Designers [D], Engineers [E], and (social) Scientists [S]:</p>
+<ol class="tight">
+<li><b>Knowledge representation</b> — explicit [S, E] versus implicit [D].</li>
+<li><b>View on reality</b> — understanding reality [S] versus transforming reality [D, E].</li>
+<li><b>Main focus</b> — technology [E] versus human [D, S].</li>
+</ol>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>8. Taxonomy for HRI (Seven Categories)</h3><span class="marks">Summary</span></div>
+<div class="q-body">
+<div class="sol">
+<div class="part">8.1 Autonomy level / amount of intervention</div>
+<ul class="tight">
+<li><b>AUTONOMY:</b> percentage of time the robot carries out its task on its own.</li>
+<li><b>INTERVENTION:</b> percentage of time a human operator must be controlling the robot.</li>
+<li>The two measures sum to 100%. Robots can have full autonomy, full intervention, or shared control.</li>
+</ul>
+<div class="part">8.2 Ratio of people to robots</div>
+<ul class="tight">
+<li>HUMAN-ROBOT-RATIO expressed as a non-reduced fraction: humans / robots.</li>
+<li>A range may be specified in numerator or denominator if the number is variable.</li>
+<li>Measures only the number of each, not the quality of interaction.</li>
+</ul>
+<div class="part">8.3 Level of shared interaction among teams</div>
+<ul class="tight">
+<li><b>Multiple humans:</b> agree on commands beforehand, or independently issue commands the robot(s) must prioritize/deconflict?</li>
+<li><b>Multiple robots:</b> each acts on commands independently, or all receive all commands and coordinate among themselves?</li>
+<li><b>Eight configurations:</b> (1) one human–one robot (person operating a wheelchair); (2) one human–robot team (person instructing cleaning robots); (3) one human–multiple robots (multiple collaborations via instant messenger); (4) human team–one robot (firefighter and EMT agree on directing a rescue robot); (5) multiple humans–one robot (delivery robot receiving different orders); (6) human team–robot team (search-and-rescue with multiple robots); (7) human team–multiple robots (soldiers directing individual robots at different targets); (8) multiple humans–robot team (online shop orders handled by a coordinated robot team).</li>
+</ul>
+<div class="part">8.4 Decision support for the operator (four subcategories)</div>
+<ul class="tight">
+<li><b>Available sensor information (AVAILABLE-SENSORS):</b> list of sensing types available on the platform, possibly with sensor locations.</li>
+<li><b>Sensor information provided (PROVIDED-SENSORS):</b> a subset of the available sensors actually supplied for decision support.</li>
+<li><b>Type of sensor fusion:</b> specified as a list of functions, e.g. {{sonar, lidar} → map}.</li>
+<li><b>Pre-processing (PRE-PROCESSING):</b> amount of pre-processing before display, e.g. {video → highlight red regions}.</li>
+</ul>
+<div class="part">8.5 Criticality (three levels)</div>
+<ul class="tight">
+<li><b>High</b> — e.g. urban search and rescue: dangerous for the user near the disaster site; survivors must be found quickly without damaging the building or hurting a trapped person.</li>
+<li><b>Medium</b> — e.g. the hospital delivery robot.</li>
+<li><b>Low</b> — e.g. robot soccer: a failing robot team simply loses the game.</li>
+</ul>
+<div class="part">8.6 Time/space taxonomy (four categories)</div>
+<table class="vals">
+<tr><th></th><th>Same Time (synchronous)</th><th>Different Time (asynchronous)</th></tr>
+<tr><td><b>Same Place</b> (collocated)</td><td>Robot wheelchair</td><td>Manufacturing robots</td></tr>
+<tr><td><b>Different Place</b> (non-collocated)</td><td>Urban search and rescue</td><td>Mars Rover</td></tr>
+</table>
+<div class="part">8.7 Composition of robot teams</div>
+<ul class="tight">
+<li>ROBOT-TEAM-COMPOSITION takes the value <b>homogeneous</b> or <b>heterogeneous</b>.</li>
+<li>Heterogeneous may be further specified with a list of the robot types and the number of each type used in the team.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>9. Application Areas of HRI (Seven)</h3><span class="marks">Summary</span></div>
+<div class="q-body">
+<div class="sol">
+<ol class="tight">
+<li><b>Industrial robots</b> — collaborate with humans to perform industrial manufacturing tasks.</li>
+<li><b>Medical robots</b> — (i) <i>Rehabilitation:</i> robot-aided systems helping stroke survivors or individuals with neurological impairment recover hand and finger movements. (ii) <i>Elder care and companion robots:</i> nursing robots assisting elderly people facing decline in physical and cognitive function and consequent psychosocial issues.</li>
+<li><b>Social robots</b> — (i) <i>Autism intervention:</i> children with autism spectrum disorders (ASD) are more likely to connect with robots than humans. (ii) <i>Education robots:</i> robots as tutors or peers in the classroom.</li>
+<li><b>Automatic driving</b> — human–vehicle interaction in automated driving; cooperation aims at safety, security, and comfort.</li>
+<li><b>Search and rescue</b> — UAVs and UUVs assisting rescue work in wilderness areas, e.g. locating a missing person remotely from evidence left in surrounding areas.</li>
+<li><b>Space exploration</b> — collaboration between rovers, UAVs, and humans leverages capabilities from all sides and optimizes task performance.</li>
+<li><b>Agricultural robots</b> — e.g. milking robots adopted in large-scale farming.</li>
+</ol>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>10. Major Research Areas in HRI (Four)</h3><span class="marks">Summary</span></div>
+<div class="q-body">
+<div class="sol">
+<ol class="tight">
+<li><b>Methods for perceiving humans</b> — based on sensor information: vision systems, speech recognition systems, natural language processing, etc.</li>
+<li><b>Methods for motion planning</b> — motion planning in dynamic environments; currently achievable only for robots with 3 to 10 degrees of freedom.</li>
+<li><b>Cognitive models and the theory of mind</b> — humans show negative social/emotional responses and decreased trust toward robots that closely but imperfectly resemble humans (the "Uncanny Valley"); recent telepresence research shows that mimicking human body postures and expressive gestures makes robots likable and engaging in remote settings.</li>
+<li><b>Methods for human–robot coordination</b> — the primary social cue in human collaboration is the shared perception of an activity; researchers investigate anticipatory robot control via eye-tracking of human partners, inference of human task intent, and proactive robot action.</li>
+</ol>
+</div>
+</div>
+</div>
+
+</section>
+
+<!-- ============================ TAB 11: HRI LECTURE 2 SUMMARY ============================ -->
+<section id="t11" class="tab">
+<div class="paper-head">
+  <h2>Lecture 2 — Design and HRI</h2>
+  <div class="meta">RME 4201 · Enumerated sections, classifications, and point-based lists</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>11–12. Lecture Contents · Robot Design Approaches</h3><span class="marks">Summary</span></div>
+<div class="q-body">
+<div class="sol">
+<div class="part">Lecture contents (six topics)</div>
+<ol class="tight">
+<li>Robot design approaches — inside-out; outside-in.</li>
+<li>Design considerations in HRI — robot morphology and form; design affordance; design patterns; design principles.</li>
+<li>Anthropomorphization — anthropomorphization and robots; theorizing anthropomorphism; designing anthropomorphism; measuring anthropomorphization.</li>
+<li>Design methods — engineering design process; user-centered design process; participatory design.</li>
+<li>Culture in HRI.</li>
+<li>Planning human studies — ethical approval for research work; case studies (foreign institution; Dhaka University).</li>
+</ol>
+<div class="part">12.1 Inside-out approach</div>
+<ul class="tight">
+<li>Design starts from the inside and builds up to the outside — technical issues are solved first, and the robot's appearance and behavior are designed to fit.</li>
+<li>Also known as the <b>"Frankenstein approach"</b>: whatever technology is available is put together to obtain certain robotic functions.</li>
+<li>Lack of consideration of the social context of use within the design process can lead to surprising effects on robot interaction (e.g. TurtleBot2).</li>
+</ul>
+<div class="part">12.2 Outside-in approach</div>
+<ul class="tight">
+<li>Design starts from the interaction the robot is expected to be engaged in, which determines its outside shape and behaviors; the technology is then worked into the settled design.</li>
+<li>Requires incorporating expertise from several disciplines: designers develop specific design concepts; social scientists perform exploratory studies of potential users and context of use; engineers and computer scientists communicate with designers to identify how design ideas can be realistically instantiated in working technology.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>13. Design Considerations in HRI</h3><span class="marks">Summary</span></div>
+<div class="q-body">
+<div class="sol">
+<div class="part">13.1 Robot morphology and form — design space questions (five)</div>
+<p>In HRI, form and function are inherently interconnected and cannot be considered separately. The design space considers questions regarding:</p>
+<ol class="tight">
+<li>Form</li>
+<li>Function</li>
+<li>Level of autonomy</li>
+<li>Interaction modalities</li>
+<li>How all those fit with particular users and contexts</li>
+</ol>
+<div class="part">13.2 Forms of robots (four types)</div>
+<ol class="tight">
+<li><b>Androids and humanoids</b> — most closely resemble humans in appearance.</li>
+<li><b>Zoomorphic robots</b> — shaped like familiar animals (e.g. cats, dogs) or like animals that are familiar but that we do not typically interact with (e.g. dinosaurs, seals).</li>
+<li><b>Minimalist robots</b> — explore the minimal requirements necessary for inspiring social HRI, e.g. Muu, Keepon.</li>
+<li><b>Robjects</b> — interactive robotic artifacts whose design is based on objects rather than living creatures, e.g. social trashcans.</li>
+</ol>
+<div class="part">13.3 Design affordance — definition</div>
+<ul class="tight">
+<li>Describes the perceivable relationships between an organism and its environment that enable certain actions (e.g. a chair is something to sit on).</li>
+<li>A designer needs to design a product while making its affordances explicit.</li>
+<li>A robot's appearance is an important affordance, because people assume the robot's capabilities will be commensurate with its appearance.</li>
+<li>If a robot looks like a human, it is expected to act like a human; if it has eyes, it should see; if it has arms, it should be able to pick up things and might shake hands.</li>
+</ul>
+<div class="part">13.4 Affordance — key dimensions (four types)</div>
+<ol class="tight">
+<li><b>Physical affordances</b> — the literal "action possibilities" provided by the robot's hardware; e.g. a handle suggests it can be pulled, a flat surface suggests something can be placed on it.</li>
+<li><b>Social &amp; emotional affordances</b> — communicate how a human should interact with the robot socially; e.g. big eyes "afford" eye contact, soft plush material invites "gentle touch".</li>
+<li><b>Cognitive affordances</b> — design elements that help users understand the robot's status or intentions; e.g. a progress bar or slowly pulsing light "affords" the understanding that the robot is "thinking" or processing a task.</li>
+<li><b>Functional affordances</b> — define the robot's specific purpose; e.g. a courier-shaped robot "affords" delivery of items, whereas a humanoid might "afford" more complex collaborative tasks.</li>
+</ol>
+<div class="part">13.5 Design patterns</div>
+<ul class="tight">
+<li>Patterns describe a problem that occurs over and over again in our environment, and then describe the core of the solution to that problem.</li>
+<li>Patterns should be abstract enough to allow several different instantiations, so that (i) they can be combined — less complex patterns integrated into more complex patterns — and (ii) they serve to describe interactions with the social and physical world.</li>
+<li><b>Example:</b> the <i>didactic communication</i> pattern (robot assumes the role of a teacher) combined with a <i>motion</i> pattern (robot initiates a movement and aligns it with the human counterpart) creates a robotic tour guide.</li>
+</ul>
+<div class="part">13.6 Design principles (four)</div>
+<ol class="tight">
+<li><b>Matching the form and function of the design</b> — if the robot is humanoid, people expect it to do humanlike things (talk, think, act like a human). If this is not necessary for its purpose (e.g. cleaning), it may be better to stick to less anthropomorphic designs.</li>
+<li><b>Underpromise and overdeliver</b> — when expectations raised by a robot's appearance or by introducing it as intelligent or companion-like are not met by its functionality, people are disappointed and negatively evaluate the robot.</li>
+<li><b>Interaction expands function</b> — people fill in the blanks left open by the design according to their values, beliefs, and needs. Designing robots with limited capabilities in a somewhat open-ended way allows people to interpret the design in different ways.</li>
+<li><b>Do not mix metaphors</b> — design should be approached holistically; the robot's capabilities, behaviors, and affordances for interaction should all be coordinated. A humanlike robot with skin covering only some parts of its body may be found disturbing.</li>
+</ol>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>14. Anthropomorphization</h3><span class="marks">Summary</span></div>
+<div class="q-body">
+<div class="sol">
+<div class="part">14.1 Core concepts</div>
+<ul class="tight">
+<li><b>Anthropomorphization</b> — the attribution of human traits, emotions, or intentions to nonhuman entities. Examples: "My computer hates me!"; "Chuck (the car) is not feeling well lately".</li>
+<li><b>Pareidolia</b> — the effect of seeing humanlike features in random patterns or mundane objects (e.g. the face on Mars).</li>
+</ul>
+<div class="part">14.2 Degrees of human-likeness (three)</div>
+<ol class="tight">
+<li><b>Android robots</b> — at one extreme, designed to be as humanlike as possible.</li>
+<li><b>Humanoid robots</b> — e.g. ASIMO, Nao; use a more abstract notion of human-likeness in their anthropomorphic designs.</li>
+<li><b>Nonhumanoid robots</b> — e.g. Keepon; can also have anthropomorphic features.</li>
+</ol>
+<p>Anthropomorphism in robot design includes factors related to form and appearance as well as factors relating to behavior.</p>
+<div class="part">14.3 Theorizing anthropomorphism — three core factors</div>
+<ol class="tight">
+<li><b>Effectance motivation</b> — the desire to explain and understand the behavior of others as social actors; may be activated when people are unsure how to deal with an unfamiliar interaction partner.</li>
+<li><b>Sociality motivation</b> — people may turn to nonhuman entities as social interaction partners to address feelings of situational or chronic loneliness.</li>
+<li><b>Elicited agent knowledge</b> — how people use their commonsense understanding of social interactions and actors to understand robots.</li>
+</ol>
+<div class="part">14.4 The Uncanny Valley (Mori, 1970)</div>
+<ul class="tight">
+<li>Mori (1970) predicted a relationship between the anthropomorphism of robots and their likeability.</li>
+<li>The more humanlike robots become, the more likable they will be — until a point where they are almost indistinguishable from humans, at which point likability decreases dramatically.</li>
+<li>The effect is amplified by the ability of the robot to move.</li>
+<li>Often used to explain why certain robots are perceived unfavorably, without studying the exact relationship between the robot's features and its likability.</li>
+<li><b>Criticisms:</b> Mori only proposed the idea and never did any empirical work to test it; a simpler explanation is that the difficulty of designing a robot to perform to user expectations increases with its complexity; and anthropomorphism is a multidimensional concept, so reducing it to one dimension does not model reality adequately.</li>
+</ul>
+<div class="part">14.5 Designing anthropomorphism — dimensions</div>
+<ol class="tight">
+<li><b>Robot appearance</b> — anthropomorphism can be very simple: two dots suggesting eyes and a simple nose or mouth suffice to suggest the robot is humanlike. Adding more human features (arms, legs) does not necessarily increase anthropomorphization much. Androids mimic human appearance in most ways, but simple robots such as Keepon are already very effective at triggering anthropomorphization.</li>
+<li><b>Robot behavior</b> — design the behavior of an artifact such that people perceive humanlike characteristics in its behavior. Motion, rather than form, can be extremely powerful for expressing emotions and intents: simple geometric shapes (triangles, circles) moving against a white background evoke descriptions in terms of social relationships; a robot vacuum cleaner wriggling out from under a table is described as "being lost" or "not knowing what it wants".</li>
+</ol>
+<div class="part">14.6 Impact of context, culture, and personality</div>
+<ul class="tight">
+<li><b>Contextual factors</b> — just putting a robot in a social situation with humans increases the likelihood of anthropomorphization; the collaborative industrial Baxter robot was regularly anthropomorphized by human factory workers.</li>
+<li><b>Individual differences</b> — some people are more likely than others to anthropomorphize things around them.</li>
+<li><b>Social norms</b> — seeing other people anthropomorphize robots suggests anthropomorphization is a social norm; older adults in a nursing home were more likely to engage socially with Paro when they saw others interacting with it like a pet or social companion.</li>
+</ul>
+<div class="part">14.7 Measuring anthropomorphization</div>
+<ol class="tight">
+<li><b>Godspeed questionnaire</b> — a measure for anthropomorphism specifically developed for HRI; widely used and translated into several languages. Its five series are: (I) Anthropomorphism, (II) Animacy, (III) Likeability, (IV) Perceived Intelligence, (V) Perceived Safety.</li>
+<li><b>Additional related scales</b> — the ROSAS scale and the revised Godspeed questionnaire.</li>
+<li><b>Subtle behavioral indicators</b> — e.g. language use, application of social norms used in human–human interaction; may be used to investigate the consequences of implementing humanlike form and function in social robots.</li>
+</ol>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>15. Design Methods</h3><span class="marks">Summary</span></div>
+<div class="q-body">
+<div class="sol">
+<div class="part">15.1 The design cycle (five steps)</div>
+<ol class="tight">
+<li>Define the problem or question.</li>
+<li>Build the interaction.</li>
+<li>Test.</li>
+<li>Analyze.</li>
+<li>Repeat from step 2 until satisfied (or money and time run out).</li>
+</ol>
+<div class="part">15.2 Engineering design process</div>
+<ul class="tight">
+<li>Starting from a problem definition and a set of requirements, numerous possible solutions are considered, and a rational decision is made on which solution best satisfies the requirements.</li>
+<li>The function of an engineered solution can often be modeled and then simulated, allowing engineers to systematically manipulate design parameters and calculate resulting machine properties.</li>
+<li>Validating a solution in simulation is not always possible — the simulation might not capture the real world in sufficient detail.</li>
+<li><b>Satisficing</b> (portmanteau of <i>satisfy</i> and <i>suffice</i>) — focus not on the absolute best solution but on solutions just good enough for the intended purpose; almost unavoidable in HRI.</li>
+<li><b>Wicked design problem</b> — a design problem that is ill-defined, or for which insufficient information is available about the requirements or the environment. HRI design is often a wicked design problem because of the lack of information about appropriate robot behaviors and consequences in social contexts.</li>
+<li><b>Example:</b> a robot designed to teach eight- and nine-year-olds about prime numbers — programmed to make eye contact, use the child's first name, and politely support the child — was compared against the same robot with the engagement software switched off. Unexpectedly, the aloof robot turned out to be the better teacher by a large margin.</li>
+<li>Relying only on the engineering design method can guide HRI development only so far, particularly when the intended uses of HRI are open-ended.</li>
+</ul>
+<div class="part">15.3 User-centered design (UCD) process — three modes of user involvement</div>
+<ol class="tight">
+<li>Through initial analyses of their needs and desires that help define the design problem.</li>
+<li>By asking them to comment on potential robot design variations to see which ones are preferable.</li>
+<li>Through evaluations of various design iterations of the robot and of the final product, to evaluate its success among different users and in different use contexts.</li>
+</ol>
+<p><b>Example — Carnegie Mellon University's Snackbot (2010):</b> designed through a user-centered process considering the robot, people, and the context; iteratively performed over 24 months, involving research on where people could already get snacks in the building (to establish need), initial technology feasibility and interaction studies, multiple prototypes, and further studies of how the robot was used and the effects of different forms of dialogue and robot behaviors on user satisfaction.</p>
+<div class="part">15.4 Participatory design</div>
+<ul class="tight">
+<li>Participatory methods seek to include potential users and other stakeholders — people who might be affected by robots — in making decisions about appropriate robot design from early on in the design process.</li>
+<li>Distinct from bringing users in at the evaluation stage, where the design is partially or fully formed and users' input is largely used to test factors and assumptions already expressed in the design.</li>
+<li>Recognizes the expertise people have about their everyday experiences and circumstances.</li>
+<li><b>Example:</b> roboticists, visually impaired community members, and designers worked together in a series of workshops to develop appropriate guidance behaviors for a mobile robot.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>16. Culture in HRI</h3><span class="marks">Summary</span></div>
+<div class="q-body">
+<div class="sol">
+<p>Researchers commonly connect cultural traditions with the design and use of robots, particularly contrasting norms, values, and beliefs in the East and West:</p>
+<ol class="tight">
+<li><b>Animist beliefs</b> — used to explain the perceived comfort of Japanese and Korean populations with robots (Geraci, 2006; Kaplan, 2004; Kitano, 2006).</li>
+<li><b>Human exceptionalism</b> — suggested as a source of Westerners' discomfort with social and humanoid robots (Geraci, 2006; Brooks, 2003).</li>
+</ol>
+<p><b>Empirical findings</b> on cultural differences in face-to-face encounters with robots (Bartneck et al., 2005): in a comparison using Dutch, Chinese, German, U.S., Japanese, and Mexican participants, U.S. participants were the least negative toward robots, whereas Mexican participants were the most negative. Against expectations, Japanese participants did not have a particularly positive attitude toward robots.</p>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>17–18. Planning Human Studies — Ethical Approval · Assignment</h3><span class="marks">Summary</span></div>
+<div class="q-body">
+<div class="sol">
+<div class="part">17.1 Why ethical approval is needed</div>
+<ul class="tight">
+<li>Ethics reviews ensure that a research project is conducted such that any potential adverse impact is in proportion to its expected benefit.</li>
+<li>Adverse impacts may affect the environment and/or the health, well-being, safety, privacy, and in rare cases the liberty of individuals, and/or the reputation of the institution.</li>
+<li>Adverse impacts may consist of acknowledged potential direct risks (e.g. a rare or adverse reaction to researcher intervention) and unintended consequences (e.g. stigmatization of an individual through involvement in research).</li>
+</ul>
+<div class="part">17.2 What to consider — six screening questions (does the work…)</div>
+<ol class="tight">
+<li>…have the potential to damage the mental or physical health of human participants (e.g. volunteers, staff, students, patients) or others who may be affected?</li>
+<li>…have the potential to jeopardise the safety and liberty of people affected by the research (e.g. volunteers working in sensitive situations or abroad)?</li>
+<li>…have the potential to compromise the privacy of individuals whose data is involved?</li>
+<li>…involve methods (e.g. genetic research, interviews, questionnaires, randomised control trials) or subject matter (e.g. recreational and controlled drugs, human impact on the environment) that are sensitive and therefore need to be managed consistently with the institution's public reputation?</li>
+<li>…carry a risk of an actual or perceived conflict of interest on the part of the researchers and/or the institution?</li>
+<li>…have a potential dual purpose in addition to the intended purpose?</li>
+</ol>
+<div class="part">17.3 Case study — Imperial College London, UK</div>
+<ul class="tight">
+<li><b>Who needs to apply:</b> ethics approval is needed for any research involving human participants, their tissue and/or data, to ensure the dignity, rights, safety, and well-being of all participants are the primary consideration of the research project.</li>
+<li><b>Routing of applications:</b> research involving the NHS → Health Research Authority (HRA) and/or Research Ethics Committee (REC) via IRAS; human health-related questions → Imperial College Research Ethics Committee (ICREC); science, engineering or technology questions → Science, Engineering and Technology Research Ethics Committee (SETREC); educational research or review → Education Ethics Review Process (EERP); research involving animals → Animal Welfare and Ethical Review Body (AWERB).</li>
+<li><b>Preparing the application:</b> fill up all necessary forms — application form, protocol, sponsorship and insurance request form, participant information sheet, consent form, recruitment adverts, recruitment sample email, questionnaires/interview questions/focus group topic guide, other documents (e.g. local ethics approval), and relevant appendices.</li>
+<li><b>Risk classification:</b> applications are screened as low risk or high risk across participants, nature of the study, study methodology, geographical location, and other reasons (e.g. undue incentives). Low-risk applications receive provisional approval from the JRCO (Joint Research Compliance Office); high-risk applications go to a committee meeting for an opinion.</li>
+</ul>
+<div class="part">17.4 Case study — University of Dhaka</div>
+<ul class="tight">
+<li>Different faculties have their own ethical committee.</li>
+<li>For the RME department, applications go to the Dean of the Faculty of Engineering and Technology.</li>
+</ul>
+<p>Documents to be filled up (five):</p>
+<ol class="tight">
+<li>Application form</li>
+<li>Participant information sheet</li>
+<li>Participant's information form</li>
+<li>Participants' consent form</li>
+<li>Interview/Survey questions</li>
+</ol>
+<div class="part">18. Assignment (three tasks)</div>
+<ol class="tight">
+<li>Team up with one other student.</li>
+<li>Plan an HRI study that you may want to perform as your research work.</li>
+<li>Prepare an ethical application for your study following the guidelines from the Faculty of Engineering and Technology, University of Dhaka, filling up: (i) application form; (ii) participant information sheet; (iii) participant's information form; (iv) participants' consent form; (v) interview/survey questions.</li>
+</ol>
+</div>
+</div>
+</div>
+
+</section>
+
+<!-- ============================ TAB 12: HRI LECTURE 3 SUMMARY ============================ -->
+<section id="t12" class="tab">
+<div class="paper-head">
+  <h2>Lecture 3 — Spatial Interaction in HRI</h2>
+  <div class="meta">RME 4201 · Enumerated sections, classifications, and point-based lists</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>19–20. Lecture Contents · Importance of Spatial Placement</h3><span class="marks">Summary</span></div>
+<div class="q-body">
+<div class="sol">
+<div class="part">Lecture contents (four topics)</div>
+<ol class="tight">
+<li>Importance of spatial placement.</li>
+<li>Use of space in human interaction — proxemics; group spatial interaction dynamics.</li>
+<li>Spatial interaction for robots — localization and navigation; socially appropriate positioning; spatial dynamics of initiating HRI; informing users of the robot's intent.</li>
+<li>Conclusion.</li>
+</ol>
+<div class="part">Importance of spatial placement</div>
+<ul class="tight">
+<li>The placement of the robot with respect to the user is an important aspect of HRI.</li>
+<li><b>Joggobot example</b> — in front of the runner was the best position for an exercise companion drone; having the drone fly behind the jogger made people feel they were being chased, decreasing their enjoyment.</li>
+<li>Taking only collision avoidance into account when deciding the optimal location or path of a robot may inadvertently create behavior considered uncomfortable, rude, or inappropriate.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>21. Use of Space in Human Interaction: Proxemics</h3><span class="marks">Summary</span></div>
+<div class="q-body">
+<div class="sol">
+<p>Proxemics describe how people take up space in relation to others and how spatial positioning influences attitudes, behaviors, and interpersonal interaction. When the available space is (relatively) unlimited, these distances indicate the psychological closeness between people.</p>
+<div class="part">21.1 Hall et al. (1968) — four distance zones</div>
+<table class="vals">
+<tr><th>Zone</th><th>Range</th><th>Characteristics</th></tr>
+<tr><td><b>1. Intimate distance</b></td><td>≈ few cm – 0.5 m</td><td>Depends on age and culture; reserved for close personal relationships or sharing of private information.</td></tr>
+<tr><td><b>2. Personal distance</b></td><td>≈ 0.5 – 1.2 m</td><td>Only friends, relatives, and partners are expected to come this close.</td></tr>
+<tr><td><b>3. Social distance</b></td><td>≈ 1.2 – 4 m</td><td>Less personal relationships, such as acquaintances or colleagues.</td></tr>
+<tr><td><b>4. Public distance</b></td><td>≈ 4 m and beyond</td><td>Relatively impersonal settings, e.g. public speaking at a conference.</td></tr>
+</table>
+<div class="note">Intimate and personal distances together make up the <b>personal space</b> of a person: the amount of space that people generally consider theirs to take up.</div>
+<div class="part">21.2 Cultural impact (two culture types)</div>
+<ol class="tight">
+<li><b>High-contact cultures</b> — e.g. those of South America; people frequently enter each other's personal space and touch.</li>
+<li><b>Low-contact cultures</b> — e.g. the United States; touching a stranger may be construed as assault.</li>
+</ol>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>22. Group Spatial Interaction Dynamics — The F-Formation</h3><span class="marks">Summary</span></div>
+<div class="q-body">
+<div class="sol">
+<ul class="tight">
+<li>The spatial orientation of people in a group can make the group seem as if it were inviting more members or seeking to keep others out (e.g. a tight-knit circle at a cocktail party is difficult to join; opening up the circle is construed as an invitation to participate).</li>
+<li>This information is useful for robots to gauge which groups of people they can approach in public spaces such as museums or malls.</li>
+</ul>
+<div class="part">22.1 The F-formation (Adam Kendon) — three spaces</div>
+<p>The facing formation (F-formation) is created through the positioning of two or more people in relation to each other, such that the areas of space they are facing and on which they focus their attention overlap:</p>
+<ol class="tight">
+<li><b>o-space</b> — the space between the people, one to which they have equal, direct, and exclusive access.</li>
+<li><b>p-space</b> — the space occupied by the group participants themselves.</li>
+<li><b>r-space</b> — the space surrounding the participants.</li>
+</ol>
+<div class="part">22.2 F-formation configurations (four types)</div>
+<ol class="tight">
+<li>Face-to-face</li>
+<li>L-shape</li>
+<li>Side-by-side formation (for two people)</li>
+<li>Circular formation and other shapes (for larger groups)</li>
+</ol>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>23. Spatial Interaction for Robots — Four Factors</h3><span class="marks">Summary</span></div>
+<div class="q-body">
+<div class="sol">
+<p>Robots that do not respect the personal space of the user will evoke negative reactions; designers can increase acceptance by having the robot keep an appropriate distance and adjust its position. Four factors to consider:</p>
+<ol class="tight">
+<li>Localization and navigation</li>
+<li>Socially appropriate positioning</li>
+<li>Spatial dynamics of initiating HRI</li>
+<li>Informing users of the robot's intent</li>
+</ol>
+<div class="part">23.1 Localization and navigation</div>
+<p><b>Localization</b> — the process of a robot locating itself in space with regard to the people it aims to interact with:</p>
+<ul class="tight">
+<li>A typical robot is equipped with an odometer, a sensor that records the distance travelled by the robot's wheels.</li>
+<li>As the robot travels, odometry loses accuracy, so the robot must correct the location information it provides.</li>
+<li>The typical solution is to let the robot build a map of its environment and cross-reference odometry-derived location and orientation with information from other sensors, such as a laser range finder or camera — a process known as <b>simultaneous localization and mapping (SLAM)</b>.</li>
+</ul>
+<p><b>Navigation</b> — moving the robot through a crowded environment:</p>
+<ul class="tight">
+<li><b>Dynamic window approach (DWA)</b> — used for collision avoidance between the robot and objects or people. The system (i) computes its future location based on the robot's current velocity, (ii) considers whether to keep or alter its velocity within the limitations of its capability, and (iii) calculates a future velocity that does not result in a collision.</li>
+<li><b>Path planning</b> — over longer time scales; if the goal is not within immediate view of the robot, a path-planning algorithm computes a set of waypoints or paths that will let it reach its goal.</li>
+<li>In HRI, most path-planning algorithms that work well for navigating around obstacles result in <b>socially inappropriate behavior</b> when tried around people.</li>
+</ul>
+<div class="part">23.2 Socially appropriate positioning — key findings (five)</div>
+<ol class="tight">
+<li><b>Walters et al. (2005)</b> — the majority of people prefer a personal or social distance when interacting with a robot, although some prefer to stand even closer.</li>
+<li><b>Huttenrauch et al. (2006)</b> — people preferred that the robot stand at distances derived from human proxemics.</li>
+<li><b>Kuzuoka et al. (2010)</b> — a robot can change the conversational F-formations of a group by changing its body orientation; movement of the robot's whole body was more effective than having it move only its head.</li>
+<li><b>Gockley et al. (2007)</b> — when a robot follows a user from behind, users perceive following the same trajectory as the user as more natural than moving directly to the user's current location (even though the latter may be shorter and faster).</li>
+<li><b>Morales Saiki et al. (2012)</b> — developed a technique allowing a robot to navigate side by side with its user; it is important for the robot to anticipate the user's future motion.</li>
+</ol>
+<div class="note">Considerations of comfort and perceived safety should also be integrated into path planning.</div>
+<div class="part">23.3 Spatial dynamics of initiating HRI</div>
+<ul class="tight">
+<li>Should the robot initiate the interaction? When a person approaches a robot, the robot should respond at just the right moment.</li>
+<li><b>Nakauchi and Simmons (2002)</b> — when a robot joins a queue, it needs to respect the personal space of other people who are also waiting.</li>
+<li><b>Althaus et al. (2004)</b> — when a robot encounters people, it needs to switch its navigation mode from purely functional to one considering social distance and spatial configuration.</li>
+<li><b>Self-driving cars</b> — the first self-driving cars at Google drove optimal trajectories following the highway code but frequently startled other road users by driving too close or cutting them off; only when politeness was explicitly added as an optimization criterion did the cars drive in a socially acceptable way.</li>
+</ul>
+<div class="part">23.4 Informing users of the robot's intent</div>
+<ul class="tight">
+<li>Robot motion trajectories are often used to convey the intent and goal of the robot; path-planning algorithms have been developed to explicitly convey information through the trajectory (e.g. by slowly passing a few meters from a visitor, a mobile robot can express whether it is available for interaction).</li>
+<li>During handover in HRI, users prefer a robot to behave with <b>legibility</b> — in a way that allows them to understand its goal and intention. The most energy-efficient handover motion may be incomprehensible to a person, so it is better to perform a motion that is easier to interpret.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>24. Conclusion — Sources of Inspiration for Spatial Interaction in HRI</h3><span class="marks">Summary</span></div>
+<div class="q-body">
+<div class="sol">
+<ol class="tight">
+<li>Human proxemics</li>
+<li>Conversational relations</li>
+<li>Relational positioning and approach behaviors</li>
+</ol>
+<div class="note">However, norms and understandings that are common knowledge for people — to the point where they may not even be aware of them anymore — often turn out to be not so trivial to incorporate into robot behavior.</div>
+</div>
+</div>
+</div>
+
+</section>
+
+<!-- ============================ TAB 13: HRI LECTURE 4 SUMMARY ============================ -->
+<section id="t13" class="tab">
+<div class="paper-head">
+  <h2>Lecture 4 — Trajectory Generation</h2>
+  <div class="meta">RME 4201 · Enumerated sections, classifications, and point-based lists · Full derivations and worked examples are in the "Trajectory Generation" tab</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>25–26. Lecture Contents · Mechanical Manipulators — Structural Elements</h3><span class="marks">Summary</span></div>
+<div class="q-body">
+<div class="sol">
+<div class="part">Lecture contents (three topics)</div>
+<ol class="tight">
+<li><b>Mechanical manipulators</b> — introduction; position and orientation; kinematics.</li>
+<li><b>Trajectory generation</b> — general considerations; joint-space scheme; cubic polynomials; cubic polynomials for a path with via points; higher-order polynomials; linear function with parabolic blends.</li>
+<li><b>HRI perspectives</b> — the human-aware problem; active safety and standards; psychological transparency; collaborative handover; exploiting redundancy; performance metrics.</li>
+</ol>
+<p>Reference book: Craig, J. J. <i>Introduction to Robotics</i>, 3rd edition, Prentice Hall.</p>
+<div class="part">Structural elements</div>
+<ul class="tight">
+<li>Mechanical manipulators are the most important form of industrial robots.</li>
+<li>Manipulators consist of <b>nearly rigid links</b>, connected by <b>joints</b> that allow relative motion of neighbouring links.</li>
+<li>Joints are usually instrumented with <b>position sensors</b>, which measure the relative position of neighbouring links.</li>
+<li><b>Rotary (revolute) joints</b> — the displacement is called the <b>joint angle</b>.</li>
+<li><b>Sliding (prismatic) joints</b> — the relative displacement between links is a translation, sometimes called the <b>joint offset</b>.</li>
+<li><b>Degrees of freedom (DOF)</b> — the number of independent position variables needed to locate all parts of the mechanism.</li>
+<li>Because a manipulator is usually an <b>open kinematic chain</b>, and each joint position is defined with a single variable, <b>the number of joints equals the number of degrees of freedom</b>.</li>
+<li><b>End-effector</b> — the device at the free end of the chain of links; depending on the application, it may be a gripper, welding torch, electromagnet, or other device.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>27–28. Position and Orientation · Kinematics</h3><span class="marks">Summary</span></div>
+<div class="q-body">
+<div class="sol">
+<div class="part">27. Frames (two key frames)</div>
+<p>A coordinate system or <b>frame</b> is rigidly attached to an object to describe its position and orientation in space; the frame is then described with respect to some reference coordinate system.</p>
+<ol class="tight">
+<li><b>Tool frame {T}</b> — attached to the end-effector.</li>
+<li><b>Base frame {B}</b> — attached to the non-moving base of the manipulator.</li>
+</ol>
+<p>The position of a manipulator is generally described by giving the tool frame relative to the base frame. In path specification, each path point is given as the tool frame {T} relative to the station frame {S}.</p>
+<div class="part">28. Kinematics (two problems)</div>
+<p><b>Kinematics</b> is the science of motion that treats motion without regard to the forces that cause it. Within kinematics, one studies position, velocity, acceleration, and all higher-order derivatives of the position variables.</p>
+<ul class="tight">
+<li><b>Forward kinematics</b> — the static geometrical problem of computing the position and orientation of the end-effector. Given a set of joint angles, compute the position and orientation of the tool frame relative to the base frame. Equivalently: changing the representation of manipulator position from a <b>joint-space description</b> into a <b>Cartesian-space description</b>.</li>
+<li><b>Inverse kinematics</b> — given the position and orientation of the end-effector, calculate <b>all possible sets of joint angles</b> that could attain this position and orientation. A fundamental problem in the practical use of manipulators; a mapping of "locations" in 3-D Cartesian space to "locations" in the robot's internal joint space. The need arises anytime a goal is specified in external 3-D space coordinates.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>29–30. General Considerations · Joint-Space Scheme Procedure</h3><span class="marks">Summary</span></div>
+<div class="q-body">
+<div class="sol">
+<div class="part">29. Core definitions (six)</div>
+<ol class="tight">
+<li><b>Trajectory</b> — a time history of position, velocity, and acceleration for each degree of freedom.</li>
+<li><b>Smooth function</b> — for our purposes, a continuous function with a continuous first derivative. Each joint is caused to move as specified by a smooth function of time so that the manipulator moves from here to there in a smooth, controlled fashion.</li>
+<li><b>Path</b> — described not only by a desired destination but also by intermediate locations through which the manipulator must pass en route.</li>
+<li><b>Via points</b> — the intermediate positions and orientations of the tool frame that must be passed through.</li>
+<li><b>Spline</b> — a smooth function that passes through a set of via points.</li>
+<li><b>Path points</b> — all the via points plus the initial and final points.</li>
+</ol>
+<div class="note">Commonly, each joint starts and ends its motion at the same time, so that the manipulator's motion appears coordinated. Exactly how to compute these motion functions is the problem of <b>trajectory generation</b>.</div>
+<div class="part">30. Joint-space scheme — procedure (four steps)</div>
+<ol class="tight">
+<li>Each path point is specified in terms of a desired position and orientation of the tool frame {T} relative to the station frame {S}.</li>
+<li>Each via point is "converted" into a set of desired joint angles by applying inverse kinematics.</li>
+<li>A smooth function is found for each of the <i>n</i> joints that passes through the via points and ends at the goal point.</li>
+<li>The time required for each segment is the same for each joint, so that all joints reach the via point at the same time.</li>
+</ol>
+<ul class="tight">
+<li>In general, the motion involves both a change in orientation and a change in the position of the tool relative to the station.</li>
+<li>The initial position is known as a set of joint angles; inverse kinematics gives the joint angles corresponding to the goal. What is required is a function for each joint whose value at \(t_0\) is the initial position and whose value at \(t_f\) is the desired goal position. Many smooth functions \(\theta(t)\) may be used to interpolate the joint value.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>31–34. Interpolation Schemes — Constraints and Key Formulas</h3><span class="marks">Summary</span></div>
+<div class="q-body">
+<div class="sol">
+<div class="part">31. Cubic polynomial (single segment, rest-to-rest) — four constraints</div>
+<ol class="tight">
+<li>Two constraints on the function's value: \(\theta(0) = \theta_0\); \(\theta(t_f) = \theta_f\).</li>
+<li>Two constraints of zero initial and final velocities: \(\dot\theta(0) = 0\); \(\dot\theta(t_f) = 0\).</li>
+</ol>
+<div class="step">
+\[\theta(t) = a_0 + a_1 t + a_2 t^2 + a_3 t^3, \qquad a_0 = \theta_0,\ a_1 = 0,\ a_2 = \frac{3}{t_f^2}(\theta_f - \theta_0),\ a_3 = -\frac{2}{t_f^3}(\theta_f - \theta_0)\]
+</div>
+<div class="part">32. Cubic for a path with via points — non-zero end velocities</div>
+<div class="step">
+\[a_0 = \theta_0, \quad a_1 = \dot\theta_0, \quad a_2 = \frac{3}{t_f^2}(\theta_f - \theta_0) - \frac{2}{t_f}\dot\theta_0 - \frac{1}{t_f}\dot\theta_f, \quad a_3 = -\frac{2}{t_f^3}(\theta_f - \theta_0) + \frac{1}{t_f^2}(\dot\theta_f + \dot\theta_0)\]
+</div>
+<p><b>Three ways of specifying via-point velocities:</b></p>
+<ol class="tight">
+<li>The user specifies the desired velocity at each via point in terms of a Cartesian linear and angular velocity of the tool frame at that instant.</li>
+<li>The system automatically chooses the velocities at the via points by applying a suitable heuristic in either Cartesian space or joint space.</li>
+<li>The system automatically chooses the velocities at the via points in such a way as to cause the acceleration at the via points to be continuous.</li>
+</ol>
+<div class="part">33. Higher-order polynomial — the quintic</div>
+<p>If position, velocity, <em>and</em> acceleration are to be specified at both the beginning and the end of a path segment, a quintic polynomial is required (six constraints ⇒ six unknowns):</p>
+<div class="step">
+\[\theta(t) = a_0 + a_1 t + a_2 t^2 + a_3 t^3 + a_4 t^4 + a_5 t^5\]
+</div>
+<div class="part">34. Linear function with parabolic blends — key results</div>
+<div class="step">
+\[\ddot\theta\,t_b^2 - \ddot\theta\,t\,t_b + (\theta_f - \theta_0) = 0, \qquad t_b = \frac{t}{2} - \frac{\sqrt{\ddot\theta^2 t^2 - 4\ddot\theta(\theta_f - \theta_0)}}{2\ddot\theta}, \qquad \ddot\theta \ge \frac{4(\theta_f - \theta_0)}{t^2}\]
+</div>
+<ol class="tight">
+<li>When equality occurs, the linear portion has shrunk to zero length and the path is composed of two blends that connect with equivalent slope.</li>
+<li>As the acceleration becomes larger, the length of the blend region becomes shorter.</li>
+<li>In the limit, with infinite acceleration, we are back to the simple linear-interpolation case.</li>
+</ol>
+<div class="note">The step-by-step derivations of all of these, together with worked Example Problem 1, Exercise Problems 2 and 3, and the parabolic-blends example (Slide 31), are in the <b>Trajectory Generation</b> tab of this course.</div>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>35. Homework (Four Tasks)</h3><span class="marks">Summary</span></div>
+<div class="q-body">
+<div class="sol">
+<ol class="tight">
+<li>Derive the coefficients of all the equations (cubic polynomial; cubic polynomial for a path with via points; higher-order polynomial).</li>
+<li>Derive the function with parabolic blends for a path with via points.</li>
+<li>Solve all the included exercise problems.</li>
+<li>Practice relevant exercise problems from the reference book.</li>
+</ol>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>36. HRI Perspectives on Trajectory Generation</h3><span class="marks">Summary</span></div>
+<div class="q-body">
+<div class="sol">
+<div class="part">36.1 The human-aware problem</div>
+<p>Standard path-planning algorithms often fail to produce socially acceptable motion in shared space — an efficiency-optimal trajectory is not necessarily a comfortable, predictable, or safe-feeling one.</p>
+<div class="part">36.2 Active safety and standards — ISO/TS 15066: four collaborative modes</div>
+<table class="vals">
+<tr><th>Mode</th><th>Description</th></tr>
+<tr><td><b>1. Safety-Rated Monitored Stop (SRMS)</b></td><td>Robot and human share the same workspace, but never at the same time while the robot is moving. When a human steps into the collaborative zone (detected via laser scanner or light curtain), the robot stops immediately and holds its position with its drives still powered on.</td></tr>
+<tr><td><b>2. Speed &amp; Separation Monitoring (SSM)</b></td><td>Trajectory velocity is dynamic, based on human distance <i>d</i>. The robot adjusts its speed dynamically according to how close the human is to its operating envelope.</td></tr>
+<tr><td><b>3. Power &amp; Force Limiting (PFL)</b></td><td>The only mode where incidental physical contact between a moving robot and a human is structurally permitted. Impact energy is limited via momentum constraints.</td></tr>
+<tr><td><b>4. Hand Guiding (HG)</b></td><td>The operator takes direct control of the robot's motion using a dedicated hand-held control device or an intuitive end-effector handle.</td></tr>
+</table>
+<div class="note"><b>Safety rating:</b> real-time risk assessment overrides purely efficient paths.</div>
+<div class="part">36.3 Psychological transparency (three properties)</div>
+<ol class="tight">
+<li><b>Predictability</b> — does the motion match user expectations? Efficient, direct paths are typically the most predictable.</li>
+<li><b>Legibility</b> — does the motion convey the goal early? Exaggerated motion paths help observers infer intent.</li>
+<li><b>Trust</b> — transparent motion reduces cognitive load and "surprising" behaviour, directly increasing human trust in the system.</li>
+</ol>
+<div class="part">36.4 The personal zone</div>
+<ul class="tight">
+<li>Humans maintain a "safety bubble" (proxemics).</li>
+<li>Manipulators must respect personal space (0.45 m – 1.2 m) to avoid eliciting fear responses.</li>
+</ul>
+<div class="part">36.5 Minimizing jerk</div>
+<ul class="tight">
+<li>Humans prefer "biological" motion profiles.</li>
+<li>Trapezoidal velocity (high jerk) feels mechanical and unpredictable.</li>
+<li>Using S-curve profiles or minimum-jerk trajectories, the robot mimics biological motion and is perceived as socially acceptable.</li>
+</ul>
+<div class="part">36.6 Collaborative handover (four elements)</div>
+<ol class="tight">
+<li><b>Wait zone</b> — the robot enters a passive state to let the human lead.</li>
+<li><b>Orientation</b> — tooling should be oriented for easy grasping by the human.</li>
+<li><b>Deceleration</b> — gradual slowing as proximity decreases reduces the human startle reflex.</li>
+<li><b>Force sensing</b> — transition from trajectory tracking to compliance upon contact.</li>
+</ol>
+<div class="part">36.7 Exploiting redundancy — null-space interaction</div>
+<p>For a 7-DOF arm, the same end-effector path can be achieved with different elbow configurations:</p>
+<ol class="tight">
+<li><b>Elbow-down</b> — generally perceived as less aggressive / threatening.</li>
+<li><b>Elbow-high</b> — may provide better visibility of the task, but can invade upper proxemic zones.</li>
+<li><b>Motion signalling</b> — small oscillations in the null space can signal "Ready" or "Busy" states.</li>
+</ol>
+<div class="part">36.8 Performance metrics (four)</div>
+<table class="vals">
+<tr><th>Metric</th><th>Description</th><th>Impact on planning</th></tr>
+<tr><td><b>PS</b> (Perceived Safety)</td><td>Subjective comfort of the human user.</td><td>Informs proximity cost in optimization.</td></tr>
+<tr><td><b>ID</b> (Interruption Delay)</td><td>Time the human pauses to process robot motion.</td><td>Decreased by increasing legibility.</td></tr>
+<tr><td><b>FR</b> (Fear Response)</td><td>Physiological stress indicators (GSR, HR).</td><td>Requires smoother velocity profiles.</td></tr>
+<tr><td><b>Fluency</b></td><td>Smoothness of coordinated human–robot tasks.</td><td>Optimized via intent-prediction models.</td></tr>
+</table>
+</div>
+</div>
+</div>
+
 </section>
 
 </main>
@@ -2222,8 +3251,7 @@ Check: \(\theta(5)=5.2(25)-0.56(125)=130-70=60\) ✓; \(\dot\theta(5)=10.4(5)-1.
 Detailed worked solutions · RME 4221 / 4201 / 4226 · Prepared for study purposes
 </footer>
 <script>
-// Items: {type:"section", label, target:"tN"} shows an existing solutions tab.
-//        {type:"pdf", label, file, meta} shows a PDF from the repo root.
+// Items: {type:"section", label, target:"tN"} shows an existing content tab.
 const courses = [
   {
     code:"RME 4226", name:"Machine Design and System Dynamics",
@@ -2232,10 +3260,10 @@ const courses = [
   {
     code:"RME 4201", name:"Human Robot Interaction",
     items:[
-      {type:"pdf", label:"1. Introduction", file:"1. Introduction.pdf", meta:"Lecture slides"},
-      {type:"pdf", label:"2. Design and HRI", file:"2. Design and HRI.pdf", meta:"Lecture slides"},
-      {type:"pdf", label:"3. Spatial interaction", file:"3. Spatial interaction.pdf", meta:"Lecture slides"},
-      {type:"pdf", label:"4. Trajectory generation", file:"4. Trajectory generation.pdf", meta:"Lecture slides"},
+      {type:"section", label:"1. Introduction", target:"t10"},
+      {type:"section", label:"2. Design and HRI", target:"t11"},
+      {type:"section", label:"3. Spatial interaction", target:"t12"},
+      {type:"section", label:"4. Trajectory generation", target:"t13"},
       {type:"section", label:"HRI In-course", target:"t6"},
       {type:"section", label:"HRI Final 2023", target:"t7"},
       {type:"section", label:"HRI Final 2024", target:"t3"},
@@ -2285,13 +3313,12 @@ courses.forEach(course => {
   } else {
     course.items.forEach(it => {
       const b = document.createElement('button');
-      b.className = 'item-btn' + (it.type === 'pdf' ? ' pdf' : '');
+      b.className = 'item-btn';
       b.textContent = it.label;
       b.onclick = () => {
         document.querySelectorAll('.item-btn.active').forEach(x => x.classList.remove('active'));
         b.classList.add('active');
-        if(it.type === 'section') showSection(it.target);
-        else showPdf(course, it);
+        showSection(it.target);
       };
       box.appendChild(b);
     });
@@ -2302,22 +3329,13 @@ courses.forEach(course => {
 
 function hideAll(){
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.querySelector('.layout main').classList.remove('pdf-mode');
   if(window.innerWidth <= 760) sidebar.classList.remove('show');
   window.scrollTo({top:0});
 }
 function showSection(id){
   hideAll();
   document.getElementById(id).classList.add('active');
-}
-function showPdf(course, it){
-  hideAll();
-  document.querySelector('.layout main').classList.add('pdf-mode');
-  document.getElementById('pdf-title').textContent = it.label;
-  document.getElementById('pdf-meta').textContent = course.code + ' \u00b7 ' + course.name + (it.meta ? ' \u00b7 ' + it.meta : '');
-  document.getElementById('pdf-frame').innerHTML =
-    '<iframe src="' + encodeURI(it.file) + '" title="' + it.label + '"></iframe>';
-  document.getElementById('pdf-viewer').classList.add('active');
+  if(window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise();
 }
 document.getElementById('menu-toggle').onclick = () => sidebar.classList.toggle('show');
 </script>
