@@ -7226,6 +7226,483 @@ Use \((W^{(1)})^\top\) and \((W^{(2)})^\top\) when computing pre-activations.</d
 </div>
 </section>
 
+<!-- ============================ TAB 29: 4221 RECURRENT ARCHITECTURES ============================ -->
+<section id="t29" class="tab">
+<div class="paper-head">
+  <h2>8. Recurrent Architectures — From RNNs to Gated Memory</h2>
+  <div class="meta">RME 4221 · Sequential data · Vanilla RNN · Vanishing gradients · LSTM · Peepholes · Coupled gates · GRU · Parameter counting</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>1. Sequential Data and Why Feed-Forward Networks Fail</h3><span class="marks">Foundations</span></div>
+<div class="q-body">
+<div class="sol">
+<p>In much real-world data the <b>order of inputs matters</b> and the current prediction depends on past inputs: time series (temperature, stock prices), language (words in a sentence), speech (audio over time), video (ordered frames), and physiological sensor streams (ECG, EEG).</p>
+<p>A feed-forward network is structurally incapable of exploiting this because it <b>processes each input independently</b> — the mapping \(\hat y = f(x)\) has <b>no internal state preserved across time</b>, so temporal dependencies cannot be modeled explicitly. Feeding it the same word twice yields the same output regardless of what came before. Fixed-size input is a second obstacle: sentences and signals have variable length, which a fixed input layer cannot accommodate without truncation or padding hacks.</p>
+<div class="ans"><b>The missing ingredient is memory:</b> some persistent state that summarizes the past and is updated as the sequence unfolds. Adding that state is exactly what turns a feed-forward network into a recurrent one (Elman, 1990).</div>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>2. The Vanilla RNN — Recurrence, Weight Sharing, Unrolling</h3><span class="marks">Core mechanics</span></div>
+<div class="q-body">
+<div class="sol">
+<p>An RNN introduces a <b>hidden state</b> \(h_t\) that carries information forward, updated by the same rule at every time step:</p>
+<div class="step">
+\[h_t = \phi(W_h h_{t-1} + W_x x_t + b), \qquad \text{typically } \phi = \tanh:\quad h_t = \tanh(W_x x_t + W_h h_{t-1} + b)\]
+</div>
+<ul class="tight">
+<li><b>Same computation at every step; parameters shared across time.</b> \(W_x, W_h, b\) do not change with \(t\) — the temporal analogue of a CNN's spatial weight sharing. This is what allows <b>variable-length sequence processing</b>: the same cell is simply applied as many times as the sequence is long.</li>
+<li><b>Unrolling:</b> the loop diagram (a cell A feeding into itself) is equivalent to a chain of copies of A, one per time step, each passing its hidden state to the next. Training runs backpropagation on this unrolled graph — <b>backpropagation through time</b> (BPTT; Werbos, 1990; Rumelhart, Hinton &amp; Williams, 1986).</li>
+<li>The standard cell is deliberately minimal: the repeating module is a <b>single tanh layer</b> acting on the concatenation of \(x_t\) and \(h_{t-1}\).</li>
+</ul>
+<p class="note">Why \(\tanh\) and not ReLU? \(\tanh\) is bounded in \((-1,1)\), which keeps the repeatedly-multiplied hidden state from blowing up across steps, and it is zero-centered, which conditions the recurrent dynamics better than sigmoid. The price is saturation — a key ingredient of the vanishing-gradient problem below.</p>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>3. What RNNs Can Model — Task Topologies</h3><span class="marks">Taxonomy</span></div>
+<div class="q-body">
+<div class="sol">
+<table class="vals">
+<tr><th>Topology</th><th>Input → Output</th><th>Canonical example</th></tr>
+<tr><td><b>One-to-one</b></td><td>fixed → fixed</td><td>image classification (degenerate, no recurrence needed)</td></tr>
+<tr><td><b>One-to-many</b></td><td>single → sequence</td><td>image captioning</td></tr>
+<tr><td><b>Many-to-one</b></td><td>sequence → single</td><td>sentiment analysis</td></tr>
+<tr><td><b>Many-to-many (unaligned)</b></td><td>sequence → sequence, different lengths</td><td>machine translation (encoder–decoder / seq2seq; Sutskever et al., 2014)</td></tr>
+<tr><td><b>Many-to-many (aligned)</b></td><td>one output per input step</td><td>sequence labeling, video frame classification</td></tr>
+</table>
+<div class="ans"><b>Exam pattern:</b> given a task, name the topology. The discriminating questions are (i) is the input a sequence? (ii) is the output a sequence? (iii) if both, is there a per-step alignment or not?</div>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>4. Short- vs Long-Term Dependencies and the Vanishing Gradient</h3><span class="marks">The core failure mode</span></div>
+<div class="q-body">
+<div class="sol">
+<div class="part">Short-term: where vanilla RNNs succeed</div>
+<p>"I studied <u>medicine</u>, so I am a <u>doctor</u>." The relevant information appears immediately before the prediction point; the signal passes through only a few recurrent steps, gradients remain stable, and the RNN captures the dependency easily.</p>
+
+<div class="part">Long-term: where they fail</div>
+<p>"I studied <u>medicine</u> many years ago, went through long training, worked in different hospitals, and now I am a <u>doctor</u>." The key information appears many steps earlier; the signal must survive many state transitions, and a vanilla RNN often fails to retain it.</p>
+
+<div class="part">Why — the mathematics of the failure</div>
+<p>BPTT multiplies one Jacobian per traversed step. For the gradient of a loss at step \(t\) with respect to the state \(k\) steps earlier:</p>
+<div class="step">
+\[\frac{\partial h_t}{\partial h_{t-k}} = \prod_{j=t-k+1}^{t} \frac{\partial h_j}{\partial h_{j-1}} = \prod_{j} \operatorname{diag}\!\big(\phi'(z_j)\big)\, W_h\]
+</div>
+<p>A product of \(k\) similar factors scales like \(\gamma^k\), where \(\gamma\) reflects \(\|W_h\|\) and the activation derivative (\(|\tanh'| \le 1\), usually \(\ll 1\) in saturation). Bengio, Simard &amp; Frasconi (1994) showed the dichotomy: \(\gamma &lt; 1\) → gradients <b>vanish</b> exponentially (long-range learning signal dies); \(\gamma &gt; 1\) → gradients <b>explode</b> (training destabilizes). Pascanu, Mikolov &amp; Bengio (2013) formalized this via the spectral radius of \(W_h\) and popularized <b>gradient clipping</b> as the standard fix for explosion — but clipping does nothing for vanishing, which requires an architectural change.</p>
+<div class="ans"><b>Summary of the vanilla RNN limitation:</b> relevant information may be far in the past; repeated state transitions shrink gradients; long-term dependencies are hard to learn. The state is also <em>overwritten</em> at every step (\(h_t\) is a fresh nonlinear mix), so even the forward signal decays.</div>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>5. LSTM — The Cell State and the Three Gates</h3><span class="marks">Hochreiter &amp; Schmidhuber (1997)</span></div>
+<div class="q-body">
+<div class="sol">
+<p>The LSTM modifies the RNN cell by introducing a <b>separate memory, the cell state \(C_t\)</b>, preserved across time steps and modified only through explicitly controlled, learned operations. The cell state runs along the top of the cell like a conveyor belt: it <b>flows through time with only minor modifications</b> and is <b>updated additively rather than overwritten</b> — the property that enables stable gradient flow.</p>
+
+<div class="part">Gates — learned, soft valves</div>
+<p>Not all information should be remembered, and not all should be forgotten; which is which <b>must be learned from data</b>. A gate is a sigmoid layer whose output in \((0,1)\) elementwise-multiplies a signal: 0 means "block completely", 1 means "pass completely", intermediate values pass a fraction.</p>
+
+<div class="part">Forget gate — what to erase</div>
+<p>Decides what to remove from memory, as a function of the previous hidden state and current input; it scales the previous cell state:</p>
+<div class="step">\[f_t = \sigma(W_f[h_{t-1}, x_t] + b_f)\]</div>
+<p class="note">Historical note: the forget gate is not in the original 1997 paper — it was added by Gers, Schmidhuber &amp; Cummins (2000), and initializing its bias positive (so \(f_t \approx 1\), remember by default) is a standard trick (Jozefowicz et al., 2015).</p>
+
+<div class="part">Input gate and candidate memory — what to write</div>
+<p>The candidate \(\tilde C_t\) proposes new content; the input gate controls how much of it enters memory:</p>
+<div class="step">\[i_t = \sigma(W_i[h_{t-1}, x_t] + b_i), \qquad \tilde C_t = \tanh(W_C[h_{t-1}, x_t] + b_C)\]</div>
+
+<div class="part">Cell state update — the additive step</div>
+<div class="step">\[C_t = f_t \odot C_{t-1} + i_t \odot \tilde C_t\]</div>
+<p>Old memory is partially retained, new information partially added: the update is <b>additive, not destructive</b>. Contrast the vanilla RNN, where \(h_t\) completely replaces \(h_{t-1}\) through a squashing nonlinearity.</p>
+
+<div class="part">Output gate — what to expose</div>
+<p>The hidden state is a filtered view of the memory; it drives the output at this step and the next step's gates:</p>
+<div class="step">\[o_t = \sigma(W_o[h_{t-1}, x_t] + b_o), \qquad h_t = o_t \odot \tanh(C_t)\]</div>
+
+<div class="ans"><b>One-line functional summary:</b> forget gate removes information, input gate adds new information, output gate exposes relevant information, and the cell state stores the long-term memory. Four weight matrices (\(f, i, C, o\)), each acting on the concatenation \([h_{t-1}, x_t]\) — the source of the "4×" in LSTM parameter counting.</div>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>6. Why LSTMs Work — The Additive Gradient Path</h3><span class="marks">Gradient analysis</span></div>
+<div class="q-body">
+<div class="sol">
+<p>Differentiate the cell-state update along the memory path:</p>
+<div class="step">
+\[\frac{\partial C_t}{\partial C_{t-1}} = f_t \;(+\ \text{gate-dependent terms})\]
+</div>
+<p>The dominant factor is the forget gate itself — <b>not</b> a repeated multiplication by a fixed weight matrix through a saturating nonlinearity. When the network learns \(f_t \approx 1\) for information worth keeping, gradients flow through the additive memory path nearly unattenuated across many steps — Hochreiter and Schmidhuber's "constant error carousel". Consequences, exactly as the lecture states: gradients flow through the additive memory path, long-term dependencies become learnable, and training is more stable than vanilla RNNs.</p>
+<p class="note">The analogy to ResNet (He et al., 2016) is worth making in an answer: both replace a purely multiplicative transformation chain with an <b>additive identity-like path</b> (\(C_t = f_t \odot C_{t-1} + \dots\) vs \(x_{l+1} = x_l + F(x_l)\)), and both exist to let gradients traverse depth — temporal depth in one case, layer depth in the other.</p>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>7. Variants — Peepholes, Coupled Gates, and the GRU</h3><span class="marks">Design space</span></div>
+<div class="q-body">
+<div class="sol">
+<div class="part">Peephole connections (Gers &amp; Schmidhuber, 2000)</div>
+<p>Standard gates see only \(h_{t-1}\) and \(x_t\); peepholes let the gates also observe the cell state, providing extra context for gating decisions:</p>
+<div class="step">
+\[f_t = \sigma(W_f[C_{t-1}, h_{t-1}, x_t] + b_f),\quad i_t = \sigma(W_i[C_{t-1}, h_{t-1}, x_t] + b_i),\quad o_t = \sigma(W_o[C_t, h_{t-1}, x_t] + b_o)\]
+</div>
+<p class="note">Note the asymmetry: forget and input gates peek at \(C_{t-1}\) (the memory before the update); the output gate peeks at \(C_t\) (after the update), since it decides what of the <em>new</em> memory to expose.</p>
+
+<div class="part">Coupled forget and input gates</div>
+<p>Forget and write decisions are made jointly: memory is only cleared when new content is being written, and new information is only written where old content is erased:</p>
+<div class="step">\[C_t = f_t \odot C_{t-1} + (1 - f_t) \odot \tilde C_t\]</div>
+<p>One gate replaces two — a convex combination of old memory and candidate.</p>
+
+<div class="part">Gated Recurrent Unit (Cho et al., 2014)</div>
+<p>The GRU pushes the simplification further: it <b>merges forget and input gates into a single update gate \(z_t\)</b> and <b>eliminates the separate cell state</b> — the hidden state itself carries the memory. A reset gate \(r_t\) controls how much past state feeds the candidate:</p>
+<div class="step">
+\[z_t = \sigma(W_z[h_{t-1}, x_t] + b_z), \qquad r_t = \sigma(W_r[h_{t-1}, x_t] + b_r)\]
+\[\tilde h_t = \tanh(W_h[r_t \odot h_{t-1},\, x_t] + b_h)\]
+\[h_t = (1 - z_t) \odot h_{t-1} + z_t \odot \tilde h_t\]
+</div>
+<p>Three weight matrices instead of four → <b>fewer parameters than LSTM</b> (ratio 3:4 for equal sizes). Empirically, Chung et al. (2014) and the large ablation of Greff et al. (2017, "LSTM: A Search Space Odyssey") found GRU and LSTM perform comparably on most tasks, with no variant consistently beating the standard LSTM — so the choice is usually made on parameter/compute budget.</p>
+<div class="ans"><b>Comparison to memorize:</b> LSTM = 4 gates/blocks (\(f, i, \tilde C, o\)), two state vectors (\(C_t, h_t\)); GRU = 3 blocks (\(z, r, \tilde h\)), one state vector (\(h_t\)); coupled-gate LSTM sits between. GRU's \(h_t = (1-z_t)\odot h_{t-1} + z_t \odot \tilde h_t\) is itself a coupled additive update — the same stable-gradient trick in a leaner package.</div>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>8. Parameter Counting for RNN, LSTM, GRU — Exam-Critical</h3><span class="marks">Formulas + worked example</span></div>
+<div class="q-body">
+<div class="sol">
+<p>Let input dimension be \(d\) and hidden size be \(n\). Every gate/block is an affine map from the concatenation \([h_{t-1}, x_t] \in \mathbb{R}^{n+d}\) to \(\mathbb{R}^n\), costing \(n(n+d)\) weights + \(n\) biases.</p>
+<table class="vals">
+<tr><th>Cell</th><th>Blocks</th><th>Parameter formula</th></tr>
+<tr><td><b>Vanilla RNN</b></td><td>1 (tanh)</td><td>\(n(n+d) + n\)</td></tr>
+<tr><td><b>LSTM</b></td><td>4 (\(f, i, \tilde C, o\))</td><td>\(4\,[\,n(n+d) + n\,]\)</td></tr>
+<tr><td><b>GRU</b></td><td>3 (\(z, r, \tilde h\))</td><td>\(3\,[\,n(n+d) + n\,]\)</td></tr>
+</table>
+<div class="step">
+<p><b>Worked example</b> (\(d = 64\), \(n = 128\)):</p>
+\[\text{RNN} = 128(128 + 64) + 128 = 128 \times 192 + 128 = 24{,}704\]
+\[\text{LSTM} = 4 \times 24{,}704 = 98{,}816, \qquad \text{GRU} = 3 \times 24{,}704 = 74{,}112\]
+</div>
+<p class="note">Parameters are <b>independent of sequence length</b> — weight sharing across time means a 10-step and a 10,000-step sequence use the same weights. If asked about a <em>stacked</em> RNN, layer 2's input dimension is layer 1's hidden size. Peephole LSTMs add \(3n\) extra weights (diagonal peepholes) or \(3n^2\) (full), depending on convention — state your assumption if it comes up.</p>
+</div>
+</div>
+</div>
+</section>
+
+
+<!-- ============================ TAB 30: 4221 MATH PRACTICE ============================ -->
+<section id="t30" class="tab">
+<div class="paper-head">
+  <h2>Math Practice — All Topics, Fully Worked</h2>
+  <div class="meta">Forward pass &amp; softmax · CNN parameter counting · Depthwise separable · Output sizes · IoU &amp; NMS · RNN / LSTM / GRU · Attempt each before opening the solution</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>Problem 1 — Full Forward Pass on a 2–3–2 Tanh–Softmax Network</h3><span class="marks">Exam-style · 5 marks</span></div>
+<div class="q-body">
+<div class="qtext">Given \(x = (0.5, 1.0)^\top\), true label class 2 (\(y = (0,1)^\top\)),
+\(W^{(1)} = \begin{pmatrix}0.2 & 0.4 & 0.6\\ 0.1 & 0.3 & 0.5\end{pmatrix}\),
+\(b^{(1)} = (0.05, -0.1, 0.2)^\top\),
+\(W^{(2)} = \begin{pmatrix}0.4 & -0.2\\ 0.3 & 0.5\\ -0.1 & 0.2\end{pmatrix}\),
+\(b^{(2)} = (0.1, 0)^\top\). Use transposed weight matrices for pre-activations. Compute (a) \(z^{(1)}\), h; (b) \(z^{(2)}\), ŷ; (c) the loss L; (d) the output-layer error \(\delta = \hat y - y\).</div>
+<div class="sol">
+<div class="part">(a) Hidden layer</div>
+<div class="step">
+\[z^{(1)}_1 = 0.2(0.5) + 0.1(1.0) + 0.05 = 0.25\]
+\[z^{(1)}_2 = 0.4(0.5) + 0.3(1.0) - 0.1 = 0.40\]
+\[z^{(1)}_3 = 0.6(0.5) + 0.5(1.0) + 0.2 = 1.00\]
+\[h = \tanh(z^{(1)}) = (0.2449,\ 0.3799,\ 0.7616)^\top\]
+</div>
+<div class="part">(b) Output layer and softmax</div>
+<div class="step">
+\[z^{(2)}_1 = 0.4(0.2449) + 0.3(0.3799) - 0.1(0.7616) + 0.1 = 0.0980 + 0.1140 - 0.0762 + 0.1 = 0.2358\]
+\[z^{(2)}_2 = -0.2(0.2449) + 0.5(0.3799) + 0.2(0.7616) + 0 = -0.0490 + 0.1900 + 0.1523 = 0.2933\]
+\[e^{0.2358} = 1.2659,\quad e^{0.2933} = 1.3409,\quad \text{sum} = 2.6068\]
+\[\hat y = (0.4856,\ 0.5144)^\top\]
+</div>
+<div class="part">(c) Cross-entropy loss</div>
+<div class="step">\[L = -\ln \hat y_2 = -\ln(0.5144) = 0.6648\]</div>
+<p class="note">Sanity habit: had the label been class 1, \(L = -\ln(0.4856) = 0.7223\). Near-uniform ŷ gives losses near \(\ln 2 = 0.693\) either way — a useful mental check that your softmax is right.</p>
+<div class="part">(d) Output error</div>
+<p>For softmax + cross-entropy, the gradient at the pre-activations collapses to the famous form \(\delta = \partial L/\partial z^{(2)} = \hat y - y\):</p>
+<div class="step">\[\delta = (0.4856 - 0,\ 0.5144 - 1)^\top = (0.4856,\ -0.4856)^\top\]</div>
+<div class="ans"><b>ŷ = (0.4856, 0.5144), L ≈ 0.665, δ = (0.486, −0.486).</b> The components of δ always sum to 0 for a one-hot target — because softmax probabilities and one-hot labels each sum to 1.</div>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>Problem 2 — Softmax Shift Invariance</h3><span class="marks">Concept + 1-line proof</span></div>
+<div class="q-body">
+<div class="qtext">Show that subtracting a constant c from every logit leaves the softmax output unchanged, and state why implementations subtract \(\max_j z_j\).</div>
+<div class="sol">
+<div class="step">
+\[\frac{e^{z_k - c}}{\sum_j e^{z_j - c}} = \frac{e^{z_k}\,e^{-c}}{e^{-c}\sum_j e^{z_j}} = \frac{e^{z_k}}{\sum_j e^{z_j}}\]
+</div>
+<div class="ans">The factor \(e^{-c}\) cancels between numerator and denominator. Choosing \(c = \max_j z_j\) makes every exponent \(\le 0\), so \(e^{z_k - c} \le 1\): this prevents floating-point <b>overflow</b> for large logits without changing the result — the standard numerically stable softmax.</div>
+<p>Check with Problem 1's logits: shift (0.2358, 0.2933) by −0.2933 → (−0.0575, 0); \(e^{-0.0575} = 0.9441\), \(e^0 = 1\), sum 1.9441 → (0.4856, 0.5144). Identical.</p>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>Problem 3 — CNN Parameter Counting with a Depthwise-Separable Block</h3><span class="marks">Exam-style · 4 marks</span></div>
+<div class="q-body">
+<div class="qtext">Input 128 × 128 × 3. Conv1: standard, 16 filters, 3 × 3, same, stride 1 → Pool 2 × 2 stride 2 → Conv2-DW: depthwise 3 × 3, same (16 filters, one per channel) → Conv2-PW: pointwise 1 × 1, 32 filters → Pool 2 × 2 stride 2 → Flatten → FC1 (64 neurons) → FC2 (10 neurons). One bias per filter/neuron; pools have no parameters. Compute per-layer and total trainable parameters.</div>
+<div class="sol">
+<p>Spatial bookkeeping first: 128 → (same) 128 → pool 64 → (same) 64 → (1×1) 64 → pool 32. Flattened size \(= 32 \times 32 \times 32 = 32{,}768\).</p>
+<div class="step">
+\[\text{Conv1} = 16(3 \times 3 \times 3) + 16 = 432 + 16 = 448\]
+\[\text{Conv2-DW} = 16(3 \times 3 \times 1) + 16 = 144 + 16 = 160\]
+\[\text{Conv2-PW} = 32(1 \times 1 \times 16) + 32 = 512 + 32 = 544\]
+\[\text{FC1} = 32{,}768 \times 64 + 64 = 2{,}097{,}216\]
+\[\text{FC2} = 64 \times 10 + 10 = 650\]
+</div>
+<table class="vals">
+<tr><th>Layer</th><th>Parameters</th></tr>
+<tr><td>Conv1</td><td>448</td></tr>
+<tr><td>Conv2-DW</td><td>160</td></tr>
+<tr><td>Conv2-PW</td><td>544</td></tr>
+<tr><td>FC1</td><td>2,097,216</td></tr>
+<tr><td>FC2</td><td>650</td></tr>
+</table>
+<div class="ans"><b>Total = 2,099,018.</b> Same pathology as the in-course: FC1 holds ~99.9% of the parameters. If asked "how would you reduce this," the literature answer is global average pooling (Lin et al., 2014) or a smaller pre-flatten feature map.</div>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>Problem 4 — Depthwise-Separable Reduction Ratio</h3><span class="marks">Exam-style · 2 marks</span></div>
+<div class="q-body">
+<div class="qtext">For the network in Problem 3, if Conv2 were a single standard 3 × 3 convolution producing 32 feature maps, how many parameters would it have? Compute the reduction ratio achieved by the separable design, and compare with the theoretical formula.</div>
+<div class="sol">
+<div class="step">
+\[\text{Standard} = 32(3 \times 3 \times 16) + 32 = 4608 + 32 = 4640\]
+\[\text{Separable} = 160 + 544 = 704 \qquad\Rightarrow\qquad \text{ratio} = \frac{4640}{704} \approx 6.59\times\]
+</div>
+<p>Theory (weights only, Howard et al., 2017): \(\dfrac{\text{separable}}{\text{standard}} = \dfrac{1}{C_{out}} + \dfrac{1}{K^2} = \dfrac{1}{32} + \dfrac{1}{9} = 0.142 \Rightarrow 7.02\times\). Biases account for the gap between 6.59 and 7.02.</p>
+<div class="ans"><b>4,640 vs 704 parameters — a ≈ 6.6× reduction</b>, consistent with the \(1/C_{out} + 1/K^2\) rule; for 3 × 3 kernels the \(1/K^2\) term dominates, hence the standing "about \(K^2\) times cheaper" rule of thumb.</div>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>Problem 5 — Output-Size Chain and Valid vs Same Padding</h3><span class="marks">2 marks</span></div>
+<div class="q-body">
+<div class="qtext">(a) Input 28 × 28 → conv 5 × 5, valid, stride 1 → pool 2 × 2, stride 2 → conv 3 × 3, same, stride 1 → pool 2 × 2, stride 2. Give the spatial size after every stage. (b) For Problem 3's Conv1 (3 × 3 on 128 × 128), what changes if padding were valid instead of same?</div>
+<div class="sol">
+<div class="part">(a)</div>
+<div class="step">
+\[28 \xrightarrow{\ 5\times5\ \text{valid}\ } \frac{28-5}{1}+1 = 24 \xrightarrow{\ \text{pool}\ } 12 \xrightarrow{\ 3\times3\ \text{same}\ } 12 \xrightarrow{\ \text{pool}\ } 6\]
+</div>
+<div class="ans"><b>24 → 12 → 12 → 6.</b></div>
+<div class="part">(b)</div>
+<div class="step">\[O = \frac{128 - 3 + 0}{1} + 1 = 126 \quad\Rightarrow\quad 126 \times 126 \times 16\]</div>
+<div class="ans"><b>Only the spatial size changes (128 → 126); depth and parameter count are unaffected</b> — padding and stride never enter the parameter formula. This exact "does padding change parameters?" trap has now appeared twice in this course's papers.</div>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>Problem 6 — What a 1 × 1 Convolution Does</h3><span class="marks">2 marks</span></div>
+<div class="q-body">
+<div class="qtext">A layer applies 24 filters of size 1 × 1 to a 56 × 56 × 96 volume. Give the output size, the parameter count, and the two standard reasons such layers exist.</div>
+<div class="sol">
+<div class="step">
+\[\text{Output: } 56 \times 56 \times 24 \qquad \text{Parameters: } 24(1 \times 1 \times 96) + 24 = 2304 + 24 = 2328\]
+</div>
+<div class="ans"><b>(1) Channel-dimension reduction/mixing:</b> each output pixel is a learned linear combination of the 96 input channels at that position — a per-pixel fully connected layer across depth, used to shrink channels cheaply before expensive 3×3/5×5 convs (the bottleneck trick of GoogLeNet, Szegedy et al., 2015, and ResNet). <b>(2) Added nonlinearity:</b> followed by ReLU, it deepens the network at trivial spatial cost (Lin et al., 2014, Network-in-Network). It is also exactly the pointwise half of a depthwise-separable block.</div>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>Problem 7 — IoU, NMS, TP/FP, and Confidence Filtering (Fresh Numbers)</h3><span class="marks">Exam-style · 7 marks</span></div>
+<div class="q-body">
+<div class="qtext">Boxes (top-left, bottom-right, confidence): A (20,20)–(80,80), 0.90; B (50,50)–(110,110), 0.85; C (25,25)–(75,75), 0.70; D (60,20)–(120,80), 0.65. (a) Compute IoU(A,B), IoU(A,C), IoU(A,D). (b) Run NMS at threshold 0.5. (c) With ground truth G = (20,20)–(80,80), classify survivors as TP/FP at IoU ≥ 0.5. (d) Redo with a confidence pre-filter of 0.75.</div>
+<div class="sol">
+<div class="part">(a) IoUs — areas: A = 3600, B = 3600, C = 2500, D = 3600</div>
+<div class="step">
+<p><b>IoU(A,B):</b> intersection \(x \in [50,80]\), \(y \in [50,80]\) → \(30 \times 30 = 900\); union \(= 3600 + 3600 - 900 = 6300\).</p>
+\[\text{IoU}(A,B) = 900/6300 = 0.143\]
+</div>
+<div class="step">
+<p><b>IoU(A,C):</b> C lies inside A: intersection \(= 50 \times 50 = 2500\); union \(= 3600 + 2500 - 2500 = 3600\).</p>
+\[\text{IoU}(A,C) = 2500/3600 = 0.694\]
+</div>
+<div class="step">
+<p><b>IoU(A,D):</b> intersection \(x \in [60,80]\), \(y \in [20,80]\) → \(20 \times 60 = 1200\); union \(= 3600 + 3600 - 1200 = 6000\).</p>
+\[\text{IoU}(A,D) = 1200/6000 = 0.200\]
+</div>
+<div class="part">(b) NMS at 0.5 — sort: A (0.90) &gt; B (0.85) &gt; C (0.70) &gt; D (0.65)</div>
+<ol class="tight">
+<li>Keep <b>A</b>. IoU(A,B) = 0.143 ≤ 0.5 → B survives; IoU(A,C) = 0.694 &gt; 0.5 → <b>suppress C</b>; IoU(A,D) = 0.200 ≤ 0.5 → D survives.</li>
+<li>Keep <b>B</b> (next highest). Intersection of B and D: \(x \in [60,110]\), \(y \in [50,80]\) → \(50 \times 30 = 1500\); union \(= 3600 + 3600 - 1500 = 5700\); IoU(B,D) = 1500/5700 = 0.263 ≤ 0.5 → D survives.</li>
+<li>Keep <b>D</b>. Nothing remains.</li>
+</ol>
+<div class="ans"><b>Survivors: A, B, D.</b> Note the contrast with the in-course problem: here the overlaps are mostly moderate, so NMS removes only the nested box C — NMS does not simply "keep one box."</div>
+<div class="part">(c) TP/FP against G = A's coordinates</div>
+<div class="step">
+\[\text{IoU}(A,G) = 1.0 \ge 0.5 \Rightarrow \text{TP};\qquad \text{IoU}(B,G) = 0.143 &lt; 0.5 \Rightarrow \text{FP};\qquad \text{IoU}(D,G) = 0.200 &lt; 0.5 \Rightarrow \text{FP}\]
+</div>
+<div class="part">(d) Confidence pre-filter at 0.75</div>
+<p>Surviving the filter: A (0.90), B (0.85); C and D are dropped. NMS on {A, B}: keep A; IoU(A,B) = 0.143 ≤ 0.5 → keep B.</p>
+<div class="ans"><b>Both A and B survive.</b> Compare with (b): the confidence filter removed the low-confidence boxes that NMS alone kept (D) or would have had to compare (C) — filtering and NMS remove different kinds of redundancy (low belief vs duplication).</div>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>Problem 8 — Parameter Counting for RNN, LSTM, GRU</h3><span class="marks">Exam-style · 3 marks</span></div>
+<div class="q-body">
+<div class="qtext">A recurrent layer receives 100-dimensional inputs and has 50 hidden units. Count the trainable parameters if the cell is (a) a vanilla RNN, (b) an LSTM, (c) a GRU. Each affine block has a bias vector.</div>
+<div class="sol">
+<p>One affine block maps \([h_{t-1}, x_t] \in \mathbb{R}^{150}\) to \(\mathbb{R}^{50}\): \(50 \times 150\) weights + 50 biases.</p>
+<div class="step">
+\[\text{(a) RNN (1 block): } 50(100 + 50) + 50 = 7500 + 50 = 7550\]
+\[\text{(b) LSTM (4 blocks: } f, i, \tilde C, o\text{): } 4 \times 7550 = 30{,}200\]
+\[\text{(c) GRU (3 blocks: } z, r, \tilde h\text{): } 3 \times 7550 = 22{,}650\]
+</div>
+<div class="ans"><b>7,550 / 30,200 / 22,650.</b> Memorize the structure, not the numbers: \(n(n+d)+n\) per block, ×1 / ×4 / ×3. Parameters are independent of sequence length (weights shared across time), and a second stacked layer would use \(d = 50\) as its input size.</div>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>Problem 9 — Vanilla RNN Forward Pass over Three Time Steps</h3><span class="marks">Exam-style · 4 marks</span></div>
+<div class="q-body">
+<div class="qtext">A vanilla RNN has 1 input, 2 hidden units, \(h_t = \tanh(W_x x_t + W_h h_{t-1} + b)\), with
+\(W_x = \begin{pmatrix}0.5\\-0.3\end{pmatrix}\),
+\(W_h = \begin{pmatrix}0.4 & 0.1\\ 0.2 & 0.3\end{pmatrix}\),
+\(b = \begin{pmatrix}0.1\\-0.1\end{pmatrix}\), \(h_0 = \mathbf{0}\).
+Inputs: \(x_1 = 0.5\), \(x_2 = 1.0\), \(x_3 = -0.5\). Compute \(h_1, h_2, h_3\).</div>
+<div class="sol">
+<div class="part">t = 1 (recurrent term vanishes since h₀ = 0)</div>
+<div class="step">
+\[z_1 = W_x(0.5) + b = \begin{pmatrix}0.25 + 0.1\\ -0.15 - 0.1\end{pmatrix} = \begin{pmatrix}0.35\\ -0.25\end{pmatrix},\qquad h_1 = \begin{pmatrix}\tanh(0.35)\\ \tanh(-0.25)\end{pmatrix} = \begin{pmatrix}0.3364\\ -0.2449\end{pmatrix}\]
+</div>
+<div class="part">t = 2</div>
+<div class="step">
+\[z_{2,1} = 0.5(1.0) + 0.4(0.3364) + 0.1(-0.2449) + 0.1 = 0.5 + 0.1346 - 0.0245 + 0.1 = 0.7101\]
+\[z_{2,2} = -0.3(1.0) + 0.2(0.3364) + 0.3(-0.2449) - 0.1 = -0.3 + 0.0673 - 0.0735 - 0.1 = -0.4062\]
+\[h_2 = (\tanh(0.7101),\ \tanh(-0.4062))^\top = (0.6107,\ -0.3852)^\top\]
+</div>
+<div class="part">t = 3</div>
+<div class="step">
+\[z_{3,1} = 0.5(-0.5) + 0.4(0.6107) + 0.1(-0.3852) + 0.1 = -0.25 + 0.2443 - 0.0385 + 0.1 = 0.0558\]
+\[z_{3,2} = -0.3(-0.5) + 0.2(0.6107) + 0.3(-0.3852) - 0.1 = 0.15 + 0.1221 - 0.1156 - 0.1 = 0.0566\]
+\[h_3 = (0.0557,\ 0.0565)^\top\]
+</div>
+<div class="ans"><b>h₁ = (0.336, −0.245), h₂ = (0.611, −0.385), h₃ = (0.056, 0.057).</b> Note the mechanics being tested: the <em>same</em> \(W_x, W_h, b\) at every step (weight sharing), and each step mixing the new input with the previous state.</div>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>Problem 10 — One LSTM Step by Hand (Scalar Cell)</h3><span class="marks">Exam-style · 5 marks</span></div>
+<div class="q-body">
+<div class="qtext">A scalar LSTM (hidden size 1, input size 1) at time t has \(h_{t-1} = 0.5\), \(C_{t-1} = 1.0\), \(x_t = 1.0\). Gate weights act on \([h_{t-1}, x_t]\):
+\(W_f = (0.5, 0.5), b_f = 0\); \(W_i = (0.4, 0.6), b_i = 0.1\); \(W_C = (0.3, 0.7), b_C = 0\); \(W_o = (0.6, 0.2), b_o = -0.1\).
+Compute \(f_t, i_t, \tilde C_t, C_t, o_t, h_t\).</div>
+<div class="sol">
+<div class="part">Gates and candidate</div>
+<div class="step">
+\[f_t = \sigma(0.5 \times 0.5 + 0.5 \times 1.0 + 0) = \sigma(0.75) = 0.6792\]
+\[i_t = \sigma(0.4 \times 0.5 + 0.6 \times 1.0 + 0.1) = \sigma(0.90) = 0.7109\]
+\[\tilde C_t = \tanh(0.3 \times 0.5 + 0.7 \times 1.0 + 0) = \tanh(0.85) = 0.6911\]
+</div>
+<div class="part">Cell state update</div>
+<div class="step">
+\[C_t = f_t C_{t-1} + i_t \tilde C_t = 0.6792 \times 1.0 + 0.7109 \times 0.6911 = 0.6792 + 0.4913 = 1.1705\]
+</div>
+<div class="part">Output gate and hidden state</div>
+<div class="step">
+\[o_t = \sigma(0.6 \times 0.5 + 0.2 \times 1.0 - 0.1) = \sigma(0.40) = 0.5987\]
+\[h_t = o_t \tanh(C_t) = 0.5987 \times \tanh(1.1705) = 0.5987 \times 0.8244 = 0.4936\]
+</div>
+<div class="ans"><b>f = 0.679, i = 0.711, C̃ = 0.691, C = 1.171, o = 0.599, h = 0.494.</b> Interpretation worth writing in an exam: the cell kept ~68% of old memory <em>and</em> wrote ~71% of the candidate — the additive update let \(C_t\) exceed 1 without overwriting the past; the output gate then exposed only ~60% of \(\tanh(C_t)\) as the working hidden state.</div>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>Problem 11 — One GRU Step by Hand (Scalar Cell)</h3><span class="marks">Exam-style · 4 marks</span></div>
+<div class="q-body">
+<div class="qtext">A scalar GRU has \(h_{t-1} = 0.5\), \(x_t = 1.0\), with \(W_z = (0.5, 0.5), b_z = 0\); \(W_r = (0.4, 0.2), b_r = 0.1\); \(W_h = (0.6, 0.8), b_h = 0\) (the first weight in each pair multiplies the h-term, the second multiplies x). Compute \(z_t, r_t, \tilde h_t, h_t\).</div>
+<div class="sol">
+<div class="step">
+\[z_t = \sigma(0.5 \times 0.5 + 0.5 \times 1.0) = \sigma(0.75) = 0.6792\]
+\[r_t = \sigma(0.4 \times 0.5 + 0.2 \times 1.0 + 0.1) = \sigma(0.50) = 0.6225\]
+</div>
+<p>The reset gate scales the past state <em>before</em> the candidate sees it: \(r_t h_{t-1} = 0.6225 \times 0.5 = 0.3112\).</p>
+<div class="step">
+\[\tilde h_t = \tanh(0.6 \times 0.3112 + 0.8 \times 1.0) = \tanh(0.9867) = 0.7560\]
+\[h_t = (1 - z_t)h_{t-1} + z_t \tilde h_t = 0.3208 \times 0.5 + 0.6792 \times 0.7560 = 0.1604 + 0.5134 = 0.6738\]
+</div>
+<div class="ans"><b>z = 0.679, r = 0.623, h̃ = 0.756, h = 0.674.</b> The update is a convex combination: \(z_t \approx 0.68\) means the state moved 68% of the way from the old \(h_{t-1}\) toward the candidate. Common trap: forgetting that \(r_t\) multiplies \(h_{t-1}\) <em>inside</em> the candidate's tanh, not outside.</div>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>Problem 12 — Vanishing vs Exploding Gradients, Quantified</h3><span class="marks">3 marks</span></div>
+<div class="q-body">
+<div class="qtext">In a scalar linear RNN, the gradient through k steps scales as \(w_h^k\) (taking \(\phi' \approx 1\)). (a) Evaluate the scaling for \(w_h = 1.2\) and \(w_h = 0.7\) over k = 20 steps. (b) Name the standard remedy for each regime and state which one the LSTM addresses architecturally.</div>
+<div class="sol">
+<div class="part">(a)</div>
+<div class="step">
+\[1.2^{20} \approx 38.3 \qquad \text{(explosion: gradient magnified} \approx 38\times\text{)}\]
+\[0.7^{20} \approx 8.0 \times 10^{-4} \qquad \text{(vanishing: gradient attenuated} \approx 1250\times\text{)}\]
+</div>
+<p>With \(\tanh\), the situation is worse than this idealization: \(|\tanh'| \le 1\) and \(\ll 1\) in saturation, so even \(w_h\) slightly above 1 can still vanish once activation derivatives are included (Bengio et al., 1994).</p>
+<div class="part">(b)</div>
+<div class="ans"><b>Explosion → gradient clipping</b> (rescale the gradient when its norm exceeds a threshold; Pascanu et al., 2013) — a training-time patch. <b>Vanishing → architectural change:</b> the LSTM's additive cell-state path, where \(\partial C_t / \partial C_{t-1} \approx f_t\) is a learned gate rather than a fixed repeated multiplication, so keeping \(f_t \approx 1\) preserves gradient flow over long horizons. Clipping cannot fix vanishing — a bounded gradient made smaller is still uninformative.</div>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>Problem 13 — Match the Task to the Recurrent Topology</h3><span class="marks">2 marks</span></div>
+<div class="q-body">
+<div class="qtext">Name the topology (one-to-one, one-to-many, many-to-one, many-to-many aligned/unaligned) for: (i) predicting whether an ECG recording contains an arrhythmia; (ii) generating a caption from one image; (iii) translating Bangla to English; (iv) labeling every frame of a video as "robot moving / stationary"; (v) classifying a single photograph.</div>
+<div class="sol">
+<ul class="tight">
+<li><b>(i) Many-to-one</b> — a sequence (ECG samples) in, a single decision out; same structure as sentiment analysis.</li>
+<li><b>(ii) One-to-many</b> — single input (image feature vector), sequence output (words); image captioning verbatim.</li>
+<li><b>(iii) Many-to-many, unaligned</b> — input and output sequences differ in length and word order; encoder–decoder / seq2seq.</li>
+<li><b>(iv) Many-to-many, aligned</b> — exactly one output per input frame; sequence labeling.</li>
+<li><b>(v) One-to-one</b> — no sequence anywhere; recurrence unnecessary.</li>
+</ul>
+<div class="ans">The two questions that decide everything: is the input a sequence, and is the output a sequence? If both, check whether outputs align one-per-input-step.</div>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>Problem 14 — LSTM vs GRU vs Vanilla RNN: Short-Answer Drill</h3><span class="marks">Rapid fire · likely 1-mark parts</span></div>
+<div class="q-body">
+<div class="sol">
+<ul class="tight">
+<li><b>Which two LSTM gates does the GRU's update gate replace?</b> The forget and input gates: \(h_t = (1-z_t)\odot h_{t-1} + z_t \odot \tilde h_t\) couples "keep" and "write" into one convex combination.</li>
+<li><b>What state does the GRU eliminate?</b> The separate cell state \(C_t\); the hidden state itself carries the memory.</li>
+<li><b>Why is the LSTM update called additive?</b> \(C_t = f_t \odot C_{t-1} + i_t \odot \tilde C_t\) adds gated new content to gated old content rather than replacing the state through a squashing nonlinearity — the reason gradients survive (compare ResNet's \(x + F(x)\)).</li>
+<li><b>What do peephole connections change?</b> Gates additionally receive the cell state (\(C_{t-1}\) for f and i, \(C_t\) for o), giving gating decisions direct sight of the memory content (Gers &amp; Schmidhuber, 2000).</li>
+<li><b>Coupled-gate update rule?</b> \(C_t = f_t \odot C_{t-1} + (1-f_t) \odot \tilde C_t\) — memory is cleared only where new content is written.</li>
+<li><b>Do RNN parameters grow with sequence length?</b> No — parameters are shared across time; length affects compute and memory during BPTT, not the parameter count.</li>
+<li><b>Which is cheapest for equal d, n?</b> Vanilla RNN &lt; GRU (3×) &lt; LSTM (4×); empirically GRU ≈ LSTM in accuracy on many tasks (Chung et al., 2014; Greff et al., 2017), so GRU is preferred under tight budgets.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+
 
 </main>
 </div>
@@ -7264,11 +7741,13 @@ const courses = [
       {type:"section", label:"5. CNN — Foundations", target:"t18"},
       {type:"section", label:"6. CNN Architectures — Case Studies", target:"t19"},
       {type:"section", label:"7. Object Detection & Segmentation", target:"t20"},
+      {type:"section", label:"8. Recurrent Architectures (RNN\u2013LSTM\u2013GRU)", target:"t29"},
       {type:"section", label:"ML In-course 1", target:"t5"},
       {type:"section", label:"ML In-course 2", target:"t1"},
       {type:"section", label:"ML Final 2023", target:"t8"},
       {type:"section", label:"ML Final 2025", target:"t2"},
-      {type:"section", label:"ML In-course 2026", target:"t28"}
+      {type:"section", label:"ML In-course 2026", target:"t28"},
+      {type:"section", label:"Math Practice \u2014 All Topics", target:"t30"}
     ]
   },
   {
