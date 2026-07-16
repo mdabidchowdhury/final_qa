@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>RME 4th Year 2nd Semester — DU Robotics &amp; Mechatronics</title>
 <script>
-MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] }, svg: { fontCache: 'global' } };
+MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] }, svg: { fontCache: 'global' }, startup: { typeset: false } };
 </script>
 <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 <style>
@@ -7057,6 +7057,175 @@ W^{(2)}\in\mathbb R^{3\times8},\quad b^{(2)}\in\mathbb R^{3\times1}\]
 
 </section>
 
+<!-- ============================ TAB 28: 4221 ML INCOURSE 2026 ============================ -->
+<section id="t28" class="tab">
+<div class="paper-head">
+  <h2>RME 4221: Introduction to Machine Learning — In-course 2026</h2>
+  <div class="meta">4th Year 2nd Semester B.Sc. In-course Examination · Full Marks: 20 · Time: 1 hour</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>Question 1 — Forward Pass, Softmax, and Cross-Entropy on a 2–3–2 Network</h3><span class="marks">5 marks</span></div>
+<div class="q-body">
+<div class="qtext">Network: 2 inputs, 3 Tanh hidden units, 2 Softmax outputs. Given
+\(x = \begin{pmatrix}1.0\\0.5\end{pmatrix}\), \(y = \begin{pmatrix}1\\0\end{pmatrix}\),
+\(W^{(1)} = \begin{pmatrix}0.3 & 0.6 & 0.2\\ 0.4 & 0.2 & 0.8\end{pmatrix}\),
+\(b^{(1)} = \begin{pmatrix}0.1\\-0.2\\0.1\end{pmatrix}\),
+\(W^{(2)} = \begin{pmatrix}0.5 & 0.3\\ 0.4 & -0.2\\ 0.3 & -0.4\end{pmatrix}\),
+\(b^{(2)} = \begin{pmatrix}0.1\\-0.1\end{pmatrix}\).
+Use \((W^{(1)})^\top\) and \((W^{(2)})^\top\) when computing pre-activations.</div>
+<div class="sol">
+
+<div class="part">(a) Hidden pre-activations z⁽¹⁾ and Tanh activations h &nbsp;[1]</div>
+<p>\(z^{(1)} = (W^{(1)})^\top x + b^{(1)}\). Since \(W^{(1)}\) is \(2\times3\), its transpose is \(3\times2\), mapping the 2-vector \(x\) to the 3 hidden units. Row by row:</p>
+<div class="step">
+\[z^{(1)}_1 = 0.3(1.0) + 0.4(0.5) + 0.1 = 0.3 + 0.2 + 0.1 = 0.6\]
+\[z^{(1)}_2 = 0.6(1.0) + 0.2(0.5) - 0.2 = 0.6 + 0.1 - 0.2 = 0.5\]
+\[z^{(1)}_3 = 0.2(1.0) + 0.8(0.5) + 0.1 = 0.2 + 0.4 + 0.1 = 0.7\]
+</div>
+<p>Applying \(h_i = \tanh(z^{(1)}_i)\):</p>
+<div class="step">
+\[h_1 = \tanh(0.6) = 0.5370,\qquad h_2 = \tanh(0.5) = 0.4621,\qquad h_3 = \tanh(0.7) = 0.6044\]
+</div>
+<div class="ans"><b>z⁽¹⁾ = (0.6, 0.5, 0.7)ᵀ, &nbsp; h = (0.5370, 0.4621, 0.6044)ᵀ.</b></div>
+
+<div class="part">(b) Output pre-activations z⁽²⁾ and Softmax probabilities ŷ &nbsp;[2]</div>
+<p>\(z^{(2)} = (W^{(2)})^\top h + b^{(2)}\). \((W^{(2)})^\top\) is \(2\times3\):</p>
+<div class="step">
+\[z^{(2)}_1 = 0.5(0.5370) + 0.4(0.4621) + 0.3(0.6044) + 0.1 = 0.2685 + 0.1848 + 0.1813 + 0.1 = 0.7347\]
+\[z^{(2)}_2 = 0.3(0.5370) - 0.2(0.4621) - 0.4(0.6044) - 0.1 = 0.1611 - 0.0924 - 0.2417 - 0.1 = -0.2731\]
+</div>
+<p>Softmax: \(\hat y_k = e^{z^{(2)}_k} \big/ \sum_j e^{z^{(2)}_j}\).</p>
+<div class="step">
+\[e^{0.7347} = 2.0848,\qquad e^{-0.2731} = 0.7611,\qquad \text{sum} = 2.8459\]
+\[\hat y_1 = \frac{2.0848}{2.8459} = 0.7326,\qquad \hat y_2 = \frac{0.7611}{2.8459} = 0.2674\]
+</div>
+<div class="ans"><b>z⁽²⁾ = (0.7347, −0.2731)ᵀ, &nbsp; ŷ = (0.7326, 0.2674)ᵀ.</b> The probabilities sum to 1, as Softmax guarantees.</div>
+
+<div class="part">(c) Categorical cross-entropy loss L &nbsp;[1]</div>
+<p>\(L = -\sum_k y_k \ln \hat y_k\). With \(y = (1, 0)^\top\), only the class-1 term survives:</p>
+<div class="step">
+\[L = -\ln \hat y_1 = -\ln(0.7326) = 0.3112\]
+</div>
+<div class="ans"><b>L ≈ 0.311.</b> The loss is small because the network already assigns 73% probability to the correct class.</div>
+
+<div class="part">(d) Loss if the true label were class 2 (y = [0, 1]ᵀ) &nbsp;[1]</div>
+<p>The one-hot vector now selects the second component of the <i>same</i> ŷ from part (b):</p>
+<div class="step">
+\[L = -\ln \hat y_2 = -\ln(0.2674) = 1.3189\]
+</div>
+<div class="ans"><b>L ≈ 1.319</b> — roughly 4× larger than in (c), because the model places only 26.7% mass on what would now be the correct class. Cross-entropy penalizes confident mass on the wrong class exactly this way: the loss depends only on the probability assigned to the true class.</div>
+
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>Question 2 — Parameter Counting in a Depthwise-Separable CNN</h3><span class="marks">8 marks</span></div>
+<div class="q-body">
+<div class="qtext">Input 224 × 224 × 3. Conv1: standard conv, 20 filters, 5 × 5, same padding. Pool1: 2 × 2 max pool, stride 2. Conv2-DW: depthwise conv, 3 × 3, same, 20 filters (one per channel). Conv2-PW: pointwise conv, 40 filters, 1 × 1. Pool2: 2 × 2, stride 2. Flatten → FC1 (100 neurons) → FC2 (5 neurons). Each filter and each FC neuron has one bias; pool layers have no parameters.</div>
+<div class="sol">
+
+<div class="part">(a) Trainable parameters per layer and network total &nbsp;[4]</div>
+<p>The governing formula for a convolutional layer is \(F(K \times K \times C_{in}) + F\); for a fully connected layer, \(N_{in} \times N_{out} + N_{out}\).</p>
+<div class="step">
+<p><b>Conv1</b> (standard, spans full input depth 3):</p>
+\[20 \times (5 \times 5 \times 3) + 20 = 20 \times 75 + 20 = 1500 + 20 = 1520\]
+</div>
+<div class="step">
+<p><b>Conv2-DW</b> (depthwise: each 3 × 3 filter touches only <i>its own</i> channel, so \(C_{in} = 1\) per filter, 20 filters for 20 channels):</p>
+\[20 \times (3 \times 3 \times 1) + 20 = 180 + 20 = 200\]
+</div>
+<div class="step">
+<p><b>Conv2-PW</b> (pointwise: 1 × 1 across all 20 channels, 40 filters):</p>
+\[40 \times (1 \times 1 \times 20) + 40 = 800 + 40 = 840\]
+</div>
+<div class="step">
+<p><b>FC1</b> (flattened input is \(56 \times 56 \times 40 = 125{,}440\), matching the table's 125,440):</p>
+\[125{,}440 \times 100 + 100 = 12{,}544{,}000 + 100 = 12{,}544{,}100\]
+</div>
+<div class="step">
+<p><b>FC2:</b></p>
+\[100 \times 5 + 5 = 505\]
+</div>
+<table class="vals">
+<tr><th>Layer</th><th>Weights</th><th>Biases</th><th>Parameters</th></tr>
+<tr><td>Conv1</td><td>1,500</td><td>20</td><td>1,520</td></tr>
+<tr><td>Conv2-DW</td><td>180</td><td>20</td><td>200</td></tr>
+<tr><td>Conv2-PW</td><td>800</td><td>40</td><td>840</td></tr>
+<tr><td>FC1</td><td>12,544,000</td><td>100</td><td>12,544,100</td></tr>
+<tr><td>FC2</td><td>500</td><td>5</td><td>505</td></tr>
+</table>
+<div class="ans"><b>Network total = 1,520 + 200 + 840 + 12,544,100 + 505 = 12,547,165 parameters.</b> Note the classic pathology: FC1 alone holds ~99.98% of all parameters — the motivation for global average pooling in modern architectures (Lin et al., 2014).</div>
+
+<div class="part">(b) Standard 3 × 3 conv replacement and the reduction ratio &nbsp;[2]</div>
+<p>A single standard \(3\times3\) convolution producing 40 feature maps from the 20-channel input:</p>
+<div class="step">
+\[40 \times (3 \times 3 \times 20) + 40 = 40 \times 180 + 40 = 7200 + 40 = 7240\]
+</div>
+<p>The depthwise-separable block (DW + PW) uses \(200 + 840 = 1040\) parameters for the same input/output shape.</p>
+<div class="step">
+\[\text{Reduction ratio} = \frac{7240}{1040} \approx 6.96\times\]
+</div>
+<div class="ans"><b>Standard layer: 7,240 parameters; separable design: 1,040; reduction ≈ 7×.</b> This matches the theoretical factor \(\approx \frac{1}{C_{out}} + \frac{1}{K^2} = \frac{1}{40} + \frac{1}{9} \approx 0.136 \Rightarrow 7.3\times\) (biases account for the small gap) — the core efficiency argument of MobileNet (Howard et al., 2017).</div>
+
+<div class="part">(c) Conv1 output size under valid padding &nbsp;[2]</div>
+<p>With valid padding, \(P = 0\), \(K = 5\), \(S = 1\):</p>
+<div class="step">
+\[O = \frac{W - K + 2P}{S} + 1 = \frac{224 - 5 + 0}{1} + 1 = 220\]
+</div>
+<div class="ans"><b>Output after Conv1: 220 × 220 × 20</b> (depth unchanged — padding affects spatial size only, never the number of filters or parameters).</div>
+
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>Question 3 — IoU, Non-Maximum Suppression, and TP/FP Classification</h3><span class="marks">7 marks</span></div>
+<div class="q-body">
+<div class="qtext">Boxes (top-left, bottom-right, area, confidence): A (30,30)–(90,90), 3600, 0.88; B (40,40)–(100,100), 3600, 0.80; C (35,35)–(85,85), 2500, 0.72; D (150,150)–(200,200), 2500, 0.60.</div>
+<div class="sol">
+
+<div class="part">(a) IoU(A, B) and IoU(A, C) &nbsp;[2]</div>
+<p>Intersection rectangle: \(x\)-overlap \([\max(x_1^A, x_1^B),\ \min(x_2^A, x_2^B)]\), similarly for \(y\).</p>
+<div class="step">
+<p><b>IoU(A, B):</b> intersection spans \(x \in [40, 90]\), \(y \in [40, 90]\) → \(50 \times 50 = 2500\).</p>
+\[\text{Union} = 3600 + 3600 - 2500 = 4700,\qquad \text{IoU}(A,B) = \frac{2500}{4700} = 0.532\]
+</div>
+<div class="step">
+<p><b>IoU(A, C):</b> intersection spans \(x \in [35, 85]\), \(y \in [35, 85]\) → \(50 \times 50 = 2500\). C lies entirely inside A, so the intersection equals C's whole area.</p>
+\[\text{Union} = 3600 + 2500 - 2500 = 3600,\qquad \text{IoU}(A,C) = \frac{2500}{3600} = 0.694\]
+</div>
+<div class="ans"><b>IoU(A, B) = 2500/4700 ≈ 0.532; &nbsp; IoU(A, C) = 2500/3600 ≈ 0.694.</b></div>
+
+<div class="part">(b) NMS with IoU threshold 0.5, no confidence pre-filtering &nbsp;[3]</div>
+<p>Sort by confidence: A (0.88) &gt; B (0.80) &gt; C (0.72) &gt; D (0.60).</p>
+<ol class="tight">
+<li><b>Keep A</b> (highest confidence). Compare A against all remaining boxes:</li>
+<li>IoU(A, B) = 0.532 &gt; 0.5 → <b>suppress B</b>.</li>
+<li>IoU(A, C) = 0.694 &gt; 0.5 → <b>suppress C</b>.</li>
+<li>IoU(A, D): A occupies [30, 90]², D occupies [150, 200]² — no overlap, IoU = 0 ≤ 0.5 → D survives this round.</li>
+<li>Highest remaining is <b>D → keep D</b>. No boxes left to compare.</li>
+</ol>
+<div class="ans"><b>Surviving boxes: A and D.</b></div>
+
+<div class="part">(c) TP/FP against ground truth G = (30, 30, 90, 90) &nbsp;[1]</div>
+<div class="step">
+<p>Box A coincides exactly with G: intersection = union = 3600, so IoU(A, G) = 1.0 ≥ 0.5.</p>
+<p>Box D does not overlap G at all: IoU(D, G) = 0 &lt; 0.5.</p>
+</div>
+<div class="ans"><b>A is a true positive (IoU = 1.0); D is a false positive (IoU = 0).</b></div>
+
+<div class="part">(d) Confidence threshold 0.65 before NMS &nbsp;[1]</div>
+<p>Filtering the four original boxes at confidence ≥ 0.65: A (0.88) ✓, B (0.80) ✓, C (0.72) ✓, D (0.60) ✗ — <b>A, B, C remain</b>.</p>
+<p>NMS (threshold 0.5) on {A, B, C}: keep A; IoU(A, B) = 0.532 &gt; 0.5 suppresses B; IoU(A, C) = 0.694 &gt; 0.5 suppresses C.</p>
+<div class="ans"><b>Only box A survives.</b> Compared with (b), the confidence pre-filter removed the spurious far-away detection D before NMS ever ran — the standard two-stage cleanup in detection pipelines (score filtering, then per-class NMS).</div>
+
+</div>
+</div>
+</div>
+</section>
+
 
 </main>
 </div>
@@ -7098,7 +7267,8 @@ const courses = [
       {type:"section", label:"ML In-course 1", target:"t5"},
       {type:"section", label:"ML In-course 2", target:"t1"},
       {type:"section", label:"ML Final 2023", target:"t8"},
-      {type:"section", label:"ML Final 2025", target:"t2"}
+      {type:"section", label:"ML Final 2025", target:"t2"},
+      {type:"section", label:"ML In-course 2026", target:"t28"}
     ]
   },
   {
@@ -7161,11 +7331,24 @@ function hideAll(){
   if(window.innerWidth <= 760) sidebar.classList.remove('show');
   window.scrollTo({top:0});
 }
+const typesetDone = new Set();
+function typesetTab(id){
+  if(typesetDone.has(id)) return;
+  if(!(window.MathJax && MathJax.typesetPromise)) return;
+  typesetDone.add(id);
+  MathJax.typesetPromise([document.getElementById(id)]);
+}
 function showSection(id){
   hideAll();
   document.getElementById(id).classList.add('active');
-  if(window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise();
+  typesetTab(id);
 }
+(function initMath(){
+  if(window.MathJax && MathJax.typesetPromise){
+    const a = document.querySelector('.tab.active');
+    if(a) typesetTab(a.id);
+  } else setTimeout(initMath, 150);
+})();
 document.getElementById('menu-toggle').onclick = () => sidebar.classList.toggle('show');
 </script>
 </body>
