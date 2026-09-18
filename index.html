@@ -7704,6 +7704,1163 @@ Compute \(f_t, i_t, \tilde C_t, C_t, o_t, h_t\).</div>
 </section>
 
 
+<!-- ============================ TAB 31: HRI LECTURE 5 SUMMARY ============================ -->
+<section id="t31" class="tab">
+<div class="paper-head">
+  <h2>Lecture 5 — Verbal Interaction</h2>
+  <div class="meta">RME 4201 · Enumerated sections, classifications, and point-based lists</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>37–38. Lecture Contents · Human–Human Verbal Interaction</h3><span class="marks">Summary</span></div>
+<div class="q-body">
+<div class="sol">
+<div class="part">Lecture contents (seven modules)</div>
+<ol class="tight">
+<li><b>Human–human verbal interaction</b> — components of speech; written text vs. spoken language.</li>
+<li><b>Speech recognition</b> — basic principles; limitations; speech-recognition engines; practice and challenges in HRI.</li>
+<li><b>Voice-activity detection (VAD)</b>.</li>
+<li><b>Language understanding</b>.</li>
+<li><b>Dialogue management (DM)</b> — basic principles; practice in HRI.</li>
+<li><b>Speech production</b> — common approaches; practice in HRI; limitations.</li>
+<li><b>Conclusion</b>.</li>
+</ol>
+<div class="part">38.1 Core observation</div>
+<p>Speech is the most obvious mode of human communication, but it is highly ambiguous: the same sentence can shift meaning entirely through intonation or emphasis (e.g. "She said she did not take his money" read as belief, disbelief, or accusation). <b>Producing robot speech is far simpler than understanding human speech.</b></p>
+<div class="part">38.2 Components of speech (four units)</div>
+<ol class="tight">
+<li><b>Utterance</b> — the smallest unit in spoken language; separated by pauses; often less grammatical than written sentences.</li>
+<li><b>Words</b> — the smallest units that convey meaning.</li>
+<li><b>Phonemes</b> — the smallest sound units making up words (e.g. "pat" = [p][a][t]).</li>
+<li><b>Conversational fillers</b> — non-content sounds ("hmm," "uhm") that keep a conversation going and signal attentiveness.</li>
+</ol>
+<div class="part">38.3 Written text vs. spoken language</div>
+<ul class="tight">
+<li>Written text demands strict grammar and syntax; spoken language is far more liberal.</li>
+<li>Written text is unidirectional and must be precise and refined before delivery (it cannot be adjusted mid-delivery).</li>
+<li>Verbal communication allows real-time clarification of misunderstandings.</li>
+</ul>
+<div class="note">Conclusion: understanding verbal speech is far more challenging for robots than understanding text.</div>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>39. Speech Recognition</h3><span class="marks">Summary</span></div>
+<div class="q-body">
+<div class="sol">
+<div class="part">39.1 Definition</div>
+<p>Automated speech recognition (ASR) / speech-to-text (STT): recognition of spoken language by computer. Note that <b>recognition ≠ understanding</b>. Historically developed for device control and dictation, assuming a high-quality, close-range microphone in a low-noise environment.</p>
+<div class="part">39.2 Basic principles</div>
+<ul class="tight">
+<li>Starts with a digital recording (raising the question: at what sampling rate?).</li>
+<li>The raw signal is amplitude/volume over time — sufficient for playback, but not for transcription.</li>
+<li>The signal is converted to the frequency domain via the <b>Fourier transform</b>.</li>
+<li>Time and frequency information are needed jointly → represented via the <b>spectrogram</b>, computed from the squared magnitude of the Short-Time Fourier Transform (STFT).</li>
+<li><b>Discrete-time STFT</b> — the signal is split into overlapping frames of length \(L\), and DFT coefficients are computed per frame.</li>
+<li>Spectrograms are visualized as heat maps (frequency vs. time, colour = magnitude).</li>
+<li>Phonemes have distinct frequency-domain signatures (e.g. "o" vs. "a"), making them algorithmically distinguishable.</li>
+</ul>
+<div class="part">39.3 Worked example — analyzing "stop" via STFT</div>
+<p>Given \(f_s = 16\ \text{kHz}\), 0.5 s total duration, window \(N = 512\), hop \(H = 256\):</p>
+<ol class="tight">
+<li><b>Signal dimensions and framing</b> — 8,000 total samples → 30 STFT frames (11 frames for the 0.2 s "/s/" fricative, 19 for the "ah" vowel).</li>
+<li><b>Frequency bin mapping</b> — \(\Delta f = f_s/N = 31.25\ \text{Hz}\); the 6 kHz "/s/" energy falls in bin \(k \approx 192\); the 800 Hz vowel formant falls in bin \(k \approx 26\).</li>
+<li><b>Resolution trade-off</b> — a 512-sample window equals 32 ms duration; enlarging the window (e.g. to 1024 samples) improves frequency resolution but blurs time resolution. This time/frequency trade-off is the <b>Gabor Limit (Acoustic Uncertainty Principle)</b>.</li>
+</ol>
+<div class="part">39.4 State of the art</div>
+<p>Large deep neural networks (DNNs) now dominate ASR, offering significantly better accuracy, robustness to background noise / crowded environments / ill-formed speech, and speaker-independence (including across genders).</p>
+<div class="part">39.5 Limitations</div>
+<p>ASR still struggles with atypical speech, under-represented speaker groups (children, elderly), local dialects and non-native accents, noisy / reverberant / crowded environments, and proper nouns.</p>
+<div class="part">39.6 Speech-recognition engines</div>
+<p>Language-specific software trained on thousands of hours of transcribed speech; may be <b>constrained</b> (e.g. digit recognition only) or <b>unconstrained</b>. The best-performing engines are typically commercial/paid rather than open-source.</p>
+<div class="part">39.7 Practice in HRI</div>
+<ul class="tight">
+<li>DNN-based ASR is computationally heavy → usually a <b>cloud-based remote service</b>, which frees onboard compute but requires reliable internet.</li>
+<li>On-board alternatives use reduced, lower-performance DNNs when connectivity isn't guaranteed.</li>
+<li>Engines expose simple APIs, often returning a <b>confidence score</b> and sometimes alternative transcriptions.</li>
+</ul>
+<div class="part">39.8 Challenges in HRI</div>
+<p>The human speaker is often at a distance from the robot (degrading recording quality), and the robot's microphone also picks up ambient noise. Solutions: close-miking (lapel/headset), signal processing, and directional microphone arrays — though many robots lack this hardware.</p>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>40. Voice-Activity Detection (VAD)</h3><span class="marks">Summary</span></div>
+<div class="q-body">
+<div class="sol">
+<div class="part">40.1 Purpose</div>
+<p>In situations where full ASR is difficult (noise, etc.), VAD lets a robot respond in a limited way by distinguishing speech from silence or other acoustic events — even differentiating music from talking. Deep learning has recently improved VAD performance.</p>
+<div class="part">40.2 Primary classification features (three)</div>
+<table class="vals">
+<tr><th>Feature</th><th>Description</th></tr>
+<tr><td><b>Short-Term Energy</b></td><td>Sum of squared, windowed amplitudes per frame; high energy → voiced phonemes, low energy → silent pauses. Formula: \(E_m = \sum [s(n)\cdot w(n)]^2\).</td></tr>
+<tr><td><b>Zero Crossing Rate (ZCR)</b></td><td>Counts sign changes of the signal per frame; high ZCR highlights fricatives, unvoiced consonants, or high-frequency noise.</td></tr>
+<tr><td><b>Spectral Dynamics</b></td><td>Uses STFT-based features (spectral flux, centroid shifts, entropy, subband SNR) to separate voice from stationary or broadband noise in difficult acoustic conditions.</td></tr>
+</table>
+<div class="part">40.3 In HRI</div>
+<ul class="tight">
+<li>VAD gives users the impression the robot is "listening."</li>
+<li>It enables turn-taking without true speech understanding.</li>
+<li>Combined with <b>sound-source localization</b> (multi-microphone setups), it lets the robot visually orient toward whoever is speaking.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>41. Language Understanding in HRI</h3><span class="marks">Summary</span></div>
+<div class="q-body">
+<div class="sol">
+<div class="part">41.1 Sentiment analysis</div>
+<p>Extracts affect from an utterance; matured from social-media text analysis. In speech, <b>prosody</b> and amplitude offer additional cues beyond text. Typically returns a scalar positive/negative score.</p>
+<div class="part">41.2 Natural language understanding (NLU)</div>
+<p>Powered increasingly by LLMs and chatbots; extracts keywords and entities (commands, locations, people, events, dates) from transcribed text to drive appropriate responses. Common in personal digital assistants.</p>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>42. Dialogue Management (DM)</h3><span class="marks">Summary</span></div>
+<div class="q-body">
+<div class="sol">
+<div class="part">42.1 Basic principle</div>
+<p>DM keeps a multi-turn conversation flowing — needed once an interaction goes beyond a single instruction (e.g. "I'd like to order something"). The manager tracks <b>conversational state</b>, which can be application-specific (e.g. pizza order details) or generic.</p>
+<div class="part">42.2 Complexity levels (four)</div>
+<ol class="tight">
+<li><b>Restricted</b> — closed, well-contextualized tasks (registration, forms, orders).</li>
+<li><b>System-initiative</b> — the agent asks; the user only answers, with no course-changing.</li>
+<li><b>User-initiative</b> — the user leads; the system intervenes only when needed.</li>
+<li><b>Mixed-initiative</b> — a combination of the above.</li>
+</ol>
+<div class="part">42.3 Simple dialogue managers</div>
+<p>Script-based, often a linear flow; conditions and branches add flexibility — essentially <b>finite-state machines (FSMs)</b>. Example: SoftBank's <b>QiChat</b> (used on Nao and Pepper), which matches keywords/concepts to scripted responses.</p>
+<div class="part">42.4 Advanced DM</div>
+<ul class="tight">
+<li><b>Event-based DM</b> allows interruption of the flow by external events (e.g. asking for the time mid-order) and supports nonlinear dialogue.</li>
+<li>More advanced systems use a <b>planner</b> that tracks system state and available actions, so the developer needn't script every path explicitly — the planner determines which actions are still needed.</li>
+</ul>
+<div class="part">42.5 Practice in HRI</div>
+<p>Event-based DMs are most popular for commercial interactions due to their flexibility; however, <b>no DM approach is well suited to fully free-flowing, open conversation</b>.</p>
+<div class="part">42.6 Back-channeling</div>
+<ul class="tight">
+<li>Listener signals ("uh-huh," "really?") showing engagement.</li>
+<li>Robots can use verbal back-channels (nonlexical or phrasal) plus nonverbal cues (blinking lights, a gentle hum).</li>
+<li>Timing is a key challenge, since it depends on the speaker's verbal and nonverbal cues.</li>
+<li><b>Park et al. (2017)</b> found children preferred robots using a contingent back-channel prediction model.</li>
+</ul>
+<div class="part">42.7 Role of timing</div>
+<ul class="tight">
+<li>Delayed responses feel disturbing; overly fast responses can feel insincere.</li>
+<li>Cognitive load slows responses; yes/no answers are faster than fully formed replies (<b>Walczyk et al., 2003</b>).</li>
+<li>"Yes" answers average ≈ 100 ms; responses to undesired offers average almost 500 ms (<b>Strömbergsson et al., 2013</b>).</li>
+<li>Robots are generally slower than humans due to sequential DM processing. Mitigations: conversational fillers, visual "thinking" signals, just-in-time speech synthesis, and incremental spoken-dialogue processing.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>43–44. Speech Production · Conclusion</h3><span class="marks">Summary</span></div>
+<div class="q-body">
+<div class="sol">
+<div class="part">43.1 Common approaches (two)</div>
+<ol class="tight">
+<li><b>Concatenative TTS</b> — an actor's voice is recorded, cut into phonemes, and glued/smoothed together; sounds natural but is inflexible (new voices require full re-recording).</li>
+<li><b>Parametric TTS</b> — a model generates acoustic parameters from text; more flexible and customizable, historically at the cost of naturalness (improved via generative DNNs).</li>
+</ol>
+<div class="part">43.2 Practice in HRI</div>
+<ul class="tight">
+<li>The voice should match the robot's form and application (e.g. a small robot shouldn't have a commanding baritone).</li>
+<li>Sometimes an artificial-sounding voice better fits an artificial agent than a hyper-natural one.</li>
+<li><b>Eyssel et al. (2012a)</b> — voice gender affects social perception: robots with male voices are anthropomorphized and evaluated more favourably by men than women, and vice versa.</li>
+</ul>
+<div class="part">43.3 Limitations</div>
+<p>Adaptive prosody and emotion are still mostly research-stage; synthesized voices don't adapt to context (e.g. a robot should lower its volume in a quiet room but project to a crowd).</p>
+<div class="part">44. Conclusion</div>
+<ul class="tight">
+<li>Language is complex due to both vocabulary scale and context-dependent meaning (speaker relationships, task, prosody).</li>
+<li>Enabling rich robot communication is a core HRI goal; existing tools for speech analysis, synthesis, and production allow partial verbal HRI without building from scratch.</li>
+<li>Fully open-ended natural-language conversation remains a major open challenge, but <b>constrained verbal interaction is already deployable</b> on robotic platforms.</li>
+</ul>
+</div>
+</div>
+</div>
+
+</section>
+
+<!-- ============================ TAB 32: HRI LECTURE 6 SUMMARY ============================ -->
+<section id="t32" class="tab">
+<div class="paper-head">
+  <h2>Lecture 6 — Nonverbal Interaction</h2>
+  <div class="meta">RME 4201 · Enumerated sections, classifications, and point-based lists</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>45–46. Lecture Contents · Nonverbal Interaction: What and Why?</h3><span class="marks">Summary</span></div>
+<div class="q-body">
+<div class="sol">
+<div class="part">Lecture contents (six modules)</div>
+<ol class="tight">
+<li>Nonverbal interaction: what and why?</li>
+<li>Functions of nonverbal cues in interaction.</li>
+<li><b>Types of nonverbal interaction</b> — (a) gaze and eye movement; (b) gesture; (c) mimicry and imitation; (d) touch; (e) posture and movement; (f) interaction rhythm and timing.</li>
+<li>Importance of context.</li>
+<li>Nonverbal interaction in robots.</li>
+<li>Conclusion.</li>
+</ol>
+<div class="part">46.1 Definition and rationale</div>
+<ul class="tight">
+<li>Nonverbal communication conveys messages without words, using cues such as facial expressions, body language, and gestures.</li>
+<li>Nonverbal cues are used to interpret the nuances of meaning, emotion, and intention of others.</li>
+<li>Researchers have used nonverbal cues to predict social behaviour — e.g. predicting which couples will break up within a six-year period.</li>
+<li>Being unable to produce and decipher nonverbal cues appropriately makes interaction quite challenging (analogous to the confusion one might feel visiting a new country).</li>
+</ul>
+<div class="part">46.2 Nonverbal cues in robots</div>
+<ul class="tight">
+<li>Nonverbal cues are actively used in combination with speech to enrich interactions with a robot.</li>
+<li><b>Kismet</b>, one of the first social robots, used postural cues (pulling back or leaning forward) to engage people in interaction.</li>
+<li><b>Keepon</b>, a minimalist social robot, uses gaze and reactive motion to express attention and affect.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>47. Functions of Nonverbal Cues in Interaction</h3><span class="marks">Summary</span></div>
+<div class="q-body">
+<div class="sol">
+<div class="part">47.1 In human–human interaction</div>
+<ul class="tight">
+<li>Nonverbal cues allow people to communicate important information "between the lines."</li>
+<li>They communicate thoughts, emotions, and attention more subtly and indirectly than verbal expression.</li>
+<li>Nonverbal communication signals mutual understanding, shared goals, and common ground.</li>
+<li><b>Example</b> — a person's nonverbal cues (brief glances, frowning, avoiding physical contact) may betray true feelings even while verbal chitchat remains friendly, often without the person being aware of the incongruence.</li>
+</ul>
+<div class="part">47.2 In human–robot interaction</div>
+<ul class="tight">
+<li>Nonverbal cues produced by a person during HRI can indicate enjoyment of the interaction and liking of the robot.</li>
+<li>These cues act as a measure of attitude and engagement, and can be used to guide robot behaviour.</li>
+<li><b>Example</b> — a robot that turns its head and makes eye contact when spoken to seems to be attending, making the interaction feel natural. Conversely, a robot that stares straight ahead and fails to acknowledge presence or speech causes the interaction to break down, even if the exact cause is hard to pinpoint (missing "social glue").</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>48. Types of Nonverbal Interaction (Six Categories)</h3><span class="marks">Summary</span></div>
+<div class="q-body">
+<div class="sol">
+<ol class="tight">
+<li>Gaze and eye movement</li>
+<li>Gesture</li>
+<li>Mimicry and imitation</li>
+<li>Touch</li>
+<li>Posture and movement</li>
+<li>Interaction rhythm and timing</li>
+</ol>
+
+<div class="part">48.1 Gaze and eye movement — functions</div>
+<ul class="tight">
+<li>Gaze is a subtle and important cue for managing social interaction.</li>
+<li>Signals interest, understanding, attention, and willingness/ability to follow a conversation.</li>
+<li>Facilitates functional interactions and collaboration (e.g. handing an object, directing attention to a needed tool).</li>
+<li>Serves as a way of soliciting and keeping another person's attention, e.g. managing turn-taking.</li>
+<li>Eye-tracking methodology used to assess gaze patterns can provide insight into information processing and human cognition.</li>
+</ul>
+
+<div class="part">48.2 Gaze and eye movement — joint attention</div>
+<ul class="tight">
+<li><b>Joint attention</b> — interaction partners attending to the same area or object at the same time; a well-established component of human gaze behaviour.</li>
+<li>Achieving joint attention depends on the <b>timing and synchrony</b> of gaze behaviour.</li>
+<li>Studied in HRI as: (i) a way of producing smoother communication; (ii) a fundamental capability for robots that learn from humans; (iii) a tool for helping children with autism develop this social skill.</li>
+</ul>
+
+<div class="part">48.3 Gaze and eye movement — use in HRI</div>
+<ul class="tight">
+<li>Robot gaze cues most often produce effects similar to human gaze cues.</li>
+<li>Gaze cues can assign conversational roles (addressee, bystander, nonparticipant); in multiparty interaction, a robot's gaze can control who speaks next.</li>
+<li>A robot's gaze cues (modelled on human gaze) during storytelling affected how well people remembered story content — people who received sustained gaze contact recalled more details.</li>
+</ul>
+
+<div class="part">48.4 Gesture — categories (four types)</div>
+<ol class="tight">
+<li><b>Deictic gestures</b> — pointing to specific things in the environment; important for establishing joint attention.</li>
+<li><b>Iconic gestures</b> — accompany speech and illustrate what is being said (e.g. opening arms wide while describing holding a big ball).</li>
+<li><b>Symbolic gestures</b> — carry meaning on their own, with or without speech (e.g. waving for hello/goodbye).</li>
+<li><b>Beat gestures</b> — follow the rhythm of speech, resembling conducting an invisible orchestra.</li>
+</ol>
+<div class="note">Gestures can also emphasize particular moments during speech (e.g. lifting hands while saying "what?" in surprise).</div>
+
+<div class="part">48.5 Gesture — in HRI</div>
+<ul class="tight">
+<li>Gestures are a powerful way of enhancing spoken communication.</li>
+<li>A robot may gesture through arms/hands or other body parts (head, ears, tail).</li>
+<li>Shape, timing, naturalness, and smoothness of gestures affect people's perceptions and understanding (<b>Bremner et al., 2009</b>).</li>
+<li><b>Salem et al. (2013)</b> showed that including gestures alongside speech made the ASIMO robot in their study be perceived as more anthropomorphic and likable.</li>
+</ul>
+
+<div class="part">48.6 Mimicry and imitation — definitions</div>
+<ul class="tight">
+<li><b>Mimicry</b> — unconscious replication of another person's behaviour; indirectly signals positive affect and liking for an interaction partner. Shared gestures/postures usually indicate a positive relationship; nonverbal cues out of sync signal poor communication.</li>
+<li><b>Imitation</b> — conscious replication of another's behaviour.</li>
+<li>In humans, mimicry and imitation serve developmental functions (e.g. children mimicking accents or family expressions) and help adults blend into social/cultural surroundings (e.g. gesturing more emphatically while speaking Italian) — important for developing in-group identity.</li>
+</ul>
+
+<div class="part">48.7 Mimicry and imitation — in HRI</div>
+<ul class="tight">
+<li>A large, growing body of literature exists on <b>robot learning by imitation</b>, where robots record and reproduce human actions.</li>
+<li><b>Riek et al. (2010)</b> — an ape-like robot mimicking users' head gestures made a positive contribution to interaction.</li>
+<li><b>Wills et al. (2016)</b> — a robot mimicking facial expressions and displaying socially contingent head poses received more monetary donations than a non-mimicking robot.</li>
+<li>Imitation and mimicry can be used as conscious and unconscious social cues in HRI to improve interaction and persuade people to follow a robot's suggestions.</li>
+</ul>
+
+<div class="part">48.8 Touch</div>
+<ul class="tight">
+<li>Touch is a nonverbal cue often involved in close human interactions — used deliberately to calm or console someone, and incidentally with people we like or feel attracted to.</li>
+<li><b>Midas effect</b> — waiters/waitresses who incidentally touch customers before payment receive higher tips (<b>Crusco and Wetzel, 1984</b>).</li>
+<li>Touch does not always have positive effects, particularly between people identifying with different social groups.</li>
+</ul>
+
+<div class="part">48.9 Touch — in HRI</div>
+<ul class="tight">
+<li>Tactile interaction with animal-like robots (e.g. <b>Paro</b>) shows people can feel less stressed and anxious when initiating such interactions (<b>Shibata, 2012</b>; <b>Yohanan and MacLean, 2012</b>).</li>
+<li><b>Chen et al. (2014)</b> — people did not mind being touched by a robot in a nursing scenario, but rated <b>functional touch</b> (e.g. cleaning an arm) more positively than <b>affective touch</b> (e.g. comforting).</li>
+<li><b>Wullenkord et al. (2016)</b> — negative consequences of touch with the robot Nao:
+  <ul class="tight">
+  <li>Participants reported attitudes toward Nao, then touched the robot as part of a task, then reported attitudes again.</li>
+  <li>Overall, contact improved attitudes (more positive, less negative) compared to no-touch interaction.</li>
+  <li>However, participants with particularly negative emotions toward robots at the onset experienced the opposite effect, with more negative perceptions after touching the robot.</li>
+  </ul>
+</li>
+</ul>
+
+<div class="part">48.10 Posture and movement</div>
+<ul class="tight">
+<li>Along with facial expression, posture helps interpret a person's emotional state.</li>
+<li>Slow movements, drooping shoulders, and lethargic gestures suggest a downcast state of mind; fast movements and upright bearing suggest a positive attitude.</li>
+<li>Postural cues are especially important when the face is not visible, but add information even when it is.</li>
+<li>Posture signals attention, engagement, and attraction: e.g. a defensive posture (arms held in front) vs. open arms as an invitation for engagement.</li>
+<li>Relative posing between people conveys information — e.g. knees turned toward each other shows willing engagement; turning partly away signals a desire to disengage.</li>
+</ul>
+
+<div class="part">48.11 Posture and movement — in HRI</div>
+<ul class="tight">
+<li>Bodily posture provides an additional layer of expressiveness, especially when a robot lacks expressive facial features.</li>
+<li><b>Beck et al. (2010)</b> — affective body postures improve people's understanding of a robot's emotional state.</li>
+<li><b>Xu et al. (2014)</b> — people could interpret robots' affective body postures and also adopted the emotions they perceived the robot to be showing.</li>
+<li><b>Micromovements</b> — barely perceptible motions (small, random actuator perturbations) convey the impression that a robot is lifelike; velocity and amplitude of such motion can signal the robot's excitement level. Successfully used on pet-like small robots.</li>
+</ul>
+
+<div class="part">48.12 Interaction rhythm and timing</div>
+<ul class="tight">
+<li>The "rhythmicity" and "synchrony" of interaction form a largely unconscious but crucial component of human communication.</li>
+<li>Human interaction functions as a <b>coupled system</b>: partners become "rhythmically entrained" to each other's actions — not necessarily acting simultaneously, but to the same beat.</li>
+<li>Rhythmicity keeps partners attuned to each other's communicative cues (looking, speaking, moving at the right time) for clear and smooth communication.</li>
+<li>Being out of synchrony implies missed social signals and an inability to interpret a partner's behaviour.</li>
+<li><b>Michalowski et al. (2007)</b> — a robot rhythmically entrained with a human partner is perceived as more lifelike than a robot moving rhythmically but out of sync with the human.</li>
+</ul>
+
+<div class="note"><b>48.13 Discussion prompt</b> — Think of a robot use case (e.g. a robotic tour guide): which aspect of nonverbal behaviour is particularly relevant for that scenario?</div>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>49. Importance of Context</h3><span class="marks">Summary</span></div>
+<div class="q-body">
+<div class="sol">
+<div class="part">49.1 Cultural and social context</div>
+<ul class="tight">
+<li>Nonverbal communication always occurs in a specific context, which determines whether a given nonverbal signal is appropriate.</li>
+<li>This context may be restricted by social and cultural norms.</li>
+<li><b>Example</b> — Western societies shake hands for a formal greeting; Japan uses bowing, where the degree of bow signals social status/hierarchy.</li>
+<li>Continuous eye contact or physical touch — natural in a conversation with a Westerner — may be interpreted as threatening or rude elsewhere.</li>
+<li><b>East Asian cultures</b> (Japan, China, South Korea) — prolonged eye contact can signal defiance, disrespect, or aggression, especially toward a superior or elder; Japanese children are often taught to look at a person's neck or chest rather than their eyes to show respect.</li>
+</ul>
+<div class="part">49.2 Context and culture — in HRI</div>
+<ul class="tight">
+<li>Recent HRI research addresses culturally sensitive interaction design, including the role of nonverbal cues in cross-cultural deployment of social robots.</li>
+<li><b>Example</b> — a UK–Japan collaboration developing culturally competent care robots, including cultural knowledge representations, culturally sensitive planning/execution, and culturally appropriate multimodal HRI (<b>Bruno et al., 2017</b>).</li>
+<li>Designing HRI to meet social norms and cultural expectations can determine the difference between a successful product and a wasted investment.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>50–51. Nonverbal Interaction in Robots · Conclusion</h3><span class="marks">Summary</span></div>
+<div class="q-body">
+<div class="sol">
+<div class="part">50.1 Robot perception of nonverbal cues — sensing</div>
+<ul class="tight">
+<li>Typical systems use cameras, depth cameras, or user-worn sensors to record a time series of data.</li>
+<li>Specialized equipment (eye trackers, motion-capture systems) may be added to capture nonverbal cues relevant for interaction.</li>
+<li>For tactile interaction, some research has used film-type piezoelectric polymer sensors.</li>
+</ul>
+<div class="part">50.2 Robot perception of nonverbal cues — algorithm</div>
+<ul class="tight">
+<li>Standard pattern-recognition techniques allow robots to perceive and identify human nonverbal cues.</li>
+<li>Machine learning is typically used (rather than hand-written rules) to recognize gestures and other nonverbal cues.</li>
+<li><b>Process</b> — (i) collect a labelled database (often thousands to millions of data points); (ii) train a classifier iteratively, improving as more data is processed; (iii) deploy the classifier on the robot once performance is sufficient.</li>
+</ul>
+<div class="part">50.3 Current challenges in robot perception</div>
+<ul class="tight">
+<li><b>Multimodal complexity and synchronization</b> — robots struggle to fuse multi-sensor data in real time into a coherent "social state"; interpretation must happen within milliseconds to feel natural.</li>
+<li><b>Contextual and cultural relativism</b> — nonverbal cues are not universal.</li>
+<li><b>Ambiguity and subtlety</b> — humans produce "micro-cues" nearly invisible to standard robotic sensors.</li>
+<li><b>The "Uncanny Valley" of perception</b> — if a highly realistic android fails to notice visible distress (slumped shoulders, quiet voice), the "betrayal" of expectation is greater than the same failure in a boxy, mechanical robot.</li>
+</ul>
+<div class="part">50.4 Summary of technical hurdles (as of 2026)</div>
+<table class="vals">
+<tr><th>Challenge</th><th>Impact on robot</th><th>2026 status</th></tr>
+<tr><td><b>Gaze tracking</b></td><td>Robot doesn't know what you're looking at.</td><td>High accuracy in labs; poor in groups.</td></tr>
+<tr><td><b>Affective touch</b></td><td>Robot can't tell a "hostile" push from a "friendly" tap.</td><td>Emerging; requires "electronic skin."</td></tr>
+<tr><td><b>Sarcasm detection</b></td><td>Robot takes the literal meaning of "Oh, great."</td><td>Improving with LLM/audio fusion.</td></tr>
+<tr><td><b>Long-term memory</b></td><td>Robot forgets your unique "baseline" behaviour.</td><td>Major hurdle; robots treat every interaction as "Day 1."</td></tr>
+</table>
+<div class="part">50.5 Generating nonverbal cues — animation framework</div>
+<ul class="tight">
+<li>HRI poses particular challenges for perception and generation of nonverbal cues, since both must happen in real time.</li>
+<li>The simplest and most frequently used approach generates motion via an <b>animation framework</b>.</li>
+<li>A designer controls each joint angle to set a posture — called a <b>"key frame."</b></li>
+<li>After preparing multiple key frames, the system <b>interpolates</b> between them to generate smooth motion.</li>
+<li>This requires extensive designer effort; GUIs are often used to reduce the motion-design workload.</li>
+</ul>
+<div class="part">50.6 Generating nonverbal cues — cognitive mechanisms</div>
+<ul class="tight">
+<li>An alternative approach endows the robot with <b>artificial cognition</b>, an artificial equivalent of natural cognition.</li>
+<li>The expectation is that natural interaction behaviour <b>emerges</b> when the robot is controlled by artificial cognitive mechanisms.</li>
+<li>This is a <b>constructivist</b> approach, in contrast to explicitly hand-scripting the robot's nonverbal behaviour.</li>
+</ul>
+<div class="part">51. Conclusion</div>
+<ul class="tight">
+<li>Existing research illustrates the relevance of nonverbal communication in HRI, while making clear that much more work is needed before robots can act and react in humanlike, natural ways during everyday communication.</li>
+<li>Implementing nonverbal cues into robots' communicative repertoire still requires further technical advancement and refinement, particularly because nonverbal cues represent such subtle aspects of communication.</li>
+</ul>
+</div>
+</div>
+</div>
+
+</section>
+
+<!-- ============================ TAB 33: HRI LECTURE 7 SUMMARY ============================ -->
+<section id="t33" class="tab">
+<div class="paper-head">
+  <h2>Lecture 7 — Emotion</h2>
+  <div class="meta">RME 4201 · Enumerated sections, classifications, and point-based lists</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>52–53. Lecture Contents · Affect, Emotion, and Mood</h3><span class="marks">Summary</span></div>
+<div class="q-body">
+<div class="sol">
+<div class="part">Lecture contents (three modules)</div>
+<ol class="tight">
+<li><b>Human emotions</b> — (a) affect, emotion, and mood; (b) importance in interaction; (c) understanding human emotions; (d) when emotions go wrong.</li>
+<li><b>Emotions for robots</b> — (a) emotion interaction strategies; (b) artificial perception of emotions; (c) expressing emotions with robots; (d) emotion models.</li>
+<li><b>Challenges in affective HRI</b>.</li>
+</ol>
+<div class="part">53.1 Definitions</div>
+<ul class="tight">
+<li><b>Affect</b> is a comprehensive term encompassing the entire spectrum of emotionally laden responses — from quick, subconscious responses to an external event, to complex moods (such as love) that linger for longer.</li>
+<li>Within affect, a distinction is made between <b>emotions</b> and <b>moods</b>.</li>
+</ul>
+<div class="part">53.2 Emotions vs. moods</div>
+<table class="vals">
+<tr><th></th><th>Emotions</th><th>Moods</th></tr>
+<tr><td><b>Cause</b></td><td>Usually caused by an identifiable source (an event, or seeing emotions in others).</td><td>Often lack a clear cause and object; result from an interaction between environmental, incidental, and cognitive processes.</td></tr>
+<tr><td><b>Direction</b></td><td>Often externalized and directed at a specific object or person.</td><td>More diffuse and internal.</td></tr>
+<tr><td><b>Duration</b></td><td>Shorter-lived.</td><td>Longer-lasting.</td></tr>
+<tr><td><b>Example</b></td><td>Happiness at a promotion; anger when a phone battery dies during an important call.</td><td>An apprehensive mood while awaiting medical test results; a warm mood from a sunny week with friends.</td></tr>
+</table>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>54. Human Emotions: Importance in Interaction</h3><span class="marks">Summary</span></div>
+<div class="q-body">
+<div class="sol">
+<div class="part">54.1 Evolutionary role</div>
+<p>From an evolutionary perspective, emotions are necessary for survival: they help individuals respond to environmental factors that promote or threaten survival, prepare the body for behavioural responses, aid decision-making, and facilitate interpersonal interaction.</p>
+<div class="part">54.2 Information function (two roles)</div>
+<p>Emotions provide the outside world with information about one's internal affective state, which helps others in two ways:</p>
+<ol class="tight">
+<li><b>Information about the self and future actions</b> — e.g. displaying anger or frustration signals a possible aggressive response.</li>
+<li><b>Information about the environment</b> — e.g. an expression of fear may alert others to a fast-approaching threat (such as a grizzly bear) before there is time to scream.</li>
+</ol>
+<div class="note">Successful communication of emotions promotes survival, enhances social bonds, and minimizes the chances of social rejection and interpersonal physical aggression.</div>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>55–56. Understanding Human Emotions · When Emotions Go Wrong</h3><span class="marks">Summary</span></div>
+<div class="q-body">
+<div class="sol">
+<div class="part">55.1 The difficulty of listing emotions</div>
+<ul class="tight">
+<li>It is impossible to provide a definitive list of emotions because they vary between people and cultures; language does not map perfectly onto emotions, and some emotions overlap.</li>
+<li>Some emotions are nonetheless considered more universal than others — <b>anger, sadness, and happiness</b> are likely candidates for a set of core emotions.</li>
+<li><b>Aristotle</b> believed there were 14 different emotions, including anger, love, and mildness.</li>
+<li><b>Ekman</b> lists 15 basic emotions, including pride in achievement, relief, satisfaction, sensory pleasure, and shame.</li>
+</ul>
+<div class="part">55.2 Basic vs. secondary emotions</div>
+<ul class="tight">
+<li><b>Basic (primary) emotions</b> — considered universal across cultures; quick, gut-level responses; include amusement, anger, surprise, disgust, and fear.</li>
+<li><b>Reactive (secondary) emotions</b> — reactive and reflective, differing across cultures; examples include pride, remorse, and guilt.</li>
+<li>No consensus exists on which emotions belong in each category; some scholars argue basic emotions do not exist at all.</li>
+</ul>
+<div class="part">55.3 Dimensional challenge to discrete categories</div>
+<ul class="tight">
+<li><b>Russell (1980)</b> argued that emotions are cognitive interpretations of sensations produced by two independent neurophysiological systems: <b>arousal</b> and <b>valence</b>.</li>
+<li>Emotions are thus spread across a two-dimensional continuum rather than composed of a set of discrete, independent basic emotions.</li>
+<li>This model has been widely studied and confirmed across different languages and cultures (<b>Russell et al., 1989</b>; <b>Larsen and Diener, 1992</b>).</li>
+</ul>
+<div class="part">56.1 Failures of emotional understanding</div>
+<ul class="tight">
+<li>The importance of emotions in social interaction becomes especially clear when one partner fails to understand the other's emotion or fails to respond with the proper emotion (e.g. misinterpreting sarcasm as genuine, leading to misunderstanding and hurt feelings).</li>
+<li>Problems with emotional responsiveness are a defining symptom of, e.g., <b>depression</b>: depressed individuals can understand others' feelings and express their own emotional state, but show a reduced emotional response to positive stimuli such as rewards.</li>
+<li>Some people may be incapable of recognizing, expressing, or interpreting another person's emotions — e.g. people with <b>autism spectrum disorders</b> may find it difficult to correctly interpret displays of emotion.</li>
+<li>People may also have trouble expressing their emotional state, e.g. when facial muscles are impaired after a stroke — making it hard for interaction partners to infer their internal states.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>57–58. Emotions for Robots · Emotion Interaction Strategies</h3><span class="marks">Summary</span></div>
+<div class="q-body">
+<div class="sol">
+<div class="part">57.1 Why emotions matter in HRI</div>
+<ul class="tight">
+<li>Emotions are considered an important communication channel in HRI.</li>
+<li>When a robot expresses emotion, people tend to ascribe it a level of <b>social agency</b>.</li>
+<li>A robot not programmed to share, understand, or express emotion risks being interpreted as disinterested, cold, or plain rude.</li>
+<li>Even without explicit emotional design, users may still interpret a robot's behaviour as if it were motivated by emotional states.</li>
+</ul>
+<div class="part">58.1 Mimicry as a strategy</div>
+<ul class="tight">
+<li>A robot can use <b>mimicry</b> as a simple interaction strategy: it requires only that the robot recognize an emotion in the human and reflect it back.</li>
+<li><b>Exception: anger</b> — however satisfying it may feel initially, responding to an angry person by yelling back usually does not facilitate mutual understanding.</li>
+</ul>
+<div class="part">58.2 Expectation management</div>
+<ul class="tight">
+<li>When users perceive a robot as emotionally responsive, they may extend that observation to expectations about the robot's compliance with other social norms.</li>
+<li><b>Example</b> — a user may expect the robot to remember to ask about a confrontational meeting he was upset about the previous night; if the robot simply wishes him "have a great day at work!" the following morning, he may be disappointed in the robot's social skills.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>59. Artificial Perception of Emotions (Three Modalities)</h3><span class="marks">Summary</span></div>
+<div class="q-body">
+<div class="sol">
+<div class="part">59.1 Modality 1 — Visual cues</div>
+<ul class="tight">
+<li>The most typical approach uses computer vision to extract emotion from <b>facial cues</b>.</li>
+<li>Given a labelled dataset of human (frontal) faces, machine-learning systems (including deep learning) can extract features to recognize a range of facial emotions.</li>
+<li><b>Example</b> — smile recognition, now broadly implemented in digital cameras.</li>
+<li>Affect recognition may also draw on other visual cues, such as <b>walking patterns</b>, removing the need for a clear view of the user's face.</li>
+</ul>
+<div class="part">59.2 Modality 2 — Speech</div>
+<ul class="tight">
+<li>Human speech is perhaps the second most important channel for extracting emotion.</li>
+<li><b>Prosody</b> — the patterns of stress and intonation in spoken language — can be used to read the speaker's emotional state.</li>
+<li><b>Example</b> — happy people tend to talk with a higher pitch; sad people tend to speak slowly and with a lower pitch.</li>
+</ul>
+<div class="part">59.3 Modality 3 — Other modalities</div>
+<ul class="tight">
+<li>A robot can sense human affect through other modalities, such as <b>skin conductance</b>, which changes in response to an individual's affective state.</li>
+<li>A prominent example of skin-conductance measurement is the <b>polygraph</b> (lie detector).</li>
+<li>Skin-conductance sensors have been tried in HRI, with only limited success.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>60. Expressing Emotions with Robots</h3><span class="marks">Summary</span></div>
+<div class="q-body">
+<div class="sol">
+<div class="part">60.1 Facial expression approach</div>
+<ul class="tight">
+<li>The most common approach mimics the way people display emotions through the face.</li>
+<li><b>Ekman's Facial Action Coding System (FACS)</b> groups human facial muscles as <b>action units (AUs)</b> and describes emotions as combinations of AUs (<b>Ekman and Friesen, 1978</b>).</li>
+<li><b>Example</b> — a happy face (smiling) involves the <i>orbicularis oculi</i> (raises the cheek, AU6) and the <i>zygomaticus major</i> (raises the corners of the mouth, AU12).</li>
+</ul>
+<div class="part">60.2 Robots using simplified facial musculature</div>
+<ol class="tight">
+<li><b>Kismet</b> (Breazeal and Scassellati, 1999)</li>
+<li><b>Eddie</b> (Sosnowski et al., 2006)</li>
+<li><b>iCat</b> (van Breemen et al., 2005)</li>
+<li><b>eMuu</b> (Bartneck, 2002)</li>
+</ol>
+<div class="part">60.3 Beyond the face</div>
+<ul class="tight">
+<li>Robots can also express emotion through humanlike modalities such as <b>body movements</b> and <b>prosody</b>.</li>
+<li>Even non-anthropomorphic robots can express affect by adjusting their <b>navigational trajectories</b>.</li>
+<li><b>Example</b> — a cleaning robot (<b>Saerbeck and Bartneck, 2010</b>) and a flying robot (<b>Sharma et al., 2013</b>) displayed affect by adapting particular motion patterns.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>61. Emotion Models</h3><span class="marks">Summary</span></div>
+<div class="q-body">
+<div class="sol">
+<div class="part">61.1 Purpose of modeling emotion</div>
+<ul class="tight">
+<li>Emotional models place emotional categories in relation to each other — e.g. defining happiness as the polar opposite of sadness, or defining a distance function between emotions.</li>
+<li>Modeling emotions as a <b>numerical representation</b> lends itself well to computer and robot implementations.</li>
+<li>Emotion models can represent both the <b>user's</b> emotional state and the <b>robot's own</b> emotional state.</li>
+<li><b>Example</b> — a robot with an almost empty battery can act "tired" and announce it needs rest; once charged, it updates its internal state to "happy."</li>
+</ul>
+<div class="part">61.2 The OCC model</div>
+<ul class="tight">
+<li>A classic emotion model used in some robots is the <b>OCC model</b>, named after its authors' initials (<b>Ortony et al., 1988</b>).</li>
+<li>Specifies <b>22 emotion categories</b> based on valenced reactions to situations — events, acts of agents (including oneself), or reactions to attractive/unattractive objects.</li>
+<li>Contains sufficient complexity and detail to cover most situations an emotional robot might encounter.</li>
+</ul>
+<div class="part">61.3 Reducing complexity: Ekman's six</div>
+<ul class="tight">
+<li>Many robots do not possess the ability to express all 22 OCC emotions; even if they could, implementing 22 categories is challenging, so designers often reduce the number.</li>
+<li>A common choice is to implement only <b>Ekman's six basic facial emotional expressions</b>, which are reliably recognized even across cultures (<b>Ekman, 1992</b>).</li>
+<li>However, a robot expressing only six emotions makes for a fairly limited interaction experience.</li>
+</ul>
+<div class="part">61.4 Dimensional models: 2D and 3D spaces</div>
+<ul class="tight">
+<li>More popular than the OCC model are models that represent emotion as a <b>point in a multidimensional space</b>.</li>
+<li><b>Russell's 2D space</b> (arousal and valence) captures a wide range of emotions on a 2D plane and is one of the simplest models with sufficient expressive power for HRI.</li>
+<li><b>Limitation</b> — the 2D circumplex model places "angry" and "afraid" side by side, despite most people considering these vastly different emotions.</li>
+<li>Later versions added a third axis, producing the <b>Mehrabian and Russell (1974)</b> framework: a 3D continuous space of <b>pleasure (P), arousal (A), and dominance (D)</b>.</li>
+<li>The <b>PAD space model</b> has been used on many social robots to model both the user's and the robot's emotional state, including <b>Kismet</b> (Breazeal, 2003).</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>62. Challenges in Affective HRI (Four Challenges)</h3><span class="marks">Summary</span></div>
+<div class="q-body">
+<div class="sol">
+<ol class="tight">
+<li><b>Limits of facial-only recognition</b> — it is virtually impossible to correctly read emotions from facial information alone; since people themselves struggle to read emotion from still facial images, robots face the same difficulty. Adding more information — interaction context, animated (rather than still) expressions, and body language — increases recognition rate for both people and algorithms.</li>
+<li><b>Training-data mismatch</b> — almost all algorithms are trained on emotions acted out by actors, which are exaggerated and bear little resemblance to everyday emotional expression. As a result, most emotion-recognition software can only reliably recognize emotions displayed with a certain exaggerated intensity.</li>
+<li><b>Individual variability</b> — recognizing emotion across a wide variety of people is difficult: although people express a number of universal emotions, they do not all do so with the same intensity, context, or meaning. Interpreting a person's emotional status requires sensitivity to individual affective quirks.</li>
+<li><b>False impressions of genuine feeling</b> — a robot's emotional responsiveness can mislead end users into believing the robot actually experiences genuine emotions. A robot merely <i>expressing</i> an emotion does not replace the actual, visceral <i>experience</i> of an emotional state.</li>
+</ol>
+</div>
+</div>
+</div>
+
+</section>
+
+<!-- ============================ TAB 34: HRI LECTURE 8 SUMMARY ============================ -->
+<section id="t34" class="tab">
+<div class="paper-head">
+  <h2>Lecture 8 — Research Methods in HRI</h2>
+  <div class="meta">RME 4201 · Enumerated sections, classifications, and point-based lists</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>63–65. Lecture Contents · Why Research? · Components of HRI Studies</h3><span class="marks">Summary</span></div>
+<div class="q-body">
+<div class="sol">
+<div class="part">Lecture contents (eight modules)</div>
+<ol class="tight">
+<li>Why do we need research in HRI?</li>
+<li>Components of HRI studies.</li>
+<li>Defining research questions.</li>
+<li>Defining research approach/method.</li>
+<li>Selecting research participants.</li>
+<li>Selecting research study designs.</li>
+<li><b>Defining the context of interaction</b> — (a) location of study; (b) temporal context of HRI; (c) social units of interaction in HRI; (d) choosing a robot for your study; (e) setting up the mode of interaction.</li>
+<li>Ethical considerations in HRI studies.</li>
+</ol>
+<div class="part">64. Why do we need research in HRI?</div>
+<p>Once a robot exists for an HRI application, research is needed to answer questions such as:</p>
+<ul class="tight">
+<li>What do people think about its appearance?</li>
+<li>How do they react to its behaviour?</li>
+<li>Will people accept it?</li>
+<li>What will the effects of using the robot be in the short term and over a longer period?</li>
+<li>How does the robot perform technically?</li>
+</ul>
+<div class="part">65.1 Two interrelated components</div>
+<ul class="tight">
+<li>HRI research consists of at least two interrelated components: (1) the <b>human</b> and (2) the <b>robot</b>.</li>
+<li>Investigating humans without robots is social science research; investigating robots without humans is robotics/AI research.</li>
+<li>The <b>unit of analysis</b> in HRI is always some form of <b>interaction</b> between the two.</li>
+<li>The <b>context</b> in which HRI happens is highly relevant and must be explicitly defined in studies — e.g. lab vs. school vs. hospital, different cultures, different application domains.</li>
+</ul>
+<div class="part">65.2 Robot-centered vs. user-centered work</div>
+<ul class="tight">
+<li><b>Robot-centered work</b> — focuses on developing the technical capabilities robots need to interact with people, or testing which aspects of a robot's functionality/design are most effective.</li>
+<li><b>User-centered work</b> — focuses on understanding aspects of human behaviour or cognition that affect the success of HRI.</li>
+<li>HRI research increasingly balances both approaches — e.g. <b>iterative design</b>, where a robot's design goes through repeated cycles of prototyping, testing, analyzing, and refining based on user preferences.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>66–67. Defining Research Questions · Formulating Hypotheses</h3><span class="marks">Summary</span></div>
+<div class="q-body">
+<div class="sol">
+<div class="part">66.1 What are research questions?</div>
+<ul class="tight">
+<li>Core questions a study seeks to answer.</li>
+<li>Translate the research problem into focused inquiries.</li>
+<li>Guide the research design, data collection, and analysis.</li>
+</ul>
+<div class="part">66.2 Characteristics of good research questions (five)</div>
+<ol class="tight">
+<li><b>Clear</b> — easy to understand and unambiguous.</li>
+<li><b>Focused</b> — narrow enough to be answered within the study's scope.</li>
+<li><b>Researchable</b> — can be answered using data and scientific methods.</li>
+<li><b>Significant</b> — addresses a real problem or knowledge gap.</li>
+<li><b>Ethical</b> — feasible and appropriate to investigate.</li>
+</ol>
+<div class="part">66.3 Forming a strong research question</div>
+<ul class="tight">
+<li>Defining a good research question is one of the hardest tasks of a researcher.</li>
+<li>Requires considering previous relevant work and replicating or extending it to contribute new scientific insight.</li>
+<li>Research questions in HRI might arise from <b>theoretical considerations</b> (e.g. the expectation that people will treat robots as social) or from the <b>pragmatic need</b> to test the usability of a certain robot feature/function.</li>
+<li>Ideally, one looks for a well-established phenomenon or theory to replicate and extend in a new project, regardless of whether it concerns humans or robots.</li>
+</ul>
+<div class="part">66.4 Steps to formulate research questions (five)</div>
+<ol class="tight">
+<li><b>Identify the research problem</b> — what issue or gap exists?</li>
+<li><b>Review existing literature</b> — what's already known or unknown?</li>
+<li><b>Narrow the focus</b> — specify variables, populations, or contexts.</li>
+<li><b>Frame the question</b> — use interrogative forms (how, what, why, to what extent…).</li>
+<li><b>Check alignment</b> — ensure questions match objectives and hypotheses.</li>
+</ol>
+<div class="note">Good research questions are focused enough to be answerable and broad enough to contribute new insights.</div>
+<div class="part">66.5 Research question development flow</div>
+<p>Literature review serves three purposes, each feeding into a stage of the research process:</p>
+<ul class="tight">
+<li>Understanding the significance of the research → <b>Motivation</b></li>
+<li>Understanding the research gap → <b>Research Objective</b> → <b>Hypothesis</b></li>
+<li>Planning possible solution techniques → <b>Research Questions</b></li>
+</ul>
+<div class="part">67. Formulating hypotheses</div>
+<ul class="tight">
+<li>A <b>working hypothesis</b> is a tentative assumption made to draw out and test its logical or empirical consequences.</li>
+<li>A hypothesis should be very specific and limited to the piece of research at hand, since it must be tested.</li>
+<li>The role of a hypothesis is to guide the researcher by delimiting the area of research and keeping the work on track.</li>
+<li>How hypotheses are developed affects how tests must be conducted during data analysis, and indirectly the quality of data required.</li>
+<li>In some cases — particularly <b>exploratory or formulative research</b> that does not aim to test a hypothesis — working hypotheses are not needed.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>68. Types of Research</h3><span class="marks">Summary</span></div>
+<div class="q-body">
+<div class="sol">
+<div class="part">68.1 Descriptive vs. analytical research</div>
+<ul class="tight">
+<li><b>Descriptive research</b> — deals with "the description of the state of affairs as it is at present." Answers "what," "who," and "where" by observing and recording facts without manipulating variables. The researcher has no control over the variables and can only report what has happened or is happening. Methods include surveys, observational checklists, or case studies.</li>
+<li><b>Analytical research</b> — uses facts or information already available and analyzes them to critically evaluate the material. Tackles "why" and "how" by critically evaluating existing information, testing hypotheses, and exploring cause-and-effect relationships. Relies on statistical modeling, experiments, and comparisons.</li>
+<li><b>In HRI</b> — descriptive research documents how humans and robots currently interact, while analytical research isolates the specific design choices that cause those behaviours.</li>
+</ul>
+<div class="note"><b>Example — Robot social distancing (proxemics).</b> <i>Descriptive</i>: observing a delivery robot on campus and logging the average distance pedestrians maintain ("pedestrians walk 1.2 m away on average"). <i>Analytical</i>: testing whether the robot's driving speed changes how close humans let it get ("increasing speed from 1 m/s to 2 m/s widens passing distance by 0.5 m on average due to increased perceived risk").</div>
+
+<div class="part">68.2 Fundamental vs. applied research</div>
+<ul class="tight">
+<li><b>Fundamental (basic/pure) research</b> — conducted largely for the enhancement of knowledge; no immediate commercial potential. <i>Example</i>: investigating whether the human brain processes a robot's mistakes using the same cognitive pathways as a human friend's mistakes (finding: robotic errors are processed as technical malfunctions rather than social betrayals, engaging the prefrontal cortex differently than human–human interactions).</li>
+<li><b>Applied (action) research</b> — aims at finding a solution to an immediate problem facing a society or an industrial/business organization. <i>Example</i>: designing a maintenance-alert system (flashing light + text description) for a delivery robot so warehouse workers know when it needs attention, reducing confusion and maintaining workflow.</li>
+</ul>
+
+<div class="part">68.3 Quantitative vs. qualitative research</div>
+<ul class="tight">
+<li><b>Quantitative research</b> — based on numeric figures; aims to measure quantity/amount and compare with past records or project future periods; develops and employs mathematical models, theories, or hypotheses. Statistics is the most widely used branch of mathematics here.</li>
+<li><b>Qualitative research</b> — based on words, feelings, emotions, sounds, and other non-numerical, unquantifiable elements; aims to discover underlying motives and desires via in-depth interviews; other techniques include word-association tests, sentence-completion tests, story-completion tests, and similar projective techniques. Attitude/opinion research is also qualitative.</li>
+<li><b>Mixed methods research</b> — integrates both approaches within a single study to validate findings and provide a complete picture; uses quantitative data to show the interaction trend and qualitative data to explain the reasons behind it.</li>
+</ul>
+<div class="note"><b>Example — Robot-led museum tours.</b> <i>Quantitative</i>: tracking visitor time near the robot guide and quiz-based learning retention (e.g. 12.4 min average engagement, 82% average score). <i>Qualitative</i>: semi-structured interviews revealing that older adults felt "intimidated by the screen size," while children viewed the robot as a "fun cartoon character." <i>Mixed methods</i>: a survey on visitor satisfaction (quantitative: 15% increase) combined with focus groups explaining which robot gestures made the tour feel enjoyable (qualitative: head-tilts making the robot feel "alive").</div>
+
+<div class="part">68.4 Conceptual vs. empirical research</div>
+<ul class="tight">
+<li><b>Conceptual research</b> — focuses on abstract ideas, philosophies, or theoretical frameworks to develop new concepts or reinterpret existing ones without conducting physical experiments; generally used by philosophers and thinkers. <i>Examples</i>: Einstein developing the Theory of General Relativity via mathematics and thought experiments; medical researchers proposing a new biochemical pathway model for chronic stress and cell aging based on literature review.</li>
+<li><b>Empirical research</b> — relies on direct observation, measurable evidence, and real-world data collection to test specific hypotheses. <i>Examples</i>: astronomers using the James Webb Space Telescope to gather data testing Einstein's equations; scientists measuring biomarker decay and cortisol levels in 200 high-stress professionals over five years.</li>
+</ul>
+<div class="note"><b>Example — The Uncanny Valley effect.</b> <i>Conceptual</i>: proposing a cognitive theory linking the Uncanny Valley to an evolutionary defence mechanism against disease and dead bodies. <i>Empirical</i>: showing 200 participants images ranging from industrial robots to hyper-realistic humanoids and mapping comfort ratings against percentage of human likeness (finding: a dramatic comfort drop between 75% and 90% likeness).</div>
+
+<div class="part">68.5 Exploratory vs. confirmatory research</div>
+<ul class="tight">
+<li><b>Exploratory research</b> — deals with phenomena not previously examined in detail; aims to find the general "lay of the land" in a domain. <i>Example questions</i>: "How do people adopt and use a robot vacuum cleaner in their home over one month?" or "Do people attribute gender to robots and assign stereotypes to them?" Assumes there is not enough prior information to formulate testable expectations, so it explores what factors might matter and which outcomes are possible.</li>
+<li><i>Example</i>: Forlizzi and DiSalvo's exploratory study of vacuum-cleaning robots in real homes produced surprising findings — people treated autonomous vacuums as social actors, such vacuums could inspire teenagers to clean their rooms, and some pet–robot interaction occurred.</li>
+<li><b>Confirmatory research</b> — entered when there is enough information to formulate hypotheses about possible outcomes; the goal is to <b>test</b> hypotheses. The anticipated findings must be spelled out before the study begins, with justification for why they are expected; questions should be framed so they are variable and testable.</li>
+<li><i>Example</i>: expecting that introducing a robotic vacuum cleaner (vs. a conventional one) increases teenagers' engagement with cleaning, tested via the research question: "Do teenagers engage in more cleaning with a robotic vacuum cleaner compared to a conventional vacuum cleaner?"</li>
+</ul>
+
+<div class="part">68.6 Conclusion-oriented vs. decision-oriented research</div>
+<ul class="tight">
+<li><b>Conclusion-oriented research</b> — the researcher is free to pick up a problem, redesign the inquiry while proceeding, and conceptualize as desired. <i>Example</i>: a cognitive scientist explores how the number of fingers on a robotic hand (3, 4, or 5) influences perceptions of competence and warmth, publishing a paper on the optimal balance.</li>
+<li><b>Decision-oriented research</b> — conducted for the needs of a decision maker; researchers are not free to pursue their own inclinations. <i>Example</i>: a consumer electronics company testing whether a screen face or a mechanical face yields higher pre-orders for a home assistant robot, producing a design directive ("use the screen face; 35% higher purchase intent").</li>
+</ul>
+
+<div class="part">68.7 Other research types</div>
+<ul class="tight">
+<li>One-time (cross-sectional) research vs. longitudinal research.</li>
+<li>Field-setting research vs. laboratory research vs. simulation research.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>69–70. Research Approaches · Correlation vs. Causation</h3><span class="marks">Summary</span></div>
+<div class="q-body">
+<div class="sol">
+<div class="part">69.1 Quantitative approach (three sub-approaches)</div>
+<ol class="tight">
+<li><b>Inferential approach</b> — forms a database from which to infer characteristics or relationships of the population; typically survey research, where a sample is studied and its characteristics are inferred to hold for the population.</li>
+<li><b>Experimental approach</b> — characterized by much greater control over the research environment; variables are manipulated to observe their effect on other variables.</li>
+<li><b>Simulation approach</b> — involves constructing an artificial environment within which relevant information and data can be generated.</li>
+</ol>
+<div class="part">69.2 Qualitative approach</div>
+<p>Concerned with subjective assessment of attitudes, opinions, and behaviour.</p>
+<div class="part">70.1 Correlational studies</div>
+<ul class="tight">
+<li>In correlational studies, a clear pattern can be shown by which variables change value in relation to each other, but <b>the cause of that relationship cannot be known</b>.</li>
+<li><i>Example</i>: a correlational survey could measure whether there is a statistical relationship between households owning a Roomba and the amount of time teenagers spend cleaning, without necessarily explaining why the relationship exists (e.g. tidier teenagers may be more likely to own a Roomba, or parents may ask them to clean more often).</li>
+<li>Correlation says nothing other than "these things happen to occur simultaneously." <i>Example</i>: a strong correlation between the number of firefighters at a scene and the damage a fire did does not mean firefighters cause the damage.</li>
+<li>A <b>spurious correlation</b> can even appear for no real reason — e.g. the strong correlation (\(r^2 = 0.896\)) between U.S. per-capita cheese consumption and the number of people who died by becoming tangled in their bedsheets.</li>
+</ul>
+<div class="part">70.2 Establishing causation</div>
+<ul class="tight">
+<li>A causal relationship is studied by dividing a sample into two (or more) similar groups, manipulating the variable thought to have an effect in one group, then measuring the variable of interest in both groups.</li>
+<li>Because the groups should be similar in demographics, skills, and other characteristics at the outset, any major observed difference results from the manipulation.</li>
+<li>The distinction between correlation and causation is important because it defines what conclusions can be drawn from the findings.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>71–72. Selecting Participants · Study Designs</h3><span class="marks">Summary</span></div>
+<div class="q-body">
+<div class="sol">
+<div class="part">71.1 Who the participants will be</div>
+<ul class="tight">
+<li><b>University students</b> are the most common participants in empirical HRI research — convenient to access, available, interested, and physically close to laboratories.</li>
+<li><b>Limitations of this "convenience sample"</b> — ideally a large, representative sample of potential end users is needed for <b>external validity</b>; a university-student sample is insufficient for, e.g., studying robots supporting learning in young children.</li>
+<li>Even with university students, it is important to be mindful of and balance sample characteristics such as gender or educational background.</li>
+<li>Research questions about a specific population require a more specialized participant choice.</li>
+</ul>
+<div class="part">71.2 How many participants</div>
+<ul class="tight">
+<li>Depends on the type of study/analysis (quantitative vs. qualitative; survey, experiment, or interview) and the population being studied.</li>
+<li>Small sample sizes make it difficult to reliably detect an effect, since individuals always differ somewhat from one another; unless the manipulation has an extremely large effect, small-sample data will not reveal a stable effect.</li>
+<li><b>Rule of thumb</b> — a minimum of <b>25 participants per condition</b> for experimental designs.</li>
+<li><b>Events Per Variable (EPV) rule</b> — 10 to 20 outcome events (binary/survival models) or 10 to 20 participants (linear regression) per predictor variable in a statistical model.</li>
+<li>Tools such as <b>G*Power</b> can help approximate a sufficient sample size for a desired statistical effect.</li>
+<li>For qualitative studies, rather than a target number, the rule of thumb is to achieve <b>"saturation"</b> of the analytic themes and findings.</li>
+</ul>
+<div class="part">72.1 Between-subjects vs. within-subjects design</div>
+<ul class="tight">
+<li><b>Between-subjects design</b> — participants are randomly assigned to a condition (e.g. one group sees a "male" robot, another a "female" robot); mean scores of each group (e.g. via a Likert scale) are compared.</li>
+<li><b>Within-subjects design</b> — one group of participants is exposed to both versions and evaluates both; since the same person provides both evaluations, this reduces data "noise" and requires fewer participants.</li>
+<li><b>Order effects</b> in within-subjects designs (e.g. people may prefer the first robot due to novelty) should be mitigated by <b>counterbalancing</b> conditions — half the participants experience one order, half the reverse.</li>
+</ul>
+<div class="part">72.2 Surveys</div>
+<ul class="tight">
+<li>A survey presents a list of questions answered through multiple-choice options or rating scales.</li>
+<li><b>Likert scale</b> — respondents rate statements about attitudes/opinions by degree of agreement (e.g. rating "I found the robot friendly" from 1 = "Strongly agree" to 5 = "Strongly disagree").</li>
+<li><b>Semantic differential scale</b> — respondents evaluate an artifact or attitude on a spectrum between two opposing terms (e.g. scary–friendly, competent–incompetent).</li>
+<li>Researchers can use their own questions/scales or established ones from prior research (e.g. the <b>Big Five Scale</b> for personality, the <b>Robot Social Attributes Scale</b> for robot sociality).</li>
+<li><b>Open-ended questions</b> are sometimes included, particularly to let respondents answer in their own terms or to understand their thought process (e.g. "Describe your ideal robot before you answer the following questions about it").</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>73. Defining the Context of Interaction</h3><span class="marks">Summary</span></div>
+<div class="q-body">
+<div class="sol">
+<div class="part">73.1 Location of study</div>
+<ul class="tight">
+<li>A key distinction in HRI is between studies performed in the <b>lab</b> versus in the <b>field</b>.</li>
+<li>Field studies help understand how people interact with robots in natural circumstances, what kinds of HRI emerge, and the broader social effects of new robotic technologies.</li>
+<li>Lab studies benefit from strict control over the context and nature of the interaction — introduction, task, environment, and length can all be clearly defined.</li>
+<li>Field studies are more flexible and closer to day-to-day HRI; participants can choose how, when, whether, and why to interact with a robot, or ignore it entirely.</li>
+</ul>
+<div class="part">73.2 Temporal context of HRI</div>
+<ul class="tight">
+<li>A growing distinction in HRI is between studying <b>short-term vs. long-term</b> interactions.</li>
+<li>Most lab studies, by design necessity, focus on the <b>"first 10 minutes of HRI"</b> — how people respond to and make sense of their first introduction to a robot.</li>
+<li>First interactions suffer from a <b>novelty effect</b>: unfamiliarity with robots means initial reactions may differ substantially from reactions over a longer period.</li>
+<li>People's attitudes toward and interaction with a robot change over time, so short-term studies have limited validity for informing long-term HRI, though they do reveal characteristics and features that affect the initial encounter.</li>
+</ul>
+<div class="part">73.3 Social units of interaction in HRI</div>
+<ul class="tight">
+<li>The most common unit of analysis has been the <b>interaction dyad</b> — one person and one robot — partly due to early constraints (robots were difficult to procure, maintain, and operate).</li>
+<li>As robots became more available and capable of interacting with more people in open-ended, naturalistic environments, the unit of analysis has expanded.</li>
+<li>Early "in the wild" studies showed people often interact with robots <b>in groups</b> rather than individually — a scenario most early robots were poorly equipped for.</li>
+<li>Social scientists distinguish dyadic interactions from group interactions, considering their cognitive and behavioural aspects to differ.</li>
+<li>The growing availability of robots in applied settings (educational institutions, nursing homes, even the military) opens another unit of analysis: HRI at the <b>organizational level</b>.</li>
+<li><b>Mutlu and Forlizzi (2008)</b> showed that introducing a robot into an organization reduced work for some while increasing it for others; people in different roles (manager, nurse, janitor) can have different perceptions of a robot based on how it affects their work.</li>
+</ul>
+<div class="part">73.4 Choosing a robot for your study</div>
+<ul class="tight">
+<li>Robots can be seen as <b>research tools</b>, allowing manipulation of factors of interest and observation of effects on outcome variables.</li>
+<li>HRI researchers often use off-the-shelf robots, but sometimes design and test their own prototypes.</li>
+<li>Key decisions include the robot's <b>appearance, functionality, and ease of use</b>, guided partly by practical constraints (robot availability) and partly by research interests.</li>
+</ul>
+<div class="part">73.5 Setting up the mode of interaction</div>
+<p>There are many ways to bring people and robots together for a study: meeting an actual robot vs. seeing pictures/videos of one; a fully autonomous vs. tele-operated robot; participants coming to the lab vs. researchers bringing robots to the people.</p>
+<p><b>Wizard of Oz (WoZ)</b></p>
+<ul class="tight">
+<li>Wizard-of-Oz involves leading participants to believe a robot is behaving autonomously, when it is actually operated by a research team member.</li>
+<li>Participants must be informed of this deception in a <b>post-experimental debriefing</b>.</li>
+<li>Commonly used when the development of autonomous capabilities is not the focus of the research.</li>
+<li>Lets researchers "pretend" the robot has interactional skills it lacks, due to further needed technical development or programming effort.</li>
+<li>Particularly suitable where technology is nearly usable for HRI, such as speech recognition; can also test perceptions of more advanced capabilities, e.g. nuanced social-context understanding.</li>
+<li>Using a human wizard to recognize user utterances makes an experiment more robust and the robot's behaviour more realistic; however, completely faking an AI system capable of a serious, prolonged conversation could be seen as an unrealistically high level of capability to attribute to the robot.</li>
+</ul>
+<p><b>Real vs. simulated interaction</b></p>
+<ul class="tight">
+<li><b>Dautenhahn et al. (2006a)</b> argue that real and simulated (e.g. video) interaction styles are broadly equivalent, whereas <b>Bainbridge et al. (2011)</b> found participants had a more positive experience with physically present robots than with a video representation.</li>
+<li><b>Powers et al. (2007)</b> found large attitude differences between participants interacting with a co-located robot versus a remote robot.</li>
+<li>Using visual stimuli alone limits generalizability but can suit exploratory studies (e.g. perceptions of different robot forms) or studies where accessing the appropriate population is difficult (e.g. cross-cultural samples).</li>
+<li>Videos avoid problems associated with less-controlled, actual-interaction experiments.</li>
+<li>Videos and photos are particularly suited for online participant pools (universities, word-of-mouth, or services like Amazon Mechanical Turk).</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>74. Ethical Considerations in HRI Studies</h3><span class="marks">Summary</span></div>
+<div class="q-body">
+<div class="sol">
+<div class="part">74.1 Informed consent</div>
+<ul class="tight">
+<li>Any research involving human participants — correlational or experimental, qualitative or quantitative, online or in person — requires participants' <b>informed consent</b> before the research begins.</li>
+<li>Before a study starts, participants must declare that they understand what they will be asked to do, what will be done with the collected data, and that they consent to participating.</li>
+</ul>
+<div class="part">74.2 Debriefing and disclosure</div>
+<ul class="tight">
+<li>Sometimes it is impossible to fully disclose a research project's actual goals — e.g. in WoZ studies, where participants believe the robot behaves autonomously.</li>
+<li>In such cases, a <b>post-experimental debriefing</b> is essential so participants do not leave the study believing robots currently function fully autonomously.</li>
+<li>In qualitative research, initial information given to participants may be more cursory, but common practice is to later inform participants of the findings if they are interested.</li>
+</ul>
+<div class="part">74.3 Physical and psychological safety</div>
+<ul class="tight">
+<li>HRI research must consider the ethical aspects of human involvement with robots — both physical and psychological safety, and the implications an interaction could have for an individual.</li>
+<li><b>Example</b> — an elderly person who becomes attached to a robot companion in their home may experience distress the day the robot is taken away.</li>
+<li>Researchers may consult codes of ethical conduct such as those from the <b>American Psychological Association</b>, the <b>American Anthropological Association</b>, or the <b>Association for Computing Machinery</b>.</li>
+<li>Researchers should reflect on the ethical implications of their research aims, questions, and findings — including where to seek or accept funding, whether to participate in research that may inform particular corporations or governments, and how to structure relationships with participants (including their ability to provide input on methods and presentation of results).</li>
+</ul>
+</div>
+</div>
+</div>
+
+</section>
+
+<!-- ============================ TAB 35: HRI LECTURE 9 SUMMARY ============================ -->
+<section id="t35" class="tab">
+<div class="paper-head">
+  <h2>Lecture 9 — Society and Ethics in HRI</h2>
+  <div class="meta">RME 4201 · Enumerated sections, classifications, and point-based lists</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>75–76. Lecture Contents · Robots in Society</h3><span class="marks">Summary</span></div>
+<div class="q-body">
+<div class="sol">
+<div class="part">Lecture contents (four modules)</div>
+<ol class="tight">
+<li>Robots in society.</li>
+<li><b>Robots in popular media</b> — (a) origin; (b) importance; (c) media portrayal of robots (robots want to be humans; robots as a threat to humanity; superior robots being good); (d) similarity between humans and robots; (e) narratives of robotic science.</li>
+<li><b>Ethics in HRI</b> — (a) robots in research; (b) robots to fulfill emotional needs; (c) robots in the workplace.</li>
+<li>Conclusion.</li>
+</ol>
+<div class="part">76.1 Envisioning robots in society</div>
+<ul class="tight">
+<li>Understanding how we envision robots in society is crucial to HRI: understanding the societal meaning, significance, and consequences of HRI research ensures new robotic technologies fit common social values and goals.</li>
+<li>To understand how robots might fit into society, HRI takes a broad view through the lens of <b>culture</b> — the narratives, values, and practices that provide the context and tools with which people make sense of the world and the robots coming to share it.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>77. Robots in Popular Media</h3><span class="marks">Summary</span></div>
+<div class="q-body">
+<div class="sol">
+<div class="part">77.1 Origin</div>
+<ul class="tight">
+<li><b>Karel Čapek</b> was the first author to use the word "robot," featured in his 1921 theatre play <i>R.U.R. — Rossum's Universal Robots</i>.</li>
+<li>In the play, robots take over the world and kill almost all humans; two robots, however, begin to exhibit emotions for each other, and the last remaining human considers them the new Adam and Eve.</li>
+<li>Since then, robots have been portrayed across artistic expressions — books, movies, plays, and computer games.</li>
+</ul>
+<div class="part">77.2 Importance</div>
+<ul class="tight">
+<li>Media portrayals shape perceptions and understanding of robots and can bias views, particularly because these portrayals are the only experience most people have with robots.</li>
+<li>The gap between science-fiction-fuelled expectations and robots' actual abilities often leads to disappointment when people interact with real robots.</li>
+<li>It is therefore important to examine how robots are portrayed in popular media and account for such portrayals when designing and presenting robots to the public.</li>
+</ul>
+
+<div class="part">77.3 Media portrayal — Type 1: Robots want to be humans</div>
+<ul class="tight">
+<li>Many stories portray robots as wanting to be human, despite their own superiority in aspects such as strength and computational power.</li>
+<li><b>Example</b> — Isaac Asimov's <i>The Bicentennial Man</i> (1976), in which robot Andrew Martin follows a lifelong plan to become recognized as human.</li>
+<li>Portrayals vary between robots <b>aware</b> of being robots (Andrew in <i>Bicentennial Man</i>) and <b>unaware</b> (Rachael in <i>Blade Runner</i>).</li>
+<li>The key differentiator from humans in these portrayals is typically the robot's <b>lack of emotion</b>.</li>
+<li>These examples illustrate humans' steady desire to compare themselves to superhuman entities.</li>
+</ul>
+
+<div class="part">77.4 Media portrayal — Type 2: Robots as a threat to humanity</div>
+<ul class="tight">
+<li>An archetypal storyline of a <b>robotic uprising</b>: humanity builds intelligent and strong robots, which decide to take over the world and enslave or kill humans to secure resources.</li>
+<li>Asimov coined the term <b>"Frankenstein Complex"</b> for this archetypal storyline.</li>
+<li>Popular examples: <i>The Terminator</i> (Cameron, 1984), the Cylons in <i>Battlestar Galactica</i>, the Machines in <i>The Matrix</i>, and the robots in the 2004 movie <i>iRobot</i>.</li>
+<li>This archetype builds on two assumptions:
+  <ol class="tight">
+  <li>Robots resemble humans — designed to look, think, and act like their creators, but exceeding them in intelligence and power.</li>
+  <li>Once interacting with the now "inferior" human species, robots dehumanize their subordinates — a theme familiar from human history as well.</li>
+  </ol>
+</li>
+</ul>
+
+<div class="part">77.5 Media portrayal — Type 3: Superior robots being good</div>
+<ul class="tight">
+<li>Several science-fiction authors have proposed future scenarios where superior robots quietly and benevolently influence human society.</li>
+<li><b>Example</b> — Isaac Asimov's <i>Prelude to Foundation</i> (1988) describes robotic first minister Eto Demerzel (a.k.a. R. Daneel Olivaw), who keeps the empire on the right track.</li>
+<li>The notion of robots being evil and humans being good is most persistent in <b>Western culture</b>.</li>
+<li>In <b>Japanese media</b>, robots are extremely popular and often portrayed differently — e.g. "Astro Boy" and Doraemon are good-natured characters that help humans in daily life.</li>
+<li>This more positive spin on robots' social uses and consequences is often seen as partially responsible for the large number of personal and home robots developed in Japan.</li>
+</ul>
+
+<div class="part">77.6 Similarity between humans and robots (four types)</div>
+<p>From a conceptual standpoint, robots are typically portrayed by emphasizing either their <b>similarities to</b>, or <b>differences from</b>, humans in terms of <b>body</b> and <b>mind</b>. These four resulting types can be mixed.</p>
+<table class="vals">
+<tr><th>Type</th><th>Example</th></tr>
+<tr><td><b>Type I</b></td><td>Robots in the theatrical performance by Godfried-Willem Raes.</td></tr>
+<tr><td><b>Type II</b></td><td>Mr. Data from <i>Star Trek: The Next Generation</i>.</td></tr>
+<tr><td><b>Type III</b></td><td>Johnny Five from the 1986 movie <i>Short Circuit</i>.</td></tr>
+<tr><td><b>Type IV</b></td><td>Most of the robots we commonly see.</td></tr>
+</table>
+
+<div class="part">77.7 Narratives of robotic science</div>
+<ul class="tight">
+<li><b>Science-scare stories</b> — e.g. crash statistics from Tesla, Waymo, and others indicate autonomous vehicles perform better than humans (Tesla's autopilot feature dramatically reduces crash probability), yet the accidents that do occur attract disproportionate news attention.</li>
+<li><b>Wacky science stories</b> — occur less frequently but attract attention nonetheless; e.g. a newspaper story about a robot preacher that "can beam light from its hands and give automated blessings to worshippers," intended more to entertain than to report scientific progress (<b>Berghuis, 2017</b>).</li>
+<li>For HRI researchers, media coverage carries both great potential to showcase work and considerable risk, since a reporter might intend to write a scare story or a wacky science story.</li>
+</ul>
+<div class="note"><b>General guideline for talking to the media:</b> stick to the research actually performed and avoid wild speculation about topics not covered in the study at hand.</div>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>78. Ethics in HRI</h3><span class="marks">Summary</span></div>
+<div class="q-body">
+<div class="sol">
+<div class="part">78.1 Introduction — roboethics</div>
+<ul class="tight">
+<li>The domain of ethical issues in robotics is called <b>"roboethics."</b></li>
+<li>Many robotics research projects envision robots as <b>"slaves"</b> — conducting acts on behalf of humans, including killing others or serving humans' need for psychological closeness and sexuality; some such projects are government-funded.</li>
+<li>Clear counter-movements exist, such as the <b>Campaign Against Killer Robots</b>.</li>
+<li>Responsible researchers must consider the ethical implications of what they envision and the steps taken toward those visions.</li>
+</ul>
+
+<div class="part">78.2 Asimov's laws of robotics</div>
+<p><b>Isaac Asimov</b> (January 2, 1920 – April 6, 1992) proposed three laws of robotics to safeguard humanity from malevolent robots:</p>
+<ol class="tight">
+<li>A robot may not injure a human being or, through inaction, allow a human being to come to harm.</li>
+<li>A robot must obey the orders given to it by human beings except where such orders would conflict with the First Law.</li>
+<li>A robot must protect its own existence as long as such protection does not conflict with the First or Second Laws.</li>
+</ol>
+<div class="note">Due to criticism by philosophers, Asimov eventually added a <b>zeroth law</b>: a robot may not harm humanity or, by inaction, allow humanity to come to harm.</div>
+
+<div class="part">78.3 Common issues of concern — robots in research</div>
+<p><b>Deception via Wizard-of-Oz</b></p>
+<ul class="tight">
+<li>Ethics must be considered when designing HRI studies, particularly around choosing to deceive participants via the Wizard-of-Oz approach.</li>
+<li>This makes participants believe the robot has certain functions, when in reality the researcher controls its behaviour in the background.</li>
+<li><b>The problem</b> — deception about robot skills raises and biases users' hopes and expectations about the robot's abilities, potentially manipulating them into thinking robotic technology is more advanced than it actually is.</li>
+</ul>
+<p><b>Robots as persuasive communicators</b></p>
+<ul class="tight">
+<li>Prior research on persuasive technology shows robots can manipulate people into changing attitudes and behaviours (<b>Brandstetter et al., 2017</b>).</li>
+<li>Examples of successfully influenced behaviours: health-related habits such as exercising or maintaining a healthy diet (<b>Kiesler et al., 2008</b>).</li>
+<li>Even if beneficial, instrumentalizing social robots for such purposes raises ethical concerns when they (i) exploit the social bond with the user, and (ii) influence the user without explicit consent or conscious understanding of how they are being influenced.</li>
+</ul>
+
+<div class="part">78.4 Common issues of concern — robots to fulfill emotional needs</div>
+<p><b>Robotic care</b></p>
+<ul class="tight">
+<li><i>Scenario</i>: an elderly person becomes attached to a robot companion provided by researchers; when researchers later retrieve the robot after data collection, the person's loneliness intensifies as the dull routine of elder care returns.</li>
+<li><i>Argument from another study</i>: even a robotic caregiver capable of providing superb emotional and physical care would still be unethical to fully substitute for human care, because a relationship is only meaningful between two entities capable of experiencing <b>reciprocal affect and concern</b> — an imitation of caring, however perfect, should not replace the genuine article.</li>
+</ul>
+<p><b>Emotional attachment to robots</b></p>
+<ul class="tight">
+<li>Humans may start to favour robot companions over humans: an "ideal robotic friend" that mimics friendship and emotional support, never complains, and learns not to annoy its owner could lead people to prefer robotic companionship over human peers — raising the question of whether such a future is desirable.</li>
+<li>Even though users may project human traits onto a robot, the robot cannot experience those traits the way humans do, casting doubt on the <b>authenticity</b> of its expressions.</li>
+<li>Some individuals feel closeness and intimacy toward robots, raising the broader question of whether promoting human–robot emotional bonds is desirable, given that the emotional relationship between humans and robots may be <b>asymmetrical</b>.</li>
+</ul>
+<p><b>Ethical implications of persuasion through robots</b></p>
+<ul class="tight">
+<li>Because robots can communicate in humanlike ways, they can be convincing persuasive communicators — with negative implications, since computers and robots can influence the words we use and how we feel about them without our noticing.</li>
+<li>As relationships with technology become more personalized and intimate, humans become increasingly vulnerable — people likely already spend more time with their phones than with partners and friends.</li>
+<li>Currently, there are no regulations or policies supervising how large IT companies (Google, Amazon, Facebook) influence language usage, though concern exists regarding "fake news" and the difficulty of distinguishing fact from fiction online.</li>
+</ul>
+<p><b>Generalizing abusive behaviour toward robots</b></p>
+<ul class="tight">
+<li>People have been observed attempting to intimidate and bully autonomous robots left unsupervised in public spaces (<b>Brščić et al., 2015</b>; <b>Salvini et al., 2010</b>).</li>
+<li>The aggression displayed resembled human–human abuse — kicking, slapping, insulting, etc.; abuse more meaningful for machines (unplugging them, cutting wires) was not observed.</li>
+<li>Because robots normally do not experience pain or humiliation, the human may face greater danger than the robot (e.g. hurting one's own hand while slapping a robot).</li>
+<li>It has been argued that bullying a robot is a <b>moral offence</b> — even though nobody gets hurt, responding with violence is still considered wrong.</li>
+<li>Scholars have argued that normalizing such behaviour toward robots might <b>generalize</b> to other social agents, such as animals and humans.</li>
+</ul>
+
+<div class="part">78.5 Common issues of concern — robots in the workplace</div>
+<ul class="tight">
+<li>Since the Industrial Revolution, humans have replaced manual labour with machines; the recent deployment of robots is no exception.</li>
+<li>Robots help improve productivity and thereby raise the standard of living.</li>
+<li>Although robots replace certain jobs, they also create many new jobs, particularly for highly trained professionals.</li>
+<li><b>The societal challenge</b> — people displaced by robots need to find new jobs, which may require additional training or study.</li>
+<li>Some fields, such as <b>education</b>, are less welcoming toward robots in the workforce:
+  <ul class="tight">
+  <li><b>Reich-Stiebert and Eyssel (2015)</b> showed robots are preferred as classroom <b>assistants</b> but not as main <b>teachers</b>.</li>
+  <li>Concerns were voiced about robot usage/maintenance and fear that robots would consume time and attention resources.</li>
+  <li>Primary school teachers were particularly reluctant to have robots in schools, possibly because young students are seen as especially vulnerable.</li>
+  </ul>
+</li>
+<li>Another field of concern is <b>assistive robots in the home</b> (Reich-Stiebert and Eyssel, 2015, 2013).</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>79. Conclusion</h3><span class="marks">Summary</span></div>
+<div class="q-body">
+<div class="sol">
+<ul class="tight">
+<li>Humans and their interactions are part of broader societies encompassing different kinds of people, technologies, institutions, and practices.</li>
+<li>People may hold different initial attitudes and beliefs about robots based on prior exposure to fictional narratives and popular media.</li>
+<li>Cultural narratives and values affect how people perceive and respond to robots, and how robot use might affect existing social structures and practices.</li>
+<li>HRI researchers should be conscious of and sensitive to prevailing cultural narratives and values when designing and deploying robots in society.</li>
+</ul>
+</div>
+</div>
+</div>
+
+</section>
+
 </main>
 </div>
 <button id="menu-toggle">Courses</button>
@@ -7724,6 +8881,11 @@ const courses = [
       {type:"section", label:"2. Design and HRI", target:"t11"},
       {type:"section", label:"3. Spatial interaction", target:"t12"},
       {type:"section", label:"4. Trajectory generation", target:"t13"},
+      {type:"section", label:"5. Verbal interaction", target:"t31"},
+      {type:"section", label:"6. Nonverbal interaction", target:"t32"},
+      {type:"section", label:"7. Emotion", target:"t33"},
+      {type:"section", label:"8. Research methods", target:"t34"},
+      {type:"section", label:"9. Society and ethics in HRI", target:"t35"},
       {type:"section", label:"HRI In-course", target:"t6"},
       {type:"section", label:"HRI Final 2023", target:"t7"},
       {type:"section", label:"HRI Final 2024", target:"t3"},
