@@ -40,6 +40,10 @@ main{max-width:880px; margin:0 auto; padding:30px 18px 80px;}
 .q-head .marks{font-family:Verdana,sans-serif; font-size:.72rem; color:var(--mark); white-space:nowrap;}
 .q-body{padding:20px 22px;}
 .qtext{font-style:italic; color:#3a4356; border-left:3px solid var(--rule); padding-left:14px; margin-bottom:16px;}
+.qtext .src{display:block; font-family:Verdana,sans-serif; font-size:.66rem; font-style:normal; letter-spacing:.07em; text-transform:uppercase; color:var(--muted); margin-bottom:7px;}
+.qtext p{margin:8px 0;} .qtext p:first-of-type{margin-top:0;}
+.qtext ol.qparts{margin:8px 0 2px 22px;} .qtext ol.qparts li{margin:6px 0;}
+.qtext .m{font-style:normal; font-family:Verdana,sans-serif; font-size:.68rem; color:var(--mark); white-space:nowrap;}
 .part{margin:22px 0 10px; font-family:Verdana,sans-serif; font-size:.82rem; font-weight:bold; color:var(--gold); text-transform:uppercase; letter-spacing:.05em;}
 .sol p{margin:10px 0;}
 .step{margin:12px 0 12px 6px; padding-left:14px; border-left:2px solid var(--accent-soft);}
@@ -660,7 +664,14 @@ Row 2: \((-0.6)(0.5)+(0.4)(-0.2)+(0.5)(0.7)+(-0.1)(0.3)+0.05 = -0.30-0.08+0.35-0
 <div class="q">
 <div class="q-head"><h3>Question 1 — Foundations: Social Robots, Proprioception, HCI vs HRI, Human Factors</h3><span class="marks">4 + 4 + 3 + 3</span></div>
 <div class="q-body">
-
+<div class="qtext"><span class="src">Final Examination 2024 — Question 1 (as set)</span>
+<ol class="qparts" type="a">
+<li>Define &ldquo;Social Robots.&rdquo; Distinguish between a standard industrial robot and a social robot based on their operational environment. <span class="m">[4]</span></li>
+<li>Why is &ldquo;Proprioception&rdquo; important for a social robot when interacting with a child? <span class="m">[4]</span></li>
+<li>Discuss the key differences between Human-Computer Interaction (HCI) and Human-Robot Interaction (HRI). <span class="m">[3]</span></li>
+<li>Explain how &ldquo;Human Factors&rdquo; (ergonomics, cognitive load) influence the design of a handheld robot controller. <span class="m">[3]</span></li>
+</ol>
+</div>
 <div class="part">(a) Define social robots; industrial vs social robot by operational environment</div>
 <div class="sol">
 <p><b>Definition.</b> Following Bartneck &amp; Forlizzi (2004), a social robot is "an autonomous or semi-autonomous robot that interacts and communicates with humans by following the behavioral norms expected by the people with whom the robot is intended to interact." Breazeal (2003) similarly characterizes sociable robots as those able to communicate through social cues (speech, gaze, gesture, emotion) and engage people as social partners.</p>
@@ -706,7 +717,14 @@ Row 2: \((-0.6)(0.5)+(0.4)(-0.2)+(0.5)(0.7)+(-0.1)(0.3)+0.05 = -0.30-0.08+0.35-0
 <div class="q">
 <div class="q-head"><h3>Question 2 — Interdisciplinary HRI Project (Assistive Humanoid)</h3><span class="marks">4 + 5 + 5</span></div>
 <div class="q-body">
-
+<div class="qtext"><span class="src">Final Examination 2024 — Question 2 (as set)</span>
+<p>You are working in an HRI project as an engineer to construct a humanoid robot to help disabled people with their daily activities. This project also involves designers and social scientists in your team. Answer the following questions regarding your work:</p>
+<ol class="qparts" type="a">
+<li>How would you differentiate between working on an HRI project, an HCI project, and a robotics project? <span class="m">[4]</span></li>
+<li>How would you divide your project's work between engineers, designers, and social scientists? How would your way of working be different from that of your teammates from other backgrounds? <span class="m">[5]</span></li>
+<li>Which design approach (inside-out/outside-in) and method (engineering/user-centered/participatory) would you use to design your robot and why? <span class="m">[5]</span></li>
+</ol>
+</div>
 <div class="part">(a) HRI project vs HCI project vs robotics project</div>
 <div class="sol">
 <ul class="tight">
@@ -738,7 +756,14 @@ Row 2: \((-0.6)(0.5)+(0.4)(-0.2)+(0.5)(0.7)+(-0.1)(0.3)+0.05 = -0.30-0.08+0.35-0
 <div class="q">
 <div class="q-head"><h3>Question 3 — Restaurant Waiter Robot: Proxemics, Constrained Verbal Interaction, Anthropomorphism</h3><span class="marks">5 + 5 + 4</span></div>
 <div class="q-body">
-
+<div class="qtext"><span class="src">Final Examination 2024 — Question 3 (as set)</span>
+<p>You are designing a robot that will work as a waiter in a restaurant. The robot will need to navigate around the restaurant, take orders from the customers, and deliver food to them. Answer the following questions related to designing the interaction policies for the robot.</p>
+<ol class="qparts" type="a">
+<li>How would you design the robot's spatial interaction policies? Explain using the concepts of human proxemics and group spatial interaction dynamics. <span class="m">[5]</span></li>
+<li>Your robot has limited processing power and a slow internet connection, making the natural language understanding impossible. What other elements could you include in your design of the verbal interaction modality to take orders from the customers and make the interaction seemingly smooth? Explain. <span class="m">[5]</span></li>
+<li>How would you decide the degree of anthropomorphism needed for your robot design? Explain using the Uncanny Valley theory. <span class="m">[4]</span></li>
+</ol>
+</div>
 <div class="part">(a) Spatial interaction policies: human proxemics &amp; group spatial dynamics</div>
 <div class="sol">
 <p><b>Proxemics</b> (Hall, 1966) partitions interpersonal space into zones: <i>intimate</i> (&lt; 0.45 m), <i>personal</i> (0.45–1.2 m), <i>social</i> (1.2–3.6 m) and <i>public</i> (&gt; 3.6 m). HRI studies show humans apply comparable zones to robots (Walters et al., 2005; Mumm &amp; Mutlu, 2011). Policy design:</p>
@@ -780,7 +805,14 @@ Row 2: \((-0.6)(0.5)+(0.4)(-0.2)+(0.5)(0.7)+(-0.1)(0.3)+0.05 = -0.30-0.08+0.35-0
 <div class="q">
 <div class="q-head"><h3>Question 4 — Multi-modal Communication, Proxemics, Non-verbal Cues, Social Learning</h3><span class="marks">4 + 3 + 3 + 4</span></div>
 <div class="q-body">
-
+<div class="qtext"><span class="src">Final Examination 2024 — Question 4 (as set)</span>
+<ol class="qparts" type="a">
+<li>What is &ldquo;Multi-modal Communication&rdquo;? Provide an example involving simultaneous speech and gesture. <span class="m">[4]</span></li>
+<li>Explain the concept of &ldquo;Proxemics&rdquo; in HRI. How does a robot&rsquo;s physical distance affect user comfort? <span class="m">[3]</span></li>
+<li>Describe how a robot can use Non-verbal cues (like LED colors or head tilts) to signal its internal state (e.g., &ldquo;I am thinking&rdquo; or &ldquo;I am confused&rdquo;). <span class="m">[3]</span></li>
+<li>How does &ldquo;Social Learning&rdquo; (Learning from Demonstration) reduce the programming burden for non-expert users? <span class="m">[4]</span></li>
+</ol>
+</div>
 <div class="part">(a) Multi-modal communication; speech + gesture example</div>
 <div class="sol">
 <p><b>Multi-modal communication</b> is the use of two or more communication channels (modalities) — speech, gesture, gaze, facial expression, touch, posture — simultaneously or in coordination to convey meaning. In HRI it increases robustness (channels disambiguate each other), naturalness, and bandwidth of the interaction, since human face-to-face communication is inherently multi-modal (McNeill, 1992).</p>
@@ -818,7 +850,14 @@ Row 2: \((-0.6)(0.5)+(0.4)(-0.2)+(0.5)(0.7)+(-0.1)(0.3)+0.05 = -0.30-0.08+0.35-0
 <div class="q">
 <div class="q-head"><h3>Question 5 — Nursing Robots: Affordances, Ethical Approval, Non-verbal Communication</h3><span class="marks">4 + 5 + 5</span></div>
 <div class="q-body">
-
+<div class="qtext"><span class="src">Final Examination 2024 — Question 5 (as set)</span>
+<p>You are working in a company that designs nursing robots for hospitals and clinics. Answer the following questions related to your work.</p>
+<ol class="qparts" type="a">
+<li>Discuss the design affordance and patterns that should be included in your robots. <span class="m">[4]</span></li>
+<li>Why would you need to get an ethical approval for testing such robots? Demonstrate the steps involved in a standard ethical approval process using a flow diagram. <span class="m">[5]</span></li>
+<li>Which non-verbal communication abilities would be most important for your robot and why? <span class="m">[5]</span></li>
+</ol>
+</div>
 <div class="part">(a) Design affordances and patterns for nursing robots</div>
 <div class="sol">
 <p>An <b>affordance</b> (Gibson, 1979; Norman, 1988) is a perceivable property of an artifact that indicates how it can be used — good design makes possible actions self-evident. For hospital/clinic nursing robots:</p>
@@ -868,8 +907,13 @@ Row 2: \((-0.6)(0.5)+(0.4)(-0.2)+(0.5)(0.7)+(-0.1)(0.3)+0.05 = -0.30-0.08+0.35-0
 <div class="q">
 <div class="q-head"><h3>Question 6 — Cubic Trajectory Planning for a Single-Link Manipulator</h3><span class="marks">6 + 8</span></div>
 <div class="q-body">
-<div class="qtext">Rotary joint: start \(\theta_0 = 0^\circ\) with zero velocity; via point \(\theta_v = 60^\circ\) at \(t=5\) s; goal \(\theta_g = 90^\circ\) at \(t=10\) s with zero final velocity.</div>
-
+<div class="qtext"><span class="src">Final Examination 2024 — Question 6 (as set)</span>
+<p>You are tasked with planning the trajectory of a single-link robotic manipulator with a rotary joint for an HRI application. It is desired to move the joint in a smooth manner from zero initial velocity at \(\theta = 0^\circ\) to a via point at \(\theta = 60^\circ\) in 5 s, and then to the goal point at \(\theta_g = 90^\circ\) in the next 5 s. The velocity at the final goal point will be zero. Answer the following questions.</p>
+<ol class="qparts" type="a">
+<li>If the velocity at the via point is 10 rad/s, derive the expression of a cubic trajectory for the joint angle for motion between initial point and the via point. <span class="m">[6]</span></li>
+<li>If we consider continuous acceleration at the via point, derive the expression of two cubic polynomials connected in a two-segment spline. One polynomial will represent movement between the initial point and the via point, and the other between the via point and the goal point. <span class="m">[8]</span></li>
+</ol>
+</div>
 <div class="part">(a) Cubic from start to via point, with via velocity = 10 deg/s</div>
 <div class="sol">
 <p>Assume a cubic \(\theta(t) = a_0 + a_1 t + a_2 t^2 + a_3 t^3\), \(\dot\theta(t) = a_1 + 2a_2 t + 3a_3 t^2\), on \(t\in[0,5]\). Four boundary conditions:</p>
@@ -925,8 +969,14 @@ Check: \(\theta(5)=5.2(25)-0.56(125)=130-70=60\) ✓; \(\dot\theta(5)=10.4(5)-1.
 <div class="q">
 <div class="q-head"><h3>Question 7 — Evaluating a Teaching Robot: Methodology, Participants, Ethics</h3><span class="marks">6 + 4 + 4</span></div>
 <div class="q-body">
-<div class="qtext">A robot designed to teach children in a school; a research study is to be conducted to evaluate the design.</div>
-
+<div class="qtext"><span class="src">Final Examination 2024 — Question 7 (as set)</span>
+<p>You have designed a robot that will teach children in a school. Now you want to conduct a research study to evaluate your design. Answer the following questions in this regard.</p>
+<ol class="qparts" type="a">
+<li>Classify your study according to the following methodological dimensions: qualitative or quantitative; exploratory or confirmatory; and descriptive or analytical. Provide a clear justification for each classification using specific examples from your study. <span class="m">[6]</span></li>
+<li>How would you decide the type and number of participants needed for your study? <span class="m">[4]</span></li>
+<li>What are the probable societal and ethical impacts of the eventual adaptation of such a robot? How could you address the related ethical concerns in your study design? <span class="m">[4]</span></li>
+</ol>
+</div>
 <div class="part">(a) Methodological classification with justification</div>
 <div class="sol">
 <p><b>Qualitative vs quantitative → Mixed, predominantly quantitative.</b> The core evaluation measures learning outcomes numerically — e.g., pre-test/post-test score gains, task completion time, engagement metrics (gaze-on-robot duration, interaction counts), and validated questionnaire scales. This quantitative core is complemented by qualitative data — semi-structured interviews with children and teachers, and open observation of classroom sessions — to explain <i>why</i> effects occur (e.g., novelty effect, specific confusing behaviors). Example: test-score improvement (quantitative) plus interview finding that children trusted the robot's praise (qualitative).</p>
@@ -966,6 +1016,9 @@ Check: \(\theta(5)=5.2(25)-0.56(125)=130-70=60\) ✓; \(\dot\theta(5)=10.4(5)-1.
 <div class="q">
 <div class="q-head"><h3>Question 1 — Behavior Layers in Programming NAO</h3><span class="marks">2 marks</span></div>
 <div class="q-body">
+<div class="qtext"><span class="src">RME 4211 Lab Final 2024 — Question 1 (as set)</span>
+<p>Explain the use of behavior layers while programming Nao. <span class="m">[2]</span></p>
+</div>
 <div class="sol">
 <p>In Choregraphe, a <b>behavior</b> can be organized into <b>behavior layers</b>, each containing its own timeline/flow of boxes that execute <b>in parallel</b> with the other layers. Their uses:</p>
 <ul class="tight">
@@ -980,6 +1033,9 @@ Check: \(\theta(5)=5.2(25)-0.56(125)=130-70=60\) ✓; \(\dot\theta(5)=10.4(5)-1.
 <div class="q">
 <div class="q-head"><h3>Question 2 — Three Parameters of the Speech Recognition Box</h3><span class="marks">2 marks</span></div>
 <div class="q-body">
+<div class="qtext"><span class="src">RME 4211 Lab Final 2024 — Question 2 (as set)</span>
+<p>Explain the three parameters of the Speech Recognition box. <span class="m">[2]</span></p>
+</div>
 <div class="sol">
 <p>The Choregraphe <b>Speech Reco.</b> box exposes three parameters:</p>
 <ol class="tight">
@@ -994,6 +1050,9 @@ Check: \(\theta(5)=5.2(25)-0.56(125)=130-70=60\) ✓; \(\dot\theta(5)=10.4(5)-1.
 <div class="q">
 <div class="q-head"><h3>Question 3 — HRI Applications in Medical and Social Domains</h3><span class="marks">2 marks</span></div>
 <div class="q-body">
+<div class="qtext"><span class="src">RME 4211 Lab Final 2024 — Question 3 (as set)</span>
+<p>Identify and discuss the applications of Human-Robot Interaction (HRI) within the medical and social domains. <span class="m">[2]</span></p>
+</div>
 <div class="sol">
 <p><b>Medical domain:</b></p>
 <ul class="tight">
@@ -1016,6 +1075,9 @@ Check: \(\theta(5)=5.2(25)-0.56(125)=130-70=60\) ✓; \(\dot\theta(5)=10.4(5)-1.
 <div class="q">
 <div class="q-head"><h3>Question 4 — NAO "Stiffness"; Problems of 100% Stiffness</h3><span class="marks">2 marks</span></div>
 <div class="q-body">
+<div class="qtext"><span class="src">RME 4211 Lab Final 2024 — Question 4 (as set)</span>
+<p>For the NAO, what does &ldquo;stiffness&rdquo; mean? What problems do you face if stiffness is always set to 100%? <span class="m">[2]</span></p>
+</div>
 <div class="sol">
 <p><b>Stiffness</b> on NAO is the degree to which each joint's motor actively holds/drives its commanded position — effectively the motor torque enabling (0 = motors off, joints limp and freely movable by hand; 1 = motors apply maximum holding torque, joints rigid). Stiffness must be on for the robot to move or stand, and off for safe manual manipulation (e.g., animation-mode kinesthetic teaching).</p>
 <p><b>Problems if stiffness is always 100%:</b></p>
@@ -1033,6 +1095,9 @@ Check: \(\theta(5)=5.2(25)-0.56(125)=130-70=60\) ✓; \(\dot\theta(5)=10.4(5)-1.
 <div class="q">
 <div class="q-head"><h3>Question 5 — Two Major Research Areas in HRI</h3><span class="marks">2 marks</span></div>
 <div class="q-body">
+<div class="qtext"><span class="src">RME 4211 Lab Final 2024 — Question 5 (as set)</span>
+<p>Identify and analyze any two major research areas in Human-Robot Interaction (HRI). <span class="m">[2]</span></p>
+</div>
 <div class="sol">
 <p><b>1. Trust and acceptance in HRI.</b> Studies how humans calibrate trust in robots — what drives over-trust (blind compliance with a faulty robot) and under-trust (disuse of a capable one) — and how robot reliability, transparency, appearance, and failures shape acceptance (Hancock et al., 2011 meta-analysis). It matters because appropriately calibrated trust is a precondition for safe deployment in homes, hospitals, and vehicles; research covers trust measurement scales, trust repair after robot errors, and explainable robot behavior.</p>
 <p><b>2. Socially-aware navigation and non-verbal interaction.</b> Studies how robots should move and behave among people: proxemics-respecting path planning, legible/predictable motion, approaching and joining groups (F-formations), and generating/reading non-verbal cues such as gaze, gesture, and posture (Kruse et al., 2013 survey; Mutlu's gaze studies). It matters because most robot–human contact in shared spaces is implicit and non-verbal; robots that violate spatial and social norms are rated unsafe and unacceptable regardless of task competence.</p>
@@ -1153,6 +1218,9 @@ Check: \(\theta(5)=5.2(25)-0.56(125)=130-70=60\) ✓; \(\dot\theta(5)=10.4(5)-1.
 <div class="q">
 <div class="q-head"><h3>Question 1 — Principles for Robot Forms, Patterns, and Affordances in HRI Design</h3><span class="marks">5 marks</span></div>
 <div class="q-body">
+<div class="qtext"><span class="src">1st In-course (Full Marks 10 &middot; 1 hour) — Question 1 (as set)</span>
+<p>Which principles have HRI researchers suggested to consider when developing appropriate robot forms, patterns, and affordances in HRI design? <span class="m">[5]</span></p>
+</div>
 <div class="sol">
 <p>HRI researchers (Bartneck, Belpaeme, Eyssel, Kanda, Keijsers &amp; Šabanović, <i>Human–Robot Interaction: An Introduction</i>, 2020; Norman, 1988; Kahn et al., 2008) propose the following design principles:</p>
 <ol class="tight">
@@ -1170,6 +1238,9 @@ Check: \(\theta(5)=5.2(25)-0.56(125)=130-70=60\) ✓; \(\dot\theta(5)=10.4(5)-1.
 <div class="q">
 <div class="q-head"><h3>Question 2 — The Uncanny Valley: Concept, Diagram, and Causes</h3><span class="marks">5 marks</span></div>
 <div class="q-body">
+<div class="qtext"><span class="src">1st In-course (Full Marks 10 &middot; 1 hour) — Question 2 (as set)</span>
+<p>Explain the concept of uncanny valley with suitable diagram. What are the reasons behind the appearance of the uncanny valley? <span class="m">[5]</span></p>
+</div>
 <div class="sol">
 <p><b>Concept.</b> Mori (1970) hypothesized that affinity (<i>shinwakan</i>) toward an artificial agent increases with its human likeness — but only up to a point. For agents that are <i>very close to, yet distinguishably not,</i> human, affinity collapses into eeriness and revulsion: the <b>uncanny valley</b>. Affinity recovers as likeness approaches that of a real healthy human. Movement deepens the valley: a moving almost-human agent (android, animated corpse-like prosthetic) is eerier than a still one.</p>
 <svg viewBox="0 0 560 300" xmlns="http://www.w3.org/2000/svg" style="max-width:560px; width:100%; display:block; margin:14px auto; background:#fff; border:1px solid #dcd8ce;">
@@ -1200,6 +1271,9 @@ Check: \(\theta(5)=5.2(25)-0.56(125)=130-70=60\) ✓; \(\dot\theta(5)=10.4(5)-1.
 <div class="q">
 <div class="q-head"><h3>Question 3 — Types of Non-verbal Interaction</h3><span class="marks">5 marks</span></div>
 <div class="q-body">
+<div class="qtext"><span class="src">Additional in-course questions — Question 1 (as set)</span>
+<p>What are the types of non-verbal interaction? Briefly explain each of them. <span class="m">[5]</span></p>
+</div>
 <div class="sol">
 <p>Following the taxonomy in the HRI textbook (Bartneck et al., 2020, Ch. Non-verbal Interaction):</p>
 <ol class="tight">
@@ -1219,6 +1293,9 @@ Check: \(\theta(5)=5.2(25)-0.56(125)=130-70=60\) ✓; \(\dot\theta(5)=10.4(5)-1.
 <div class="q">
 <div class="q-head"><h3>Question 4 — "Emotion as a Point in 2D or 3D Space"</h3><span class="marks">5 marks</span></div>
 <div class="q-body">
+<div class="qtext"><span class="src">Additional in-course questions — Question 2 (as set)</span>
+<p>&ldquo;Emotion can be expressed as a point in a 2D or a 3D space&rdquo;. Explain the statement. Which models are used to express emotion in 2D and 3D space? <span class="m">[5]</span></p>
+</div>
 <div class="sol">
 <p><b>Meaning of the statement.</b> Dimensional theories of emotion hold that emotions are not discrete categories but positions in a continuous low-dimensional space whose axes are fundamental affective dimensions. Any emotional state can then be represented — and interpolated — as a coordinate point, which is convenient computationally for affective HRI (recognizing, representing, and expressing emotion as continuous values rather than labels).</p>
 <p><b>2D model — Russell's circumplex model of affect (1980):</b> two orthogonal axes: <b>valence</b> (pleasure–displeasure, x-axis) and <b>arousal</b> (activation–deactivation, y-axis). Emotions arrange in a circle in this plane: happy = positive valence/moderately high arousal; excited = positive/high arousal; sad = negative/low arousal; angry = negative/high arousal; calm = positive/low arousal. A robot can express any point by modulating, e.g., speed/amplitude of motion (arousal) and posture openness or LED color (valence).</p>
@@ -1239,7 +1316,13 @@ Check: \(\theta(5)=5.2(25)-0.56(125)=130-70=60\) ✓; \(\dot\theta(5)=10.4(5)-1.
 <div class="q">
 <div class="q-head"><h3>Question 1 — Asimov's Laws, Exploratory vs Confirmatory Research, Correlation vs Causation</h3><span class="marks">5 + 5 + 4</span></div>
 <div class="q-body">
-
+<div class="qtext"><span class="src">Final Examination 2023 — Question 1 (as set)</span>
+<ol class="qparts" type="a">
+<li>What are Asimov&rsquo;s three laws of robotics? Why these laws were introduced? <span class="m">[5]</span></li>
+<li>Differentiate between exploratory and confirmatory research with suitable examples based on HRI. <span class="m">[5]</span></li>
+<li>Is correlation always indicative of causation? Explain with an example. <span class="m">[4]</span></li>
+</ol>
+</div>
 <div class="part">(a) Asimov's three laws; why introduced</div>
 <div class="sol">
 <p>Isaac Asimov introduced the Three Laws of Robotics in his 1942 short story "Runaround":</p>
@@ -1276,7 +1359,13 @@ Check: \(\theta(5)=5.2(25)-0.56(125)=130-70=60\) ✓; \(\dot\theta(5)=10.4(5)-1.
 <div class="q">
 <div class="q-head"><h3>Question 2 — Proxemics, F-formation, Robot Localization &amp; Navigation</h3><span class="marks">5 + 5 + 4</span></div>
 <div class="q-body">
-
+<div class="qtext"><span class="src">Final Examination 2023 — Question 2 (as set)</span>
+<ol class="qparts" type="a">
+<li>What is proxemics? What are the 4 distance zones in proxemics? Explain. <span class="m">[5]</span></li>
+<li>Why F-formation is used? Describe o-space, p-space, and r-space with suitable diagram. <span class="m">[5]</span></li>
+<li>How a robot can locate itself and navigate through an environment? <span class="m">[4]</span></li>
+</ol>
+</div>
 <div class="part">(a) Proxemics and Hall's four distance zones</div>
 <div class="sol">
 <p><b>Proxemics</b> (Hall, 1966) is the study of how humans use interpersonal space as a communication medium — how distance regulates and expresses social relationships, and how spatial violations produce discomfort. Hall's four zones:</p>
@@ -1328,7 +1417,13 @@ Check: \(\theta(5)=5.2(25)-0.56(125)=130-70=60\) ✓; \(\dot\theta(5)=10.4(5)-1.
 <div class="q">
 <div class="q-head"><h3>Question 3 — Affordances, Uncanny Valley, Four HRI Design Principles</h3><span class="marks">4 + 5 + 5</span></div>
 <div class="q-body">
-
+<div class="qtext"><span class="src">Final Examination 2023 — Question 3 (as set)</span>
+<ol class="qparts" type="a">
+<li>What is affordances? Explain the role of design affordances in robot design with suitable examples. <span class="m">[4]</span></li>
+<li>Explain the concept of uncanny valley with suitable diagram. What are the reason behind the appearance of the uncanny valley? <span class="m">[5]</span></li>
+<li>What are the four design principles in HRI? Explain each with a suitable example. <span class="m">[5]</span></li>
+</ol>
+</div>
 <div class="part">(a) Affordances and their role in robot design</div>
 <div class="sol">
 <p>An <b>affordance</b> (Gibson, 1979) is an action possibility an object offers an agent; Norman (1988) emphasized <i>perceived</i> affordances — the action possibilities a user can visually infer. In robot design, affordances make the interaction self-explanatory:</p>
@@ -1362,8 +1457,14 @@ Check: \(\theta(5)=5.2(25)-0.56(125)=130-70=60\) ✓; \(\dot\theta(5)=10.4(5)-1.
 <div class="q">
 <div class="q-head"><h3>Question 4 — Robot for Autistic Children</h3><span class="marks">5 + 5 + 4</span></div>
 <div class="q-body">
-<div class="qtext">A robot to help autistic children improve communication skills and learning ability.</div>
-
+<div class="qtext"><span class="src">Final Examination 2023 — Question 4 (as set)</span>
+<p>You want to design a robot that will help autistic children to improve their communication skills and learning ability. Answer the following questions related to your design.</p>
+<ol class="qparts" type="a">
+<li>Which non-verbal interaction modalities will be most important for your robot and why? <span class="m">[5]</span></li>
+<li>Should your robot have the capability to understand and express emotions? Explain. <span class="m">[5]</span></li>
+<li>What are the challenges in understanding and performing non-verbal interactions and emotions with the current state of technology? <span class="m">[4]</span></li>
+</ol>
+</div>
 <div class="part">(a) Most important non-verbal interaction modalities, and why</div>
 <div class="sol">
 <ul class="tight">
@@ -1401,7 +1502,13 @@ Check: \(\theta(5)=5.2(25)-0.56(125)=130-70=60\) ✓; \(\dot\theta(5)=10.4(5)-1.
 <div class="q">
 <div class="q-head"><h3>Question 5 — Human Roles, Levels of Autonomy, Barriers to Commercial Success</h3><span class="marks">5 + 5 + 4</span></div>
 <div class="q-body">
-
+<div class="qtext"><span class="src">Final Examination 2023 — Question 5 (as set)</span>
+<ol class="qparts" type="a">
+<li>What are the roles that a human can play while interacting with a robot? Explain each of them. <span class="m">[5]</span></li>
+<li>What are the levels of autonomy? Explain autonomy from the perspective of HRI. <span class="m">[5]</span></li>
+<li>&lsquo;There are various HRI problems that could prevent robots from being successful on the commercial market and as applications in everyday life&rsquo;. What are the problems? Explain. <span class="m">[4]</span></li>
+</ol>
+</div>
 <div class="part">(a) Roles a human can play while interacting with a robot</div>
 <div class="sol">
 <p>Scholtz (2003), extended in Goodrich &amp; Schultz (2007), identifies these human roles:</p>
@@ -1444,7 +1551,13 @@ Check: \(\theta(5)=5.2(25)-0.56(125)=130-70=60\) ✓; \(\dot\theta(5)=10.4(5)-1.
 <div class="q">
 <div class="q-head"><h3>Question 6 — Morphology, Human-Robot Ratio, Situational Awareness</h3><span class="marks">4 + 5 + 5</span></div>
 <div class="q-body">
-
+<div class="qtext"><span class="src">Final Examination 2023 — Question 6 (as set)</span>
+<ol class="qparts" type="a">
+<li>Why is robot morphology important? What are the types of robots based on morphology? <span class="m">[4]</span></li>
+<li>What is Human Robot Ratio (HRR)? Why is HRR important? Explain with example. <span class="m">[5]</span></li>
+<li>What is situational awareness? What are the levels of situational awareness. <span class="m">[5]</span></li>
+</ol>
+</div>
 <div class="part">(a) Why morphology matters; types of robots by morphology</div>
 <div class="sol">
 <p><b>Why important:</b> morphology (the robot's physical form) is the first and most persistent signal users receive; it drives expectations of capability and intelligence, determines perceived affordances, sets the social framing (machine vs creature vs person), influences emotional response (cuteness, threat, uncanny valley), and must simultaneously satisfy functional task demands. A mismatch between morphology and capability leads to misuse and disappointment.</p>
@@ -1480,7 +1593,13 @@ Check: \(\theta(5)=5.2(25)-0.56(125)=130-70=60\) ✓; \(\dot\theta(5)=10.4(5)-1.
 <div class="q">
 <div class="q-head"><h3>Question 7 — Emotion vs Mood vs Affect, Russell's Model vs PAD, Timing in HRI</h3><span class="marks">5 + 5 + 4</span></div>
 <div class="q-body">
-
+<div class="qtext"><span class="src">Final Examination 2023 — Question 7 (as set)</span>
+<ol class="qparts" type="a">
+<li>Differentiate between emotion, mood, and affect. What are the challenges in the current state of affective HRI? <span class="m">[5]</span></li>
+<li>Explain Russel&rsquo;s 2D model of emotion. Explain its limitation with an appropriate example. How does the PAD model of emotion overcome such limitations? <span class="m">[5]</span></li>
+<li>What are some problems that can emerge in relation to the important role of timing in human robot interactions? How are these solved in other social interactions where the interactants miss out social cues (e.g., in texting, or when there is a time delay on Skype calls)? <span class="m">[4]</span></li>
+</ol>
+</div>
 <div class="part">(a) Emotion, mood, affect; challenges of affective HRI</div>
 <div class="sol">
 <ul class="tight">
@@ -8871,7 +8990,14 @@ Compute \(f_t, i_t, \tilde C_t, C_t, o_t, h_t\).</div>
 <div class="q">
 <div class="q-head"><h3>Question 1 — Interdisciplinary Design, the Uncanny Valley, and Design Method</h3><span class="marks">12 marks</span></div>
 <div class="q-body">
-
+<div class="qtext"><span class="src">In-course Examination 2026 — Question 1 (as set)</span>
+<p>You are working in an HRI project as an engineer to construct a humanoid robot to help disabled people with their daily activities. This project also involves designers and social scientists in your team. Answer the following questions regarding your work: <span class="m">[12]</span></p>
+<ol class="qparts" type="a">
+<li>How would you divide your project's work between engineers, designers, and social scientists? How would your way of working be different from that of your teammates from other backgrounds?</li>
+<li>How would you decide the degree of anthropomorphism needed for your robot design? Explain using the Uncanny Valley theory.</li>
+<li>Which design method (engineering/user-centered/participatory) would you use to design your robot and why?</li>
+</ol>
+</div>
 <div class="part">(a) Division of work among engineers, designers, and social scientists</div>
 <div class="sol">
 <ul class="tight">
@@ -8909,8 +9035,13 @@ Compute \(f_t, i_t, \tilde C_t, C_t, o_t, h_t\).</div>
 <div class="q">
 <div class="q-head"><h3>Question 2 — Joint-Space Trajectory: Cubic Polynomial and LSPB</h3><span class="marks">8 marks</span></div>
 <div class="q-body">
-<div class="qtext">Given: \(\theta_0 = -15^\circ\), \(\theta_f = 60^\circ\), \(t_f = 6\ \mathrm{s}\), robot at rest at both ends.</div>
-
+<div class="qtext"><span class="src">In-course Examination 2026 — Question 2 (as set)</span>
+<p>A single-link robot with a rotary joint is motionless at \(\theta = -15^\circ\). It is desired to move the joint in a smooth manner to \(\theta = 60^\circ\) in 6 seconds. <span class="m">[8]</span></p>
+<ol class="qparts" type="a">
+<li>Find the coefficients of a cubic which accomplishes this motion and brings the arm to rest at the goal.</li>
+<li>For a straight-line path with parabolic blends of same size at both ends, calculate the blend time, the straight segment velocity, and the linear time for an acceleration thrice the minimum acceleration needed for this path.</li>
+</ol>
+</div>
 <div class="part">(a) Cubic polynomial trajectory</div>
 <div class="sol">
 <p>A cubic trajectory \(\theta(t) = a_0 + a_1 t + a_2 t^2 + a_3 t^3\) with boundary conditions \(\theta(0)=\theta_0\), \(\dot\theta(0)=0\), \(\theta(t_f)=\theta_f\), \(\dot\theta(t_f)=0\) gives the standard coefficients:</p>
