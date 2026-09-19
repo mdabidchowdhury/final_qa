@@ -8960,6 +8960,683 @@ Compute \(f_t, i_t, \tilde C_t, C_t, o_t, h_t\).</div>
 
 </section>
 
+<!-- ============================ TAB 37: HRI FINAL SUGGESTIONS ============================ -->
+<section id="t37" class="tab">
+<div class="paper-head">
+  <h2>RME 4201 — Final Exam Suggestions</h2>
+  <div class="meta">Derived from Final 2023, Final 2024, the in-course sheets, the 2026 in-course, and the Lecture 1–9 syllabus coverage</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>A. How the Paper Is Built (pattern across 2023 &amp; 2024)</h3><span class="marks">Read first</span></div>
+<div class="q-body">
+<div class="sol">
+<ul class="tight">
+<li><b>Full marks 70 · 3 hours · answer any five (5) of seven (7)</b> — so each question carries <b>14 marks</b>.</li>
+<li>Every question is split into <b>three parts</b> (typically 5+5+4 or 4+5+5), occasionally four parts (4+4+3+3 in 2024 Q1) or two parts when it is the numerical one (6+8 in 2024 Q6).</li>
+<li><b>Exactly one question is numerical</b> — trajectory generation. It appeared as 2024 Q6 and again as Q2 of the 2026 in-course. Treat it as guaranteed.</li>
+<li>The other six are conceptual, and a large fraction are <b>scenario-driven</b>: you are given an application (waiter robot, nursing robot, assistive humanoid, robot for autistic children, teaching robot) and asked to <i>apply</i> proxemics / affordances / anthropomorphism / nonverbal cues / research methodology to it.</li>
+<li>Both finals pair a <b>"list + explain"</b> part with a <b>"justify your choice for this scenario"</b> part. Marks are lost by listing without applying, so always close each part with one sentence tying the theory to the given robot.</li>
+<li>Diagrams are explicitly asked for at least once per paper (uncanny valley curve in 2023 Q3b; ethics-approval flow diagram in 2024 Q5b). Practice drawing: uncanny-valley curve, Hall's proxemic zones, F-formation (o/p/r-space), Russell's 2D circumplex, LSPB velocity profile, and the ethical-approval flowchart.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>B. Topic Frequency Across Past Papers</h3><span class="marks">Priority map</span></div>
+<div class="q-body">
+<div class="sol">
+<table class="vals">
+<tr><th>Topic</th><th>Where it appeared</th><th>Hits</th><th>Priority</th></tr>
+<tr><td><b>Uncanny Valley</b> (curve, causes, how much anthropomorphism)</td><td>F2023 Q3b · F2024 Q3c · In-course Q2 · In-course 2026 Q1b</td><td>4/4 papers</td><td>Certain</td></tr>
+<tr><td><b>Design principles, affordances, design patterns</b></td><td>F2023 Q3a,c · F2024 Q5a · In-course Q1</td><td>4</td><td>Certain</td></tr>
+<tr><td><b>Proxemics, Hall's zones, F-formation, socially aware navigation</b></td><td>F2023 Q2 · F2024 Q3a, Q4b</td><td>3</td><td>Very high</td></tr>
+<tr><td><b>Nonverbal interaction</b> (six types, gaze, gesture, which matter for a scenario)</td><td>F2023 Q4a,c · F2024 Q4c, Q5c · In-course Q3</td><td>5</td><td>Certain</td></tr>
+<tr><td><b>Emotion</b> (affect/mood/emotion, Russell 2D, PAD, affective-HRI challenges)</td><td>F2023 Q7a,b, Q4b · In-course Q4</td><td>4</td><td>Very high</td></tr>
+<tr><td><b>Trajectory generation</b> (cubic, via points, LSPB)</td><td>F2024 Q6 · In-course 2026 Q2</td><td>2</td><td>Certain (the numerical)</td></tr>
+<tr><td><b>Research methodology</b> (exploratory/confirmatory, correlation vs causation, participants, between/within)</td><td>F2023 Q1b,c · F2024 Q7a,b</td><td>4</td><td>Very high</td></tr>
+<tr><td><b>Research ethics</b> (informed consent, approval process, WoZ deception, debriefing)</td><td>F2023 Q1a · F2024 Q5b, Q7c</td><td>3</td><td>Very high</td></tr>
+<tr><td><b>Interdisciplinarity</b> (HRI vs HCI vs robotics project; engineers/designers/social scientists; participatory vs user-centered design)</td><td>F2024 Q1c, Q2 · In-course 2026 Q1a,c</td><td>3</td><td>Very high</td></tr>
+<tr><td><b>Verbal interaction</b> (ASR, spectrogram/STFT, VAD, dialogue management, TTS, timing)</td><td>F2024 Q3b only — <i>but Lecture 5 is now a full module with a worked STFT example</i></td><td>1 (rising)</td><td>High — likely expanded this year</td></tr>
+<tr><td><b>Autonomy, human roles, HRR, situational awareness, morphology</b></td><td>F2023 Q5, Q6</td><td>2</td><td>Medium</td></tr>
+<tr><td><b>Asimov's laws, roboethics, robots in media &amp; workplace</b></td><td>F2023 Q1a — <i>Lecture 9 now covers this in depth</i></td><td>1 (rising)</td><td>Medium–high</td></tr>
+<tr><td><b>Foundations</b> (social robot definition, proprioception, HCI vs HRI, human factors)</td><td>F2024 Q1</td><td>1</td><td>Medium</td></tr>
+</table>
+<div class="note">Reading of the trend: the four "certain" rows have appeared in <i>every</i> paper and are cheap marks. The two "rising" rows (verbal interaction, society &amp; ethics) are under-represented historically but now have full lecture modules behind them — including a quantitative STFT example, which is exactly the kind of content that turns into a new exam part.</div>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>C. Tiered Suggestion List</h3><span class="marks">Study order</span></div>
+<div class="q-body">
+
+<div class="part">Tier 1 — Do not sit the exam without these (covers ≈ 3 of the 5 questions you will answer)</div>
+<div class="sol">
+<ol class="tight">
+<li><b>Uncanny valley</b> — Mori's curve with both axes labelled, the still vs. moving curves, at least three explanations (perceptual mismatch / category-boundary confusion, evolutionary disease-and-corpse avoidance, violated expectations), and the design conclusion: stylized moderate anthropomorphism, stay on the near side.</li>
+<li><b>Affordances + HRI design principles</b> — Gibson/Norman affordance, perceived vs. real affordance; the principles: form follows function, design for correct expectations (underpromise/overdeliver), perceivable affordances, use established patterns (Kahn et al.), don't mix metaphors, iterate with users.</li>
+<li><b>Proxemics</b> — Hall's four zones with numbers (intimate ≈ 0–0.5 m, personal 0.5–1.2 m, social 1.2–4 m, public &gt; 4 m), high/low-contact cultures, personal space = intimate + personal, and the HRI findings (Walters 2005, Hüttenrauch 2006, Kuzuoka 2010, Gockley 2007, Morales Saiki 2012).</li>
+<li><b>F-formation</b> — o-space / p-space / r-space and the four configurations (face-to-face, L-shape, side-by-side, circular); why a robot needs it to judge which group is joinable.</li>
+<li><b>Six types of nonverbal interaction</b> — gaze, gesture, mimicry/imitation, touch, posture/movement, rhythm &amp; timing; the four gesture categories (deictic, iconic, symbolic, beat); joint attention.</li>
+<li><b>Emotion models</b> — affect ⊃ {emotion, mood} with the cause/direction/duration contrast; OCC (22 categories); Ekman's six; Russell's 2D valence–arousal, its angry/afraid limitation, and the PAD 3D fix.</li>
+<li><b>Trajectory generation</b> — single cubic, cubic with a specified via velocity, two-segment cubic with velocity <i>and</i> acceleration continuity, and LSPB (blend time formula plus the \(\ddot\theta \ge 4\Delta\theta/t_f^2\) feasibility condition).</li>
+</ol>
+</div>
+
+<div class="part">Tier 2 — Strongly expected, usually as the 4- or 5-mark part</div>
+<div class="sol">
+<ol class="tight">
+<li><b>Research methodology pairs</b> — descriptive/analytical, fundamental/applied, quantitative/qualitative/mixed, conceptual/empirical, exploratory/confirmatory, conclusion/decision-oriented. Learn one HRI example for each pair (the notes give them: proxemics logging, museum tours, uncanny valley, robot vacuums).</li>
+<li><b>Correlation vs. causation</b> — the Roomba/teenager example, the firefighter example, the spurious cheese-and-bedsheet correlation (\(r^2 = 0.896\)), and how random assignment to similar groups establishes causation.</li>
+<li><b>Participants and designs</b> — convenience sample of university students and its external-validity limit; ≈ 25 per condition; EPV rule of 10–20; G*Power; saturation for qualitative; between- vs. within-subjects and counterbalancing of order effects; Likert vs. semantic differential.</li>
+<li><b>Research ethics</b> — informed consent, debriefing after WoZ deception, physical and psychological safety (the elderly-person-loses-the-robot case), APA/AAA/ACM codes, and the approval flowchart.</li>
+<li><b>Interdisciplinarity</b> — HRI project vs. HCI project vs. robotics project; engineers (bottom-up) / designers (prototyping) / social scientists (top-down); participatory design vs. user-centered design and when each is right.</li>
+<li><b>Verbal interaction</b> — the ASR chain (recording → Fourier → STFT → spectrogram → phoneme signatures), recognition ≠ understanding, cloud vs. on-board trade-off, ASR limitations, VAD's three features (short-term energy, ZCR, spectral dynamics), the four DM complexity levels, back-channeling and response timing (≈ 100 ms for "yes", ≈ 500 ms for undesired offers), concatenative vs. parametric TTS.</li>
+</ol>
+</div>
+
+<div class="part">Tier 3 — Worth one revision pass; these fill the seventh question</div>
+<div class="sol">
+<ol class="tight">
+<li>Levels of autonomy and roles a human can play (supervisor, operator, mechanic, teammate, bystander); Human–Robot Ratio; situational awareness and its three levels.</li>
+<li>Morphology (anthropomorphic, zoomorphic, caricatured, functional) and why form sets expectations.</li>
+<li>Social robot definitions (Bartneck &amp; Forlizzi 2004; Breazeal 2003), industrial vs. social robot, HCI vs. HRI, proprioception, human factors in controller design.</li>
+<li>Asimov's three laws plus the zeroth law and why each was added; roboethics; the three media portrayals (robots want to be human / threat — Frankenstein Complex / benevolent superior robots); Western vs. Japanese framing; robots in the workplace (Reich-Stiebert &amp; Eyssel 2015: assistants yes, main teachers no).</li>
+<li>Robot perception of nonverbal cues: sensing hardware, the ML pipeline (labelled database → iterative classifier training → deployment), and the four current challenges including the 2026 hurdle table (gaze tracking, affective touch, sarcasm, long-term memory).</li>
+</ol>
+</div>
+
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>D. Numbers, Names and Formulas to Have Memorised</h3><span class="marks">Quick sheet</span></div>
+<div class="q-body">
+<div class="sol">
+<table class="vals">
+<tr><th>Item</th><th>Value / statement</th></tr>
+<tr><td>Hall's zones</td><td>intimate ≈ few cm – 0.5 m · personal 0.5 – 1.2 m · social 1.2 – 4 m · public ≥ 4 m</td></tr>
+<tr><td>Cubic coefficients (rest-to-rest)</td><td>\(a_0=\theta_0,\; a_1=0,\; a_2=\dfrac{3\Delta\theta}{t_f^{2}},\; a_3=-\dfrac{2\Delta\theta}{t_f^{3}}\)</td></tr>
+<tr><td>Cubic peak velocity / acceleration</td><td>\(\dot\theta_{\max}=\dfrac{3\Delta\theta}{2t_f}\) at \(t=t_f/2\);  \(|\ddot\theta|_{\max}=\dfrac{6\Delta\theta}{t_f^{2}}\) at the ends</td></tr>
+<tr><td>LSPB blend time</td><td>\(t_b=\dfrac{t_f}{2}-\dfrac{\sqrt{\ddot\theta^{2}t_f^{2}-4\ddot\theta\,\Delta\theta}}{2\ddot\theta}\), feasible only if \(\ddot\theta \ge \dfrac{4\Delta\theta}{t_f^{2}}\)</td></tr>
+<tr><td>STFT bin spacing</td><td>\(\Delta f = f_s/N\); bin of a frequency \(f\) is \(k \approx f/\Delta f\); window duration \(=N/f_s\); number of frames \(=\lfloor (L-N)/H\rfloor+1\)</td></tr>
+<tr><td>Gabor limit</td><td>Enlarging \(N\) improves frequency resolution and degrades time resolution — the acoustic uncertainty principle</td></tr>
+<tr><td>Short-term energy</td><td>\(E_m=\sum\,[s(n)\,w(n)]^{2}\)</td></tr>
+<tr><td>OCC / Ekman</td><td>OCC = 22 emotion categories (Ortony et al., 1988); Ekman's six basic facial expressions; FACS action units — AU6 orbicularis oculi, AU12 zygomaticus major</td></tr>
+<tr><td>PAD</td><td>Pleasure–Arousal–Dominance, Mehrabian &amp; Russell (1974); used on Kismet (Breazeal, 2003)</td></tr>
+<tr><td>Sample size</td><td>≈ 25 participants per condition; EPV 10–20 per predictor; G*Power; qualitative → saturation</td></tr>
+<tr><td>Response timing</td><td>"Yes" ≈ 100 ms; replies to undesired offers ≈ 500 ms (Strömbergsson et al., 2013)</td></tr>
+<tr><td>Spurious correlation</td><td>US cheese consumption vs. bedsheet-tangling deaths, \(r^{2}=0.896\)</td></tr>
+<tr><td>Named studies worth citing</td><td>Walters 2005 · Hüttenrauch 2006 · Kuzuoka 2010 · Gockley 2007 · Morales Saiki 2012 · Salem 2013 (ASIMO gestures) · Riek 2010 · Wills 2016 · Chen 2014 · Wullenkord 2016 · Beck 2010 · Xu 2014 · Michalowski 2007 · Bruno 2017 · Mutlu &amp; Forlizzi 2008 · Park 2017 · Eyssel 2012a</td></tr>
+</table>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>E. Exam-Room Strategy</h3><span class="marks">Tactics</span></div>
+<div class="q-body">
+<div class="sol">
+<ul class="tight">
+<li><b>Answer the numerical question first.</b> It is the only one where the marks are objective and fully recoverable, and it is the one most likely to run over time if left to the end.</li>
+<li><b>Choose five, and choose them in the first five minutes.</b> Scan all seven, mark the three you can answer completely, then pick the best two of the remainder — do not start writing before this.</li>
+<li><b>14 marks ≈ 1.5 pages.</b> With 3 hours for five questions, budget ≈ 30 min each, leaving ~20 min spare for the numerical and a final check.</li>
+<li><b>Match structure to marks.</b> A 5-mark part wants five distinct, labelled points (a list of five zones/types/principles with one line each), not a paragraph. A 4-mark part wants four.</li>
+<li><b>Always name sources.</b> Papers here reward "Hall et al. (1968)", "Kahn et al.", "Ortony et al. (1988)" — one citation per part is usually enough to lift a part from adequate to complete.</li>
+<li><b>Draw the diagram even when it is not demanded.</b> The uncanny-valley curve, the proxemic rings, the circumplex and the LSPB velocity trapezoid each take under a minute and carry a mark or two on their own.</li>
+<li><b>Close scenario parts with an explicit recommendation.</b> "Therefore, for this waiter robot, keep the approach distance at the social boundary (~1.2 m) and switch to personal distance only when the customer initiates." That sentence is usually where the application marks sit.</li>
+</ul>
+</div>
+</div>
+</div>
+
+</section>
+
+<!-- ============================ TAB 38: HRI PROBABLE FINAL + SOLUTION ============================ -->
+<section id="t38" class="tab">
+<div class="paper-head">
+  <h2>RME 4201 — Probable Final Question &amp; Solution</h2>
+  <div class="meta">Predicted paper · Full Marks: 70 · Time: 3 Hours · Answer any five (5) of seven · Each question 14 marks · Modelled on Final 2023 and Final 2024</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>Paper at a Glance</h3><span class="marks">Prediction</span></div>
+<div class="q-body">
+<div class="sol">
+<table class="vals">
+<tr><th>Q</th><th>Theme</th><th>Split</th><th>Drawn from</th></tr>
+<tr><td>1</td><td>Foundations &amp; interdisciplinarity</td><td>4 + 5 + 5</td><td>Lectures 1–2</td></tr>
+<tr><td>2</td><td>Design: affordances, uncanny valley, design principles</td><td>4 + 5 + 5</td><td>Lecture 2</td></tr>
+<tr><td>3</td><td>Spatial interaction for a hospital delivery robot</td><td>5 + 5 + 4</td><td>Lecture 3</td></tr>
+<tr><td>4</td><td>Verbal interaction: ASR, STFT numerical, VAD, dialogue management</td><td>5 + 5 + 4</td><td>Lecture 5</td></tr>
+<tr><td>5</td><td>Nonverbal cues and emotion for a companion robot</td><td>5 + 5 + 4</td><td>Lectures 6–7</td></tr>
+<tr><td>6</td><td>Trajectory generation — cubic and LSPB (<b>numerical</b>)</td><td>7 + 7</td><td>Lecture 4</td></tr>
+<tr><td>7</td><td>Research methods, ethics and society</td><td>5 + 5 + 4</td><td>Lectures 8–9</td></tr>
+</table>
+<div class="note">Rationale: this mirrors the 2023/2024 architecture (one numerical, two scenario questions, one design question, one methods-and-ethics question) while giving Lecture 5 its own question — the only major module never yet examined as a full question, and now the one carrying a worked quantitative example.</div>
+</div>
+</div>
+</div>
+
+<!-- ============================== Q1 ============================== -->
+<div class="q">
+<div class="q-head"><h3>Question 1 — Foundations and the Interdisciplinary Nature of HRI</h3><span class="marks">4 + 5 + 5</span></div>
+<div class="q-body">
+<div class="qtext">Your department is starting a project on a robot receptionist for the university's main administrative building. (a) Define a social robot and distinguish an HRI project from an HCI project and from a robotics project. (b) Explain the key differences between HCI and HRI, and why proprioception and embodiment make HRI harder. (c) Describe how you would divide the work among engineers, designers and social scientists, and state which design method you would adopt and why.</div>
+
+<div class="part">(a) Social robot; HRI vs. HCI vs. robotics project</div>
+<div class="sol">
+<p><b>Definition.</b> Following Bartneck &amp; Forlizzi (2004), a social robot is an autonomous or semi-autonomous robot that interacts and communicates with humans by following the behavioural norms expected by the people with whom it is intended to interact. Breazeal (2003) adds that a sociable robot communicates through social cues — speech, gaze, gesture, emotional expression — and engages people as social partners rather than as operators.</p>
+<table class="vals">
+<tr><th></th><th>Robotics project</th><th>HCI project</th><th>HRI project</th></tr>
+<tr><td><b>Question asked</b></td><td>Can the machine perform the task reliably?</td><td>Can the user operate the interface efficiently?</td><td>Does the interaction between an embodied agent and a person work socially and physically?</td></tr>
+<tr><td><b>Unit of analysis</b></td><td>The robot</td><td>The user + screen</td><td>The <b>interaction</b> between human and robot — neither alone</td></tr>
+<tr><td><b>Embodiment</b></td><td>Present, but social consequences ignored</td><td>Absent — the system does not share physical space</td><td>Central: the robot occupies space, moves, and can physically affect the user</td></tr>
+<tr><td><b>Success criterion</b></td><td>Accuracy, speed, repeatability</td><td>Usability, task completion time, error rate</td><td>Acceptance, trust, social appropriateness, safety <i>and</i> task performance</td></tr>
+</table>
+<div class="ans"><b>Answer:</b> The receptionist project is an HRI project because its success depends on whether visitors approach, trust and understand the robot — not merely on whether the robot can look up a room number (robotics) or whether a touchscreen menu is efficient (HCI).</div>
+</div>
+
+<div class="part">(b) Key differences between HCI and HRI; role of proprioception and embodiment</div>
+<div class="sol">
+<ol class="tight">
+<li><b>Shared physical space.</b> A desktop interface cannot collide with the user; a robot can. Safety therefore becomes a first-class interaction requirement, not an afterthought.</li>
+<li><b>Mobility and autonomy.</b> The robot initiates actions and changes its own position, so the interaction is bidirectional and partly robot-driven; a GUI only responds.</li>
+<li><b>Social expectations.</b> An embodied, moving, possibly face-bearing agent triggers automatic social responses — people apply proxemic norms, turn-taking and politeness to it, which they do not apply to a screen.</li>
+<li><b>Unstructured environment and non-expert users.</b> Visitors arrive in groups, speak with accents, stand at varying distances, and have received no training.</li>
+<li><b>Multi-modality.</b> Input and output run simultaneously over speech, gaze, gesture, posture and motion, which must be fused and synchronised in real time.</li>
+</ol>
+<p><b>Proprioception</b> is the robot's sense of its own joint positions, velocities and forces. It matters because:</p>
+<ul class="tight">
+<li>Safe physical interaction (a handshake, handing over a visitor badge, being touched or pushed by a child) requires the robot to know its own configuration and the forces on it, so it can yield rather than resist.</li>
+<li>Legible, smooth motion — which is how the robot conveys intent — is only achievable with accurate internal state feedback.</li>
+<li>Without proprioception the robot cannot detect that it has been displaced or obstructed, and will keep executing a plan that no longer matches reality.</li>
+</ul>
+</div>
+
+<div class="part">(c) Division of interdisciplinary work; choice of design method</div>
+<div class="sol">
+<ul class="tight">
+<li><b>Engineers</b> — bottom-up: actuation, sensing, localisation and navigation in the lobby, speech pipeline, power and safety interlocks, and the reliability budget. They start from technical constraints and build upward.</li>
+<li><b>Designers</b> — form, proportions, colour, screen and face layout, and the affordances that tell a visitor where to stand, where to speak and where to look. They work through sketches, mockups and iterative prototypes.</li>
+<li><b>Social scientists</b> — top-down: field observation of the existing human receptionist, interviews with staff and visitors, measurement of acceptance, trust and perceived competence, and the ethical review. They start from people and work toward requirements.</li>
+</ul>
+<div class="note">The three must be interleaved, not sequential: engineering constraints bound what designers may propose, designer mockups are what social scientists evaluate with real visitors, and the evaluation results become new engineering requirements. This loop — prototype, test, analyse, refine — is iterative design.</div>
+<div class="ans"><b>Method:</b> <b>participatory (co-)design</b>. A receptionist robot serves a heterogeneous, largely unknown population — students, elderly visitors, staff, people with disabilities — whose needs the engineering team cannot infer reliably. In user-centered design the team still decides <i>on behalf of</i> users; in participatory design representative users (front-desk staff and regular visitors) sit in the design sessions as co-designers. Given that the frontline staff hold the tacit knowledge of what visitors actually ask for, participatory design is the appropriate choice, with user-centered evaluation studies layered on top at each iteration.</div>
+</div>
+
+</div>
+</div>
+
+<!-- ============================== Q2 ============================== -->
+<div class="q">
+<div class="q-head"><h3>Question 2 — Affordances, the Uncanny Valley, and HRI Design Principles</h3><span class="marks">4 + 5 + 5</span></div>
+<div class="q-body">
+<div class="qtext">(a) What are affordances, and what role do they play in robot design? (b) Explain the uncanny valley with a labelled diagram and discuss its causes. (c) State five design principles for HRI, giving one example of each.</div>
+
+<div class="part">(a) Affordances and their role</div>
+<div class="sol">
+<p>An <b>affordance</b> (Gibson; popularised for design by Norman, 1988) is an action possibility that an object offers to an agent — a handle affords grasping, a flat horizontal surface affords placing. Norman distinguishes:</p>
+<ul class="tight">
+<li><b>Real affordance</b> — what the object can genuinely be used for.</li>
+<li><b>Perceived affordance</b> — what the user believes it can be used for, from its visible form.</li>
+</ul>
+<p><b>Role in robot design:</b></p>
+<ol class="tight">
+<li>Affordances let users infer the robot's capabilities <i>without instruction</i> — a graspable handle, a pressable button, a face region that shows where to speak.</li>
+<li>They set expectations: arms suggest manipulation, a face suggests conversation, wheels suggest mobility. A mismatch between perceived and real affordance produces disappointment and interaction breakdown.</li>
+<li>They guide the user's own body — where to stand, which side to approach, where to hand an object.</li>
+</ol>
+<div class="note">The failure mode to name: a robot with an expressive face but no dialogue capability affords conversation that it cannot deliver. This is a <i>false affordance</i>, and it is the single most common design error in social robots.</div>
+</div>
+
+<div class="part">(b) The uncanny valley — diagram and causes</div>
+<div class="sol">
+<p>Mori (1970) proposed that human affinity toward an artificial agent does not rise monotonically with human likeness. It rises as the agent becomes more humanlike, then falls sharply into a "valley" of eeriness just short of full human resemblance, and recovers only when the agent becomes indistinguishable from a human.</p>
+<div class="step">
+<pre class="code">  affinity
+     ^
+     |          healthy person ●
+  +  |      humanoid robot            ／
+     |         ●                    ／
+     |        ／ ＼               ／
+     |      ／     ＼           ／
+  0  |----●----------＼-------／------------------------&gt; human likeness (%)
+     |  industrial     ＼   ／                     100%
+     |  robot            ＼／  ← moving curve is deeper
+  -  |                    ●  prosthetic hand / corpse / zombie
+                       THE UNCANNY VALLEY</pre>
+</div>
+<ul class="tight">
+<li>Axes: <b>x = degree of human likeness</b>, <b>y = affinity / familiarity (<i>shinwakan</i>)</b>.</li>
+<li>Mori drew <b>two curves</b>: a <b>still</b> object and a <b>moving</b> object. Motion amplifies the effect, so the valley for a moving agent is <b>deeper and steeper</b> — directly relevant to robots, which move.</li>
+</ul>
+<p><b>Causes commonly proposed:</b></p>
+<ol class="tight">
+<li><b>Perceptual mismatch / category confusion</b> — the agent sits on the boundary between "human" and "machine"; the perceptual system cannot commit to a category, and the unresolved conflict is experienced as unease.</li>
+<li><b>Violated expectations</b> — a near-human appearance promises human-quality motion, speech and responsiveness; every small shortfall (dead eyes, stiff gait, latency in reply) is then read as a defect rather than as a machine limitation.</li>
+<li><b>Evolutionary disease/corpse avoidance</b> — a not-quite-right human face resembles illness or death, triggering an ancient pathogen-avoidance response.</li>
+<li><b>Mind-perception threat</b> — attributing an experiencing mind to a machine is itself disturbing, so a highly humanlike robot provokes existential discomfort.</li>
+<li><b>Mortality salience</b> — humanlike artefacts remind the viewer of their own replaceability and death.</li>
+</ol>
+<div class="ans"><b>Design implication:</b> aim for <i>moderate, stylised</i> anthropomorphism — enough human cues for social engagement (a simplified face, expressive gesture, natural prosody), deliberately staying on the near side of the valley rather than chasing photorealism.</div>
+</div>
+
+<div class="part">(c) Five design principles for HRI, with examples</div>
+<div class="sol">
+<ol class="tight">
+<li><b>Form follows function.</b> The robot's appearance should reflect what it can actually do. <i>Example:</i> a warehouse transport robot is given a low flat body and clear load surface, and no face — because it neither converses nor manipulates.</li>
+<li><b>Design for correct expectations — underpromise and overdeliver.</b> Keep the form slightly <i>below</i> the robot's real competence so behaviour exceeds rather than disappoints expectation. <i>Example:</i> Pepper's cartoonish proportions lead users to expect simple chat, so its scripted dialogue feels competent rather than deficient.</li>
+<li><b>Use perceivable affordances.</b> Every actionable part should visually signal its use. <i>Example:</i> a delivery robot's lid is given a recessed handle and a contrasting colour, so recipients open it without being told.</li>
+<li><b>Use established design patterns.</b> Reuse proven interaction solutions rather than reinventing them — Kahn et al.'s patterns such as <i>initial introduction</i>, <i>didactic communication</i>, <i>in motion together</i>, <i>personal interests and history</i>. <i>Example:</i> a tour-guide robot opens with the <i>initial introduction</i> pattern (greeting, self-identification, statement of purpose) before moving.</li>
+<li><b>Don't mix metaphors — keep design consistent.</b> Form, voice, motion and behaviour should express one coherent character. <i>Example:</i> a boxy, mechanical-looking robot given a photorealistic human voice clashes; a matching synthetic-but-warm voice is better.</li>
+</ol>
+<div class="note">A sixth, if the question allows: <b>iterative, user-centered/participatory process</b> — prototype early and test with real target users, since perception of form and affordance cannot be predicted analytically.</div>
+</div>
+
+</div>
+</div>
+
+<!-- ============================== Q3 ============================== -->
+<div class="q">
+<div class="q-head"><h3>Question 3 — Spatial Interaction for a Hospital Delivery Robot</h3><span class="marks">5 + 5 + 4</span></div>
+<div class="q-body">
+<div class="qtext">A wheeled robot delivers medicines along hospital corridors and into wards, where staff often stand in small conversational groups. (a) Using proxemics, specify the spatial policies the robot should follow. (b) Explain the F-formation and how the robot should use it to decide whether and how to approach a group. (c) Describe how the robot localises itself and navigates, and how it should signal its intent.</div>
+
+<div class="part">(a) Proxemic policies</div>
+<div class="sol">
+<p><b>Proxemics</b> (Hall et al., 1968) describes how people take up space in relation to others, and how spatial positioning influences attitudes and behaviour. Where space is relatively unlimited, distance indicates psychological closeness.</p>
+<table class="vals">
+<tr><th>Zone</th><th>Range</th><th>Policy for the delivery robot</th></tr>
+<tr><td><b>Intimate</b></td><td>few cm – 0.5 m</td><td>Never enter uninvited. Permissible only during an explicit handover, and then only after the person has reached toward the robot.</td></tr>
+<tr><td><b>Personal</b></td><td>0.5 – 1.2 m</td><td>Enter only when the staff member has acknowledged the robot (looked at it, spoken to it, or pressed a control). This is the handover stand-off distance.</td></tr>
+<tr><td><b>Social</b></td><td>1.2 – 4 m</td><td><b>Default approach and waiting distance.</b> Stop here, announce the delivery, and wait to be invited closer.</td></tr>
+<tr><td><b>Public</b></td><td>≥ 4 m</td><td>Transit distance along corridors; broadcast presence here (motion sound, lights) so staff are not startled.</td></tr>
+</table>
+<ul class="tight">
+<li><b>Personal space</b> = intimate + personal zones; this is the region a person considers theirs, and the robot's navigation cost function must penalise entering it, not merely avoid collision.</li>
+<li><b>Cultural modulation</b> — high-contact cultures (e.g. South America) tolerate closer approach; low-contact cultures (e.g. the United States) do not. A hospital deployed internationally should expose these distances as configurable parameters.</li>
+<li><b>Corridor constraint</b> — in a narrow corridor the zones cannot all be respected, so the rule becomes: reduce speed, hug one wall, and yield right of way rather than forcing a passing distance.</li>
+<li><b>Empirical backing</b> — Walters et al. (2005) found most people prefer personal or social distance to a robot; Hüttenrauch et al. (2006) found preferred robot distances follow human proxemics; Gockley et al. (2007) found that when following a person, reproducing the person's own trajectory feels more natural than heading directly to their current position.</li>
+</ul>
+</div>
+
+<div class="part">(b) The F-formation and group approach</div>
+<div class="sol">
+<p>The <b>facing formation (F-formation)</b>, due to Adam Kendon, arises when two or more people position themselves so that the areas they face and attend to overlap. It has three concentric spaces:</p>
+<ol class="tight">
+<li><b>o-space</b> — the space <i>between</i> the participants, to which they have equal, direct and exclusive access. This is the shared attentional focus.</li>
+<li><b>p-space</b> — the narrow band occupied by the participants themselves.</li>
+<li><b>r-space</b> — the space surrounding the participants, through which newcomers approach and in which bystanders stand.</li>
+</ol>
+<p><b>Four configurations:</b> face-to-face, L-shape, side-by-side (for two people), and circular or other shapes (for larger groups).</p>
+<p><b>How the robot should use it:</b></p>
+<ul class="tight">
+<li><b>Never drive through the o-space.</b> Crossing the shared attentional area is the spatial equivalent of interrupting — it is read as rude and breaks the conversation.</li>
+<li><b>Approach through r-space and pause at its edge.</b> This is the socially sanctioned position for a newcomer requesting entry; it lets the group grant or withhold access.</li>
+<li><b>Read whether the group is open or closed.</b> A tight circular formation with no gap signals a closed group that should not be joined; an opened formation with a gap in the p-space is an invitation to participate. Applied here: a tight huddle of clinicians is a closed formation, so the robot waits or addresses a single staff member at its periphery.</li>
+<li><b>Joining changes the formation.</b> Kuzuoka et al. (2010) showed a robot can reshape a group's F-formation by changing its <b>body orientation</b>, and that whole-body reorientation is more effective than head movement alone. So the robot should rotate its base, not just its head, when it wants to be admitted.</li>
+</ul>
+</div>
+
+<div class="part">(c) Localisation, navigation, and signalling intent</div>
+<div class="sol">
+<p><b>Localisation.</b> The robot determines its own pose relative to the environment and the people in it:</p>
+<ul class="tight">
+<li>It carries an <b>odometer</b>, which records wheel travel; odometry drifts and loses accuracy as distance accumulates.</li>
+<li>The correction is to build a map and cross-reference odometry-derived pose against exteroceptive sensors — laser range finder or camera. This is <b>simultaneous localisation and mapping (SLAM)</b>.</li>
+</ul>
+<p><b>Navigation.</b></p>
+<ul class="tight">
+<li><b>Dynamic window approach (DWA)</b> for local collision avoidance: (i) predict future pose from current velocity, (ii) consider which velocities are reachable within the robot's dynamic limits, (iii) select a velocity that does not result in a collision.</li>
+<li><b>Path planning</b> over longer horizons: when the goal is outside immediate view, compute a set of waypoints to reach it.</li>
+<li><b>The HRI caveat:</b> most path planners that perform well around obstacles produce <b>socially inappropriate</b> behaviour around people — they cut corners, pass too close and take right of way. Comfort and perceived safety must be added as explicit terms in the cost function. The Google self-driving-car experience is the standard illustration: optimal, highway-code-compliant trajectories startled other road users until <i>politeness</i> was added as an optimisation criterion.</li>
+</ul>
+<p><b>Signalling intent.</b></p>
+<ul class="tight">
+<li>The trajectory itself is a communication channel: by passing slowly a few metres from a person, the robot can express whether it is available for interaction.</li>
+<li>During handover, users prefer <b>legibility</b> — motion from which the goal and intention can be read. The most energy-efficient handover motion is often incomprehensible; a slightly less efficient but interpretable motion is preferable.</li>
+<li>Supplementary cues for this robot: a directional light or projected floor arrow showing the intended path, a short announcement before entering a ward, and a deliberate pause plus base rotation toward the addressee before speaking.</li>
+</ul>
+</div>
+
+</div>
+</div>
+<!-- ============================== Q4 ============================== -->
+<div class="q">
+<div class="q-head"><h3>Question 4 — Verbal Interaction: Speech Recognition, VAD and Dialogue Management</h3><span class="marks">5 + 5 + 4</span></div>
+<div class="q-body">
+<div class="qtext">(a) Describe how automated speech recognition converts a recording into something a robot can classify, and state its main limitations in HRI. (b) A robot records the word "stop" at \(f_s = 8\) kHz for 0.4 s and analyses it with an STFT of window \(N=256\) and hop \(H=128\). Compute the number of frames, the bin spacing, the bins containing a 5 kHz fricative and a 700 Hz formant, and the window duration; then explain what changes if \(N\) is doubled. (c) Explain voice-activity detection and the four complexity levels of dialogue management.</div>
+
+<div class="part">(a) The ASR pipeline and its limitations</div>
+<div class="sol">
+<p><b>Definition.</b> Automated speech recognition (ASR), or speech-to-text (STT), is the recognition of spoken language by computer. Critically, <b>recognition ≠ understanding</b>: ASR produces a transcription, not a meaning. It was historically developed for dictation and device control, assuming a high-quality close-range microphone in a low-noise environment — assumptions that HRI violates.</p>
+<p><b>Pipeline:</b></p>
+<ol class="tight">
+<li><b>Digital recording</b> — the signal is sampled; the sampling rate bounds the highest representable frequency.</li>
+<li><b>Raw signal</b> — amplitude over time. Sufficient for playback, useless for transcription, because phonemes are distinguished by their frequency content, not their loudness.</li>
+<li><b>Fourier transform</b> — converts the signal to the frequency domain.</li>
+<li><b>Short-Time Fourier Transform</b> — since both time <i>and</i> frequency information are needed, the signal is split into overlapping frames of length \(L\) (here \(N\)) and DFT coefficients are computed per frame.</li>
+<li><b>Spectrogram</b> — the squared magnitude of the STFT, visualised as a heat map of frequency against time with colour encoding magnitude.</li>
+<li><b>Classification</b> — phonemes have distinct frequency-domain signatures (e.g. "o" versus "a"), so they are algorithmically distinguishable. Large DNNs now dominate, giving much better accuracy, robustness to noise and ill-formed speech, and speaker-independence including across genders.</li>
+</ol>
+<p><b>Limitations.</b> ASR still struggles with atypical speech; under-represented speaker groups (children, the elderly); local dialects and non-native accents; noisy, reverberant or crowded environments; and proper nouns.</p>
+<p><b>HRI-specific practice and challenges.</b></p>
+<ul class="tight">
+<li>DNN-based ASR is computationally heavy, so it is usually a <b>cloud service</b> — this frees onboard compute but requires reliable internet. On-board fallbacks use reduced, lower-performance DNNs.</li>
+<li>Engines expose simple APIs returning a <b>confidence score</b> and sometimes alternative transcriptions; the robot should branch on low confidence rather than act on a guess.</li>
+<li>The speaker is usually <b>at a distance</b> from the robot, degrading recording quality, and the robot's own microphone picks up ambient noise. Mitigations: close-miking (lapel/headset), signal processing, and directional microphone arrays — though many robots lack that hardware.</li>
+</ul>
+</div>
+
+<div class="part">(b) STFT numerical analysis</div>
+<div class="sol">
+<div class="step">
+<p><b>Step 1 — total samples.</b></p>
+\[L = f_s \times T = 8000 \times 0.4 = 8000 \times 0.4 = 3200 \ \text{samples}\]
+</div>
+<div class="step">
+<p><b>Step 2 — number of STFT frames.</b> With window \(N=256\) and hop \(H=128\) (i.e. 50 % overlap):</p>
+\[N_{\text{frames}} = \left\lfloor \frac{L-N}{H} \right\rfloor + 1 = \left\lfloor \frac{3200-256}{128} \right\rfloor + 1 = \left\lfloor \frac{2944}{128} \right\rfloor + 1 = 23 + 1 = 24\]
+</div>
+<div class="step">
+<p><b>Step 3 — frequency bin spacing.</b></p>
+\[\Delta f = \frac{f_s}{N} = \frac{8000}{256} = 31.25\ \text{Hz per bin}\]
+</div>
+<div class="step">
+<p><b>Step 4 — bin indices.</b> The bin containing a component at frequency \(f\) is \(k \approx f/\Delta f\).</p>
+\[k_{/s/} = \frac{5000}{31.25} = 160 \qquad\qquad k_{\text{formant}} = \frac{700}{31.25} = 22.4 \approx 22\]
+</div>
+<div class="step">
+<p><b>Step 5 — window and hop duration.</b></p>
+\[T_{\text{win}} = \frac{N}{f_s} = \frac{256}{8000} = 0.032\ \text{s} = 32\ \text{ms}, \qquad T_{\text{hop}} = \frac{128}{8000} = 16\ \text{ms}\]
+</div>
+<div class="ans">
+<b>Answer:</b> 3,200 samples → <b>24 frames</b>; bin spacing <b>31.25 Hz</b>; the 5 kHz fricative energy lands in bin <b>k = 160</b>; the 700 Hz vowel formant in bin <b>k ≈ 22</b>; each window spans <b>32 ms</b> with a <b>16 ms</b> hop.
+</div>
+<p><b>Step 6 — doubling the window to \(N = 512\).</b></p>
+<table class="vals">
+<tr><th></th><th>\(N=256\)</th><th>\(N=512\)</th><th>Effect</th></tr>
+<tr><td>Bin spacing \(\Delta f\)</td><td>31.25 Hz</td><td>15.625 Hz</td><td>Frequency resolution <b>improves</b> (halved bin width)</td></tr>
+<tr><td>Window duration</td><td>32 ms</td><td>64 ms</td><td>Time resolution <b>degrades</b> (events smeared over twice the span)</td></tr>
+<tr><td>Frames (same hop)</td><td>24</td><td>\(\lfloor(3200-512)/128\rfloor+1 = 22\)</td><td>Fewer frames</td></tr>
+</table>
+<div class="ans"><b>Interpretation:</b> one resolution can only be bought with the other. This is the <b>Gabor Limit</b>, also called the acoustic uncertainty principle. For speech it matters directly: a long window resolves the closely spaced harmonics of a steady vowel but blurs the sharp onset of the plosive /t/ in "stop"; a short window catches the transient but cannot separate nearby formants. Practical ASR therefore uses windows of roughly 20–32 ms as a compromise, which is exactly the 32 ms used here.</div>
+</div>
+
+<div class="part">(c) Voice-activity detection and dialogue management</div>
+<div class="sol">
+<p><b>Voice-activity detection (VAD).</b> Where full ASR is difficult — noise, distance, crowding — VAD lets the robot respond in a limited way by distinguishing speech from silence and from other acoustic events, even separating music from talking. Deep learning has recently improved its performance. Three primary classification features:</p>
+<table class="vals">
+<tr><th>Feature</th><th>Description</th></tr>
+<tr><td><b>Short-term energy</b></td><td>Sum of squared, windowed amplitudes per frame, \(E_m = \sum [s(n)\,w(n)]^2\). High energy → voiced phonemes; low energy → silent pauses.</td></tr>
+<tr><td><b>Zero crossing rate (ZCR)</b></td><td>Counts sign changes of the signal per frame. High ZCR highlights fricatives, unvoiced consonants, or high-frequency noise.</td></tr>
+<tr><td><b>Spectral dynamics</b></td><td>STFT-based features — spectral flux, centroid shifts, entropy, subband SNR — used to separate voice from stationary or broadband noise in difficult acoustics.</td></tr>
+</table>
+<p><b>Why VAD matters in HRI:</b> it gives users the impression the robot is <i>listening</i>; it enables turn-taking without any speech understanding at all; and combined with <b>sound-source localisation</b> from a multi-microphone array, it lets the robot turn visually toward whoever is speaking.</p>
+<p><b>Dialogue management (DM)</b> keeps a multi-turn conversation flowing once an interaction goes beyond a single instruction, by tracking <b>conversational state</b> (application-specific, e.g. the details of an order, or generic). Four complexity levels:</p>
+<ol class="tight">
+<li><b>Restricted</b> — closed, well-contextualised tasks: registration, forms, orders.</li>
+<li><b>System-initiative</b> — the agent asks, the user only answers; the user cannot change course.</li>
+<li><b>User-initiative</b> — the user leads; the system intervenes only when needed.</li>
+<li><b>Mixed-initiative</b> — a combination of the two.</li>
+</ol>
+<ul class="tight">
+<li><b>Simple DMs</b> are script-based and essentially <b>finite-state machines</b>; conditions and branches add flexibility. SoftBank's <b>QiChat</b> (Nao, Pepper) matches keywords and concepts to scripted responses.</li>
+<li><b>Event-based DM</b> permits external events to interrupt the flow (asking the time mid-order) and supports nonlinear dialogue; more advanced systems use a <b>planner</b> that tracks state and available actions so every path need not be scripted.</li>
+<li>Event-based DMs are the most popular commercially, but <b>no DM approach is well suited to fully free-flowing open conversation</b>.</li>
+</ul>
+<div class="note"><b>Timing, if the question asks:</b> delayed responses feel disturbing and overly fast ones feel insincere; "yes" answers average ≈ 100 ms while responses to undesired offers average almost 500 ms (Strömbergsson et al., 2013). Robots are slower because DM processing is sequential — mitigated by conversational fillers, visual "thinking" signals, just-in-time synthesis and incremental dialogue processing.</div>
+</div>
+
+</div>
+</div>
+
+<!-- ============================== Q5 ============================== -->
+<div class="q">
+<div class="q-head"><h3>Question 5 — Nonverbal Cues and Emotion for a Companion Robot</h3><span class="marks">5 + 5 + 4</span></div>
+<div class="q-body">
+<div class="qtext">A small companion robot is being developed for elderly residents of a care home. (a) Which nonverbal interaction modalities are most important here, and why? (b) Should the robot perceive and express emotions? Discuss with reference to affect, mood and emotion, and to at least two emotion models. (c) State the main challenges of affective HRI.</div>
+
+<div class="part">(a) Most important nonverbal modalities</div>
+<div class="sol">
+<p>The six types of nonverbal interaction are <b>gaze and eye movement, gesture, mimicry and imitation, touch, posture and movement, and interaction rhythm and timing</b>. For a care-home companion, the priority ordering is:</p>
+<ol class="tight">
+<li><b>Gaze and eye movement — highest priority.</b> Gaze signals interest, understanding and attention, manages turn-taking, and enables <b>joint attention</b> (both partners attending to the same object at the same time), which depends on the timing and synchrony of gaze. For an elderly user whose hearing may be impaired, a robot that turns its head and makes eye contact when addressed is the clearest possible signal that it is attending. Robot gaze cues generally produce effects similar to human ones, can assign conversational roles, and sustained gaze during storytelling measurably improves how much of the content listeners recall — directly useful for medication reminders and reminiscence activities.</li>
+<li><b>Touch — high priority, and specific to this population.</b> Tactile interaction with animal-like robots such as <b>Paro</b> reduces stress and anxiety when the person initiates it (Shibata, 2012; Yohanan &amp; MacLean, 2012). Chen et al. (2014) found people in a nursing scenario did not mind being touched by a robot but rated <b>functional</b> touch (e.g. cleaning an arm) more positively than <b>affective</b> touch (comforting) — so the robot should accept touch readily but initiate it sparingly. Wullenkord et al. (2016) add an important caution: touching Nao improved attitudes overall, but participants who began with strongly negative feelings toward robots became <i>more</i> negative after touching it. Touch must therefore be opt-in.</li>
+<li><b>Posture and movement.</b> Posture helps interpret emotional state and is especially valuable when the face is small or not visible. Beck et al. (2010) showed affective body postures improve understanding of a robot's emotional state, and Xu et al. (2014) found people not only read such postures but adopted the emotions they perceived. <b>Micromovements</b> — barely perceptible actuator perturbations — make a small robot read as alive, with velocity and amplitude signalling excitement; this has been used successfully on pet-like robots, which is precisely this form factor.</li>
+<li><b>Interaction rhythm and timing.</b> Human interaction is a coupled system in which partners become <b>rhythmically entrained</b>. Michalowski et al. (2007) found a robot entrained with its partner is perceived as more lifelike than one moving rhythmically but out of sync. Being out of synchrony implies missed social signals — a serious risk with users whose response latencies are longer.</li>
+<li><b>Gesture</b> — deictic gestures matter for pointing out objects (medication, a door), but a small robot has limited arm expressiveness, so this ranks below the above.</li>
+<li><b>Mimicry and imitation</b> — useful (Wills et al., 2016 found a mimicking robot received more donations) but lowest priority, and mimicry of <b>anger</b> must be excluded as a strategy.</li>
+</ol>
+<div class="ans"><b>Recommendation:</b> prioritise gaze, accept-but-don't-initiate touch, and expressive posture with micromovements; treat rhythm and timing as a system-wide requirement rather than a separate feature.</div>
+</div>
+
+<div class="part">(b) Should the robot perceive and express emotion?</div>
+<div class="sol">
+<p><b>Definitions first.</b></p>
+<table class="vals">
+<tr><th></th><th>Emotion</th><th>Mood</th></tr>
+<tr><td><b>Cause</b></td><td>An identifiable source — an event, or seeing emotion in others</td><td>Often no clear cause or object; arises from environmental, incidental and cognitive processes</td></tr>
+<tr><td><b>Direction</b></td><td>Externalised, directed at a specific object or person</td><td>Diffuse and internal</td></tr>
+<tr><td><b>Duration</b></td><td>Shorter-lived</td><td>Longer-lasting</td></tr>
+<tr><td><b>Example</b></td><td>Anger when a phone dies mid-call</td><td>Apprehension while awaiting test results</td></tr>
+</table>
+<p><b>Affect</b> is the umbrella term covering the whole spectrum of emotionally laden responses, from fast subconscious reactions to long-lingering moods; emotion and mood are subdivisions of it.</p>
+<p><b>Yes — the robot should do both.</b> Arguments:</p>
+<ul class="tight">
+<li>Emotion is an important communication channel in HRI. When a robot expresses emotion, people ascribe it social agency; a robot that neither shares nor recognises emotion risks being read as disinterested, cold or rude.</li>
+<li>Users interpret robot behaviour emotionally <i>whether or not</i> emotion was designed in — so the choice is between designed and accidental emotional attribution.</li>
+<li>For this population, perceiving low mood is functionally valuable: reduced emotional response to positive stimuli is a defining symptom of depression, and a companion that notices withdrawal can alert staff.</li>
+</ul>
+<p><b>Perception — three modalities:</b> (i) <b>visual</b>, chiefly computer vision on facial cues from a labelled dataset, but also gait; (ii) <b>speech</b>, using <b>prosody</b> — happy speakers use higher pitch, sad speakers slower speech and lower pitch; (iii) <b>other</b>, such as skin conductance (the polygraph principle), tried in HRI with only limited success.</p>
+<p><b>Expression.</b> The commonest approach mimics human facial display using <b>Ekman's Facial Action Coding System (FACS)</b>, which groups facial muscles into <b>action units</b> and describes emotions as AU combinations — a smile is AU6 (orbicularis oculi, raising the cheek) plus AU12 (zygomaticus major, raising the mouth corners). Robots built on simplified facial musculature include <b>Kismet</b> (Breazeal &amp; Scassellati, 1999), <b>Eddie</b> (Sosnowski et al., 2006), <b>iCat</b> (van Breemen et al., 2005) and <b>eMuu</b> (Bartneck, 2002). Beyond the face, emotion can be carried by body movement and prosody, and even non-anthropomorphic robots can express affect through motion patterns — a cleaning robot (Saerbeck &amp; Bartneck, 2010) and a flying robot (Sharma et al., 2013) both did so.</p>
+<p><b>Two emotion models.</b></p>
+<ol class="tight">
+<li><b>OCC model</b> (Ortony, Clore &amp; Collins, 1988) — 22 emotion categories derived from valenced reactions to events, to acts of agents including oneself, and to attractive or unattractive objects. Detailed enough to cover almost any situation an emotional robot meets, but 22 categories are impractical to express on a small robot, so designers commonly reduce to <b>Ekman's six</b> basic facial expressions, which are reliably recognised across cultures (Ekman, 1992) — at the cost of a limited interaction experience.</li>
+<li><b>Dimensional models</b> — more popular than OCC. <b>Russell's 2D circumplex</b> places emotion as a point in a <b>valence × arousal</b> plane, the simplest model with sufficient expressive power for HRI. Its limitation is that "angry" and "afraid" sit side by side despite being experienced as very different. The fix is a third axis: <b>Mehrabian &amp; Russell (1974)</b> give the continuous <b>PAD</b> space of pleasure, arousal and dominance, which separates them (anger is high dominance, fear low). PAD has been used on many social robots, including Kismet (Breazeal, 2003), to model <i>both</i> the user's and the robot's own state.</li>
+</ol>
+<div class="ans"><b>Recommendation:</b> implement PAD internally — it is compact, supports a distance function between states, and can drive both face and motion — and render it outwardly through a reduced Ekman-style expression set plus posture and prosody. Model the robot's own state too (e.g. a low battery rendered as "tired"), since that makes its behaviour legible.</div>
+</div>
+
+<div class="part">(c) Challenges in affective HRI</div>
+<div class="sol">
+<ol class="tight">
+<li><b>Limits of facial-only recognition.</b> It is virtually impossible to read emotion correctly from facial information alone — people themselves struggle with still facial images, and robots inherit the same difficulty. Adding interaction context, animated rather than still expressions, and body language raises recognition rates for humans and algorithms alike.</li>
+<li><b>Training-data mismatch.</b> Almost all algorithms are trained on emotions <i>acted out</i> by actors, which are exaggerated and unlike everyday expression. Consequently most emotion-recognition software only reliably detects emotions displayed at an exaggerated intensity — a severe problem for elderly users with reduced facial mobility.</li>
+<li><b>Individual variability.</b> Although some emotions are universal, people do not express them with the same intensity, context or meaning; reading an individual requires sensitivity to their personal affective quirks, which in turn requires long-term memory the robot generally lacks.</li>
+<li><b>False impressions of genuine feeling.</b> Emotional responsiveness can mislead users into believing the robot actually <i>experiences</i> emotion. Expressing an emotion does not replace the visceral experience of it — an ethically sharp point in a care home, where residents may form asymmetrical attachments.</li>
+</ol>
+<div class="note">Add, if space permits, the perception hurdles from Lecture 6: multimodal fusion within milliseconds, cultural relativism of cues, micro-cues below sensor resolution, the uncanny valley of <i>perception</i> (a realistic android that fails to notice distress betrays expectation more than a boxy robot would), and the 2026 status of gaze tracking, affective touch, sarcasm detection and long-term memory.</div>
+</div>
+
+</div>
+</div>
+<!-- ============================== Q6 ============================== -->
+<div class="q">
+<div class="q-head"><h3>Question 6 — Trajectory Generation: Cubic Polynomial and Linear Segment with Parabolic Blends</h3><span class="marks">7 + 7</span></div>
+<div class="q-body">
+<div class="qtext">A single rotary joint of a service robot must move from \(\theta_0 = 15^\circ\) to \(\theta_f = 75^\circ\) in \(t_f = 3\) s, starting and finishing at rest.<br>
+(a) Determine the cubic polynomial trajectory, and find the maximum velocity and maximum acceleration.<br>
+(b) Repeat using a linear segment with parabolic blends (LSPB) with blend acceleration \(|\ddot\theta| = 40\ \text{deg/s}^2\). Determine the blend time, the constant slope velocity, the three segment equations, and compare the two schemes.</div>
+
+<div class="part">(a) Cubic polynomial trajectory</div>
+<div class="sol">
+<p>Assume \(\theta(t) = a_0 + a_1 t + a_2 t^2 + a_3 t^3\), so that</p>
+\[\dot\theta(t) = a_1 + 2a_2 t + 3a_3 t^2, \qquad \ddot\theta(t) = 2a_2 + 6a_3 t\]
+<p>Four unknowns require four boundary conditions:</p>
+<div class="step">
+\[\theta(0) = 15 \;\Rightarrow\; a_0 = 15\]
+\[\dot\theta(0) = 0 \;\Rightarrow\; a_1 = 0\]
+\[\theta(3) = 75 \;\Rightarrow\; 15 + 9a_2 + 27a_3 = 75 \;\Rightarrow\; 9a_2 + 27a_3 = 60\]
+\[\dot\theta(3) = 0 \;\Rightarrow\; 6a_2 + 27a_3 = 0\]
+</div>
+<p><b>Solving.</b> Subtracting the fourth equation from the third:</p>
+<div class="step">
+\[(9a_2 + 27a_3) - (6a_2 + 27a_3) = 60 - 0 \;\Rightarrow\; 3a_2 = 60 \;\Rightarrow\; a_2 = 20\]
+\[6(20) + 27a_3 = 0 \;\Rightarrow\; 27a_3 = -120 \;\Rightarrow\; a_3 = -\tfrac{120}{27} = -4.444\]
+</div>
+<p>These agree with the standard rest-to-rest closed forms \(a_2 = 3\Delta\theta/t_f^2 = 3(60)/9 = 20\) and \(a_3 = -2\Delta\theta/t_f^3 = -2(60)/27 = -4.444\).</p>
+<div class="ans"><b>Answer (a):</b> \(\theta(t) = 15 + 20\,t^{2} - 4.444\,t^{3}\) degrees, \(0 \le t \le 3\) s.</div>
+
+<p><b>Maximum velocity.</b> \(\dot\theta(t) = 40t - 13.333t^2\). Setting \(\ddot\theta = 0\):</p>
+<div class="step">
+\[40 - 26.667\,t = 0 \;\Rightarrow\; t = 1.5\ \text{s} \;(= t_f/2)\]
+\[\dot\theta_{\max} = 40(1.5) - 13.333(1.5)^2 = 60 - 30 = 30\ \text{deg/s}\]
+</div>
+<p>Consistent with the closed form \(\dot\theta_{\max} = \dfrac{3\Delta\theta}{2t_f} = \dfrac{3(60)}{2(3)} = 30\) deg/s.</p>
+
+<p><b>Maximum acceleration.</b> \(\ddot\theta(t) = 40 - 26.667\,t\) is linear, so the extrema are at the endpoints:</p>
+<div class="step">
+\[\ddot\theta(0) = +40\ \text{deg/s}^2, \qquad \ddot\theta(3) = 40 - 80 = -40\ \text{deg/s}^2\]
+</div>
+<p>Consistent with \(|\ddot\theta|_{\max} = \dfrac{6\Delta\theta}{t_f^{2}} = \dfrac{6(60)}{9} = 40\) deg/s².</p>
+<div class="ans"><b>Peak velocity = 30 deg/s at \(t = 1.5\) s; peak acceleration = ±40 deg/s² at \(t = 0\) and \(t = 3\) s.</b></div>
+<p><b>Verification.</b> \(\theta(3) = 15 + 20(9) - 4.444(27) = 15 + 180 - 120 = 75\) ✓. \(\dot\theta(3) = 40(3) - 13.333(9) = 120 - 120 = 0\) ✓.</p>
+</div>
+
+<div class="part">(b) Linear segment with parabolic blends (LSPB)</div>
+<div class="sol">
+<p>The LSPB profile has three phases: a parabolic acceleration blend of duration \(t_b\), a constant-velocity linear segment, and a symmetric parabolic deceleration blend of duration \(t_b\). The velocity profile is a trapezoid.</p>
+
+<p><b>Step 1 — feasibility check.</b> A solution exists only if the blend acceleration is large enough:</p>
+<div class="step">
+\[\ddot\theta \;\ge\; \frac{4(\theta_f - \theta_0)}{t_f^{2}} = \frac{4(60)}{9} = 26.67\ \text{deg/s}^2\]
+</div>
+<p>Here \(\ddot\theta = 40 > 26.67\) deg/s², so the trajectory is feasible. (At exactly 26.67 deg/s² the linear segment vanishes and the profile degenerates to a triangular, "bang-bang" velocity profile.)</p>
+
+<p><b>Step 2 — blend time.</b> Using Craig's result</p>
+\[t_b = \frac{t_f}{2} - \frac{\sqrt{\ddot\theta^{\,2} t_f^{2} - 4\,\ddot\theta\,(\theta_f - \theta_0)}}{2\,\ddot\theta}\]
+<div class="step">
+\[\ddot\theta^{\,2} t_f^{2} = 40^2 \times 3^2 = 1600 \times 9 = 14400\]
+\[4\,\ddot\theta\,\Delta\theta = 4 \times 40 \times 60 = 9600\]
+\[\sqrt{14400 - 9600} = \sqrt{4800} = 69.282\]
+\[t_b = 1.5 - \frac{69.282}{80} = 1.5 - 0.8660 = 0.634\ \text{s}\]
+</div>
+
+<p><b>Step 3 — slope (cruise) velocity.</b></p>
+<div class="step">
+\[\dot\theta_{s} = \ddot\theta \, t_b = 40 \times 0.634 = 25.36\ \text{deg/s}\]
+</div>
+<p><b>Consistency check</b> using the area identity \(\Delta\theta = \dot\theta_s (t_f - t_b)\):</p>
+<div class="step">
+\[25.36 \times (3 - 0.634) = 25.36 \times 2.366 = 60.0 = \theta_f - \theta_0 \;\checkmark\]
+</div>
+
+<p><b>Step 4 — the three segments.</b> Position at the end of the first blend:</p>
+<div class="step">
+\[\theta(t_b) = \theta_0 + \tfrac{1}{2}\ddot\theta\,t_b^{2} = 15 + \tfrac{1}{2}(40)(0.634)^2 = 15 + 20(0.4019) = 15 + 8.04 = 23.04^\circ\]
+</div>
+<table class="vals">
+<tr><th>Phase</th><th>Interval</th><th>Equation (degrees)</th></tr>
+<tr><td><b>Acceleration blend</b></td><td>\(0 \le t \le 0.634\)</td><td>\(\theta(t) = 15 + 20\,t^{2}\)</td></tr>
+<tr><td><b>Linear segment</b></td><td>\(0.634 \le t \le 2.366\)</td><td>\(\theta(t) = 23.04 + 25.36\,(t - 0.634)\)</td></tr>
+<tr><td><b>Deceleration blend</b></td><td>\(2.366 \le t \le 3\)</td><td>\(\theta(t) = 75 - 20\,(3 - t)^{2}\)</td></tr>
+</table>
+<div class="ans">
+<b>Answer (b):</b> \(t_b = 0.634\) s, cruise velocity \(\dot\theta_s = 25.36\) deg/s, linear segment duration \(t_f - 2t_b = 3 - 1.268 = 1.732\) s, with the three segment equations above.
+</div>
+
+<p><b>Verification.</b> At \(t = 2.366\) s the deceleration branch gives \(75 - 20(0.634)^2 = 75 - 8.04 = 66.96^\circ\); the linear branch gives \(23.04 + 25.36(1.732) = 23.04 + 43.92 = 66.96^\circ\) ✓. At \(t = 3\) s, \(\theta = 75^\circ\) and \(\dot\theta = 40(3-3) = 0\) ✓.</p>
+
+<p><b>Velocity profile.</b></p>
+<div class="step">
+<pre class="code">  θ̇ (deg/s)
+   30 |            ······················            ← cubic (smooth, peak 30)
+      |         ···                      ···
+25.36 |      ______________________________          ← LSPB cruise
+      |     /                              \
+      |    /                                \
+    0 |___/__________________________________\______&gt; t (s)
+      0  0.634                        2.366   3
+         |← blend →|←  linear 1.732 s  →|← blend →|</pre>
+</div>
+
+<p><b>Comparison of the two schemes.</b></p>
+<table class="vals">
+<tr><th></th><th>Cubic polynomial</th><th>LSPB</th></tr>
+<tr><td>Peak velocity</td><td>30 deg/s</td><td><b>25.36 deg/s</b> — 15 % lower for the same move</td></tr>
+<tr><td>Acceleration</td><td>Continuous, linear in \(t\), ±40 deg/s² at the ends</td><td>Piecewise constant: +40, 0, −40; <b>discontinuous</b> at the two blend joints</td></tr>
+<tr><td>Jerk</td><td>Constant and finite (\(6a_3\))</td><td>Impulsive at the blend transitions</td></tr>
+<tr><td>Actuator use</td><td>Poor — the joint spends most of the move below its capability</td><td>Efficient — saturates the acceleration limit, then cruises</td></tr>
+<tr><td>Best suited to</td><td>Point-to-point moves near people, where smoothness and legibility matter</td><td>Time-optimal industrial moves where actuator limits bind</td></tr>
+</table>
+<div class="note"><b>HRI reading of the result:</b> the cubic's higher peak velocity but continuous acceleration produces motion that people read as smooth and predictable — which is what legibility requires when a robot moves near a person. LSPB reaches the goal with a lower peak speed and better actuator utilisation, but its acceleration discontinuities are visible as small jerks at the blend joints, which read as abrupt. For an assistive or service robot the cubic (or a higher-order spline) is generally preferred; for a caged industrial arm, LSPB.</div>
+</div>
+
+</div>
+</div>
+
+<!-- ============================== Q7 ============================== -->
+<div class="q">
+<div class="q-head"><h3>Question 7 — Research Methodology, Ethics and Society</h3><span class="marks">5 + 5 + 4</span></div>
+<div class="q-body">
+<div class="qtext">You are asked to evaluate whether a robot tutor improves secondary-school students' engagement with mathematics. (a) Classify the study methodologically and justify each classification. (b) Decide the participants, sample size and study design, and explain how you would avoid confusing correlation with causation. (c) Discuss the ethical and societal issues, including how media portrayals of robots may affect your results.</div>
+
+<div class="part">(a) Methodological classification</div>
+<div class="sol">
+<table class="vals">
+<tr><th>Axis</th><th>Classification</th><th>Justification</th></tr>
+<tr><td>Descriptive vs. analytical</td><td><b>Analytical</b></td><td>The study asks <i>why</i> and <i>how</i> engagement changes and tests a cause–effect relationship, rather than merely recording the present state of affairs. A descriptive version would only log how long students currently attend to a tutor.</td></tr>
+<tr><td>Fundamental vs. applied</td><td><b>Applied (action)</b></td><td>It addresses an immediate practical problem for schools, with a direct deployment decision at the end — not knowledge for its own sake.</td></tr>
+<tr><td>Quantitative, qualitative or mixed</td><td><b>Mixed methods</b></td><td>Quantitative measures (time on task, problems attempted, test scores, Likert engagement scale) establish <i>whether</i> the effect exists and its size; qualitative interviews and open-ended questions explain <i>why</i> — which robot behaviours students found motivating or off-putting. Mixed methods validate findings and give the complete picture.</td></tr>
+<tr><td>Conceptual vs. empirical</td><td><b>Empirical</b></td><td>It relies on direct observation, measurable evidence and real-world data collection to test a stated hypothesis.</td></tr>
+<tr><td>Exploratory vs. confirmatory</td><td><b>Confirmatory</b></td><td>Enough prior work exists (robots in education, the novelty effect) to state testable expectations in advance. The hypothesis — "students taught with the robot tutor engage more than those taught with the equivalent screen-based tutor" — is spelled out, with justification, before data collection.</td></tr>
+<tr><td>Conclusion- vs. decision-oriented</td><td><b>Decision-oriented</b></td><td>It is conducted for a decision maker (the school or ministry), so the researcher is not free to redesign the inquiry mid-course to follow personal interest.</td></tr>
+<tr><td>Temporal</td><td><b>Longitudinal</b>, not one-shot</td><td>First interactions suffer a <b>novelty effect</b>; most lab work captures only the "first 10 minutes of HRI", which has limited validity for long-term deployment. Engagement must be tracked over weeks.</td></tr>
+<tr><td>Setting</td><td><b>Field</b> (with a lab pilot)</td><td>A real classroom preserves the social unit — students interact with robots in <b>groups</b>, not dyads — and captures organisational effects; a lab pilot first establishes control over the manipulation.</td></tr>
+</table>
+<p><b>Working hypothesis.</b> A hypothesis is a tentative assumption made in order to draw out and test its consequences; it must be specific and limited to the research at hand, and it delimits the area of research to keep the work on track. Here: <i>"Secondary students taught a topic by a robot tutor show higher time-on-task and higher self-reported engagement than students taught the same topic by a screen-based tutor."</i></p>
+</div>
+
+<div class="part">(b) Participants, sample size, design, and causal inference</div>
+<div class="sol">
+<p><b>Who.</b> University students are the most common HRI participants because they are convenient, available, interested and physically close to laboratories — but that is a <b>convenience sample</b> with poor <b>external validity</b>, and it is plainly wrong here: the research question is about secondary-school students, so the participants must be secondary-school students of the target age, recruited across several schools and balanced for gender and prior mathematics attainment.</p>
+<p><b>How many.</b></p>
+<ul class="tight">
+<li>Rule of thumb for experimental designs: a minimum of <b>25 participants per condition</b>. With two conditions this gives ≥ 50; recruit ≈ 70 to absorb attrition over a longitudinal study.</li>
+<li>If a regression model is fitted with predictors (condition, prior attainment, gender, age), apply the <b>Events Per Variable rule</b>: 10–20 participants per predictor variable for linear regression.</li>
+<li>Use <b>G*Power</b> to confirm the sample supports the smallest effect worth detecting.</li>
+<li>For the interview strand, there is no target number: sample until <b>saturation</b> of analytic themes is reached.</li>
+<li>Small samples cannot reliably reveal an effect, because individuals always differ; unless the manipulation is very strong, small-sample data will not show a stable effect.</li>
+</ul>
+<p><b>Design.</b></p>
+<ul class="tight">
+<li><b>Between-subjects</b> is the right primary design here: students are randomly assigned to the robot-tutor or screen-tutor condition and the group means are compared. A within-subjects design would be contaminated, because a student who has met the robot cannot un-meet it, and the learning content cannot be repeated.</li>
+<li>Where a within-subjects element is used (e.g. comparing two robot behaviours in a single session), <b>order effects</b> — such as preferring whichever came first through novelty — must be controlled by <b>counterbalancing</b>: half the participants receive one order, half the reverse.</li>
+<li><b>Instruments:</b> a <b>Likert scale</b> for degree of agreement with engagement statements, a <b>semantic differential scale</b> for evaluating the tutor between opposing terms (boring–interesting, competent–incompetent), plus established scales where available. Include <b>open-ended</b> items so students can answer in their own terms.</li>
+</ul>
+<p><b>Correlation vs. causation.</b> A correlational study can show that two variables move together but cannot reveal the cause of the relationship. If the schools that <i>chose</i> to adopt robot tutors were simply better resourced, a correlation between robot exposure and engagement would say nothing about the robot — exactly like the correlation between the number of firefighters at a scene and the damage a fire does. Correlations can even be entirely spurious: US per-capita cheese consumption correlates with deaths from becoming tangled in bedsheets at \(r^2 = 0.896\).</p>
+<div class="ans"><b>Therefore causation is established by design, not by analysis:</b> divide the sample into two groups that are similar in demographics, prior attainment and other characteristics at the outset; manipulate only the tutor type; then measure engagement in both. Because the groups were equivalent to begin with, any substantial difference is attributable to the manipulation. Random assignment, a matched control condition (screen tutor, not "no tutor"), and pre-registered hypotheses are what make the inference causal.</div>
+</div>
+
+<div class="part">(c) Ethical and societal considerations</div>
+<div class="sol">
+<p><b>Research ethics.</b></p>
+<ol class="tight">
+<li><b>Informed consent</b> — required for all research involving human participants, whatever the method. Participants must declare that they understand what they will be asked to do and what will be done with the data. Because the participants are minors, consent must come from parents or guardians, with the students' own <b>assent</b> obtained separately.</li>
+<li><b>Deception and debriefing</b> — if a <b>Wizard-of-Oz</b> setup is used to make the tutor appear autonomous, participants must be told in a <b>post-experimental debriefing</b>, so that no one leaves believing robots currently function fully autonomously. The ethical problem with WoZ is precisely that deception about robot skills raises and biases expectations, potentially convincing users that robotic technology is more advanced than it is.</li>
+<li><b>Physical and psychological safety</b> — both must be considered, along with the consequences of the interaction for the individual. The canonical warning case is the person who becomes attached to a companion robot and is distressed when it is withdrawn after data collection; here the analogue is students who bond with the tutor and lose it at the end of term. Plan the withdrawal, and do not leave one class visibly advantaged over another.</li>
+<li><b>Codes of conduct</b> — consult the American Psychological Association, the American Anthropological Association, or the ACM. Reflect also on funding sources and on giving participants input into methods and how results are presented.</li>
+<li><b>Persuasion</b> — robots are effective persuasive communicators and can change attitudes and behaviour (Brandstetter et al., 2017; Kiesler et al., 2008). Even beneficial persuasion is ethically fraught when it exploits the social bond or operates without the user's conscious understanding — a serious concern with children.</li>
+</ol>
+<p><b>Societal considerations.</b></p>
+<ul class="tight">
+<li><b>Robots in the education workforce.</b> Reich-Stiebert &amp; Eyssel (2015) found robots are preferred as classroom <b>assistants</b> but not as main <b>teachers</b>; concerns were raised about usage and maintenance and about robots consuming time and attention. Primary-school teachers were especially reluctant, plausibly because young students are seen as particularly vulnerable. The study should therefore position the robot as an assistant and measure teacher attitudes as an outcome, not assume acceptance.</li>
+<li><b>Organisational effects.</b> Mutlu &amp; Forlizzi (2008) showed that introducing a robot into an organisation reduces work for some people while increasing it for others, and that people in different roles perceive it differently according to how it affects their own work. Survey teachers, technicians and administrators separately.</li>
+<li><b>Media portrayals — a direct threat to validity.</b> For most people, fiction is their <i>only</i> experience of robots, so portrayals shape and bias expectations. Students arriving with expectations set by the "robots want to be human" trope, the <b>Frankenstein Complex</b> uprising trope, or the benevolent Astro Boy/Doraemon framing will react differently to the same robot; the gap between science-fiction expectation and actual ability commonly produces disappointment. <b>Mitigation:</b> measure prior attitudes and media exposure at baseline and include them as covariates, and give every participant the same calibrating introduction to what the robot can and cannot do.</li>
+<li><b>Talking about the results.</b> Reporters may be seeking a science-scare story or a wacky-science story. The guideline is to stick to the research actually performed and avoid speculation beyond the study at hand — particularly important for a story as easily sensationalised as "robots replacing teachers".</li>
+</ul>
+<div class="note">If the question also asks for <b>Asimov's laws</b>: (1) a robot may not injure a human or, through inaction, allow a human to come to harm; (2) it must obey human orders except where they conflict with the First Law; (3) it must protect its own existence unless that conflicts with the First or Second Law. Following criticism by philosophers, Asimov added the <b>zeroth law</b>: a robot may not harm humanity or, by inaction, allow humanity to come to harm. They are a literary device rather than an implementable specification, but they frame the modern field of <b>roboethics</b>.</div>
+</div>
+
+</div>
+</div>
+
+</section>
+
 </main>
 </div>
 <button id="menu-toggle">Courses</button>
@@ -8990,7 +9667,9 @@ const courses = [
       {type:"section", label:"HRI Final 2023", target:"t7"},
       {type:"section", label:"HRI Final 2024", target:"t3"},
       {type:"section", label:"HRI Lab Final", target:"t4"},
-      {type:"section", label:"Trajectory Generation", target:"t9"}
+      {type:"section", label:"Trajectory Generation", target:"t9"},
+      {type:"section", label:"Final Suggestions", target:"t37"},
+      {type:"section", label:"Probable Final + Solution", target:"t38"}
     ]
   },
   {
