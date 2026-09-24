@@ -302,6 +302,13 @@ Element 1: \(h_{t,1} = (0.6525)(0.3876)=0.2529\); Element 2: \(h_{t,2} = (0.5125
 <div class="q">
 <div class="q-head"><h3>Question 1 — Gradient Descent &amp; Hyperparameter Tuning</h3><span class="marks">5 + 5 + 4</span></div>
 <div class="q-body">
+<div class="qtext"><span class="src">Final Examination 2025 — Question 1 (as set)</span>
+<ol class="qparts" type="a">
+<li>Describe briefly how gradient descent is used to find the optimal weights in backpropagation algorithm. Mention a problem that may arise from using gradient descent. <span class="m">[5]</span></li>
+<li>In the backpropagation algorithm, the learning rate parameter (α) controls the amount of change of a weight in each iteration. What happens if the learning rate is too high? What happens if the learning rate is too low? <span class="m">[5]</span></li>
+<li>Why is random search often better than grid search for hyperparameter tuning? Explain the "coarse to fine" strategy of hyperparameter tuning. <span class="m">[4]</span></li>
+</ol>
+</div>
 
 <div class="part">(a) Gradient descent in backpropagation; one problem</div>
 <div class="sol">
@@ -400,6 +407,13 @@ ReLU active on both units (\(z^{(1)}>0\)) → \(\delta^{(1)} = [0.1685,\;0.2247]
 <div class="q">
 <div class="q-head"><h3>Question 3 — Universal Approximation, Bias–Variance, L2 Regularization</h3><span class="marks">4 + 5 + 5</span></div>
 <div class="q-body">
+<div class="qtext"><span class="src">Final Examination 2025 — Question 3 (as set)</span>
+<ol class="qparts" type="a">
+<li>State the Universal Approximation Theorem. Does this theorem imply that shallow neural networks are always preferable to deep networks? Justify your answer. <span class="m">[4]</span></li>
+<li>A model has Training error = 2% and Dev (validation) error = 15%. Diagnose whether this is high bias or high variance. What are two practical steps you would take to improve the model? <span class="m">[5]</span></li>
+<li>Write the cost function for L2-regularized logistic regression. Explain how the regularization parameter λ affects training error and model complexity. <span class="m">[5]</span></li>
+</ol>
+</div>
 
 <div class="part">(a) Universal Approximation Theorem; are shallow networks preferable?</div>
 <div class="sol">
@@ -509,6 +523,16 @@ Row 2: \((-0.6)(0.5)+(0.4)(-0.2)+(0.5)(0.7)+(-0.1)(0.3)+0.05 = -0.30-0.08+0.35-0
 <div class="q">
 <div class="q-head"><h3>Question 5 — Regularization, Vanishing Gradient, Augmentation, Multi-crop, Parameter Counting</h3><span class="marks">4+2+2+2+2+2</span></div>
 <div class="q-body">
+<div class="qtext"><span class="src">Final Examination 2025 — Question 5 (as set)</span>
+<ol class="qparts" type="a">
+<li>What is regularization? Explain three regularization techniques used in training neural networks. <span class="m">[4]</span></li>
+<li>Which type of neural network, deep or shallow, is more prone to the vanishing gradient problem? Why? <span class="m">[2]</span></li>
+<li>Which activation functions are prone to the vanishing gradient problem, and why are they? <span class="m">[2]</span></li>
+<li>Should data augmentation be applied to the test set? Explain your reasoning. <span class="m">[2]</span></li>
+<li>Explain the concept of multi crop testing and discuss why it is used during model evaluation. <span class="m">[2]</span></li>
+<li>You'd like to train a fully-connected neural network with 5 hidden layers, each with 10 hidden units. The input is 20-dimensional and the output is a scalar. What is the total number of trainable parameters in your network? <span class="m">[2]</span></li>
+</ol>
+</div>
 
 <div class="part">(a) Regularization; three techniques</div>
 <div class="sol">
@@ -562,6 +586,13 @@ Row 2: \((-0.6)(0.5)+(0.4)(-0.2)+(0.5)(0.7)+(-0.1)(0.3)+0.05 = -0.30-0.08+0.35-0
 <div class="q">
 <div class="q-head"><h3>Question 6 — DenseNet vs ResNet; Convolution Cost; CNN Parameter Counting</h3><span class="marks">3 + 5 + 6</span></div>
 <div class="q-body">
+<div class="qtext"><span class="src">Final Examination 2025 — Question 6 (as set)</span>
+<ol class="qparts" type="a">
+<li>How does DenseNet differ from ResNet in terms of connectivity pattern? Which architecture preserves features more effectively, and why? <span class="m">[3]</span></li>
+<li>Suppose you are given an input feature map of size 64 × 64 × 128. You apply a convolutional layer with 64 filters of size 5 × 5, stride 1, and valid padding. i) Determine the size of the output feature map. ii) Compute the computational cost of a standard convolution. iii) Compute the computational cost of a depthwise separable convolution. iv) Compare the computational costs obtained in parts (ii) and (iii), and quantify the relative computational efficiency gained by using depthwise separable convolution. <span class="m">[5]</span></li>
+<li>Suppose you have an input image of size 224 × 224 × 3. Consider a neural network consisting of two convolutional layers, each followed by a 2 × 2 max pooling layer, and then two fully connected layers. The first convolutional layer has 20 filters of size 5 × 5, and the second convolutional layer has 40 filters of size 7 × 7. Assume stride 1 and same padding for all convolutional layers. Max pooling uses a 2 × 2 window with stride 2. The first fully connected layer has 100 hidden neurons, and the final fully connected layer has 5 output neurons. i) Compute the number of trainable parameters in each layer. ii) Compute the total number of trainable parameters in the network. <span class="m">[6]</span></li>
+</ol>
+</div>
 
 <div class="part">(a) DenseNet vs ResNet connectivity; which preserves features better?</div>
 <div class="sol">
@@ -608,6 +639,14 @@ Row 2: \((-0.6)(0.5)+(0.4)(-0.2)+(0.5)(0.7)+(-0.1)(0.3)+0.05 = -0.30-0.08+0.35-0
 <div class="q">
 <div class="q-head"><h3>Question 7 — Non-Max Suppression &amp; IoU</h3><span class="marks">2 + 2 + 2 + 8</span></div>
 <div class="q-body">
+<div class="qtext"><span class="src">Final Examination 2025 — Question 7 (as set)</span>
+<ol class="qparts" type="a">
+<li>Which problem in object detection is addressed by non-max suppression? <span class="m">[2]</span></li>
+<li>How is non-max suppression applied in the presence of multiple object classes? <span class="m">[2]</span></li>
+<li>Under which two conditions do anchor box based detection frameworks exhibit degraded performance? <span class="m">[2]</span></li>
+<li>You are given four predicted bounding boxes for the same object class, each with an associated confidence score: Box A: (x1,y1)=(30,30), (x2,y2)=(90,90), confidence = 0.88; Box B: (x1,y1)=(40,40), (x2,y2)=(100,100), confidence = 0.80; Box C: (x1,y1)=(35,35), (x2,y2)=(85,85), confidence = 0.72; Box D: (x1,y1)=(150,150), (x2,y2)=(200,200), confidence = 0.60. Assume an Intersection over Union (IoU) threshold of 0.5. Assume no confidence thresholding is applied before non maximum suppression. i) Compute the IoU between Box A and Box B. ii) Compute the IoU between Box A and Box C. iii) Compute the IoU between Box A and Box D. iv) Apply non maximum suppression and list the boxes that remain. v) If the IoU threshold were increased to 0.6, how would the final set of boxes change? Explain your reasoning. <span class="m">[8]</span></li>
+</ol>
+</div>
 
 <div class="part">(a) Which problem does NMS address?</div>
 <div class="sol">
@@ -1117,6 +1156,7 @@ Check: \(\theta(5)=5.2(25)-0.56(125)=130-70=60\) ✓; \(\dot\theta(5)=10.4(5)-1.
 <div class="q">
 <div class="q-head"><h3>Question 1 — Classification vs Object Detection vs Instance Segmentation</h3><span class="marks">3 marks</span></div>
 <div class="q-body">
+<div class="qtext">Differentiate among classification, object detection, and instance segmentation.</div>
 <div class="sol">
 <table class="vals">
 <tr><th>Task</th><th>Output</th><th>Localization</th><th>Instance separation</th></tr>
@@ -1132,6 +1172,7 @@ Check: \(\theta(5)=5.2(25)-0.56(125)=130-70=60\) ✓; \(\dot\theta(5)=10.4(5)-1.
 <div class="q">
 <div class="q-head"><h3>Question 2 — Primary Disadvantage of R-CNN</h3><span class="marks">3 marks</span></div>
 <div class="q-body">
+<div class="qtext">What is the primary disadvantage of the Region-based CNN (R-CNN)?</div>
 <div class="sol">
 <div class="ans"><b>It is extremely slow and computationally redundant:</b> R-CNN (Girshick et al., 2014) runs the full CNN forward pass <i>independently on each of the ~2,000 region proposals</i> per image, with no sharing of convolutional computation between overlapping regions.</div>
 <p>Consequences: ~47 s per image at test time (VGG backbone), infeasible for real-time use; training is also a slow, multi-stage pipeline (CNN fine-tuning, then SVM classifiers, then box regressors) requiring hundreds of GB of cached features. Fast R-CNN removed the redundancy by computing one shared feature map and pooling per-region features (RoI pooling) from it.</p>
@@ -1142,6 +1183,7 @@ Check: \(\theta(5)=5.2(25)-0.56(125)=130-70=60\) ✓; \(\dot\theta(5)=10.4(5)-1.
 <div class="q">
 <div class="q-head"><h3>Question 3 — Handling Overlapping Detections</h3><span class="marks">3 marks</span></div>
 <div class="q-body">
+<div class="qtext">What approach is used to solve overlapping detections by object detectors?</div>
 <div class="sol">
 <div class="ans"><b>Non-Maximum Suppression (NMS).</b></div>
 <p>Detections of the same class are sorted by confidence; the highest-confidence box is kept and all remaining boxes whose IoU with it exceeds a threshold (typically 0.5) are suppressed as duplicates; the procedure repeats on the survivors. This ensures each object is reported once, by its best-scoring box. (Variants: Soft-NMS decays scores instead of deleting; anchor-free/end-to-end detectors like DETR avoid NMS via set prediction.)</p>
@@ -1184,6 +1226,14 @@ Check: \(\theta(5)=5.2(25)-0.56(125)=130-70=60\) ✓; \(\dot\theta(5)=10.4(5)-1.
 <div class="q">
 <div class="q-head"><h3>Question 6 — True Propositions about a CONV Layer</h3><span class="marks">3 marks</span></div>
 <div class="q-body">
+<div class="qtext">Which of the following propositions are true about a CONV layer? (Mention all that apply.)
+<ol class="qparts" type="i">
+<li>The number of weights depends on the depth of the input volume.</li>
+<li>The number of biases is equal to the number of filters.</li>
+<li>The total number of parameters depends on the stride.</li>
+<li>The total number of parameters depends on the padding.</li>
+</ol>
+</div>
 <div class="sol">
 <p>Parameter count of a conv layer: \(F\,(K\times K\times C_{in}) + F\) — it depends only on kernel size \(K\), input depth \(C_{in}\), and number of filters \(F\).</p>
 <ul class="tight">
@@ -1200,6 +1250,14 @@ Check: \(\theta(5)=5.2(25)-0.56(125)=130-70=60\) ✓; \(\dot\theta(5)=10.4(5)-1.
 <div class="q">
 <div class="q-head"><h3>Question 7 — Which Technique Does NOT Prevent Overfitting?</h3><span class="marks">3 marks</span></div>
 <div class="q-body">
+<div class="qtext">Which of the following techniques does NOT prevent a model from overfitting?
+<ol class="qparts" type="i">
+<li>Data augmentation</li>
+<li>Dropout</li>
+<li>Early stopping</li>
+<li>None of the above</li>
+</ol>
+</div>
 <div class="sol">
 <div class="ans"><b>Answer: (iv) None of the above.</b></div>
 <p>All three listed techniques are regularizers: <b>data augmentation</b> enlarges the effective training distribution, reducing variance; <b>dropout</b> (Srivastava et al., 2014) prevents co-adaptation of units and acts as an implicit ensemble; <b>early stopping</b> halts training when validation loss rises, limiting effective capacity. Since each prevents overfitting, the technique that does <i>not</i> is "none of the above."</p>
@@ -1640,6 +1698,13 @@ Check: \(\theta(5)=5.2(25)-0.56(125)=130-70=60\) ✓; \(\dot\theta(5)=10.4(5)-1.
 <div class="q">
 <div class="q-head"><h3>Question 1 — Fitting, Perceptron Learning, Features from Digit Data</h3><span class="marks">4 + 4 + 6</span></div>
 <div class="q-body">
+<div class="qtext"><span class="src">Final Examination 2023 — Question 1 (as set)</span>
+<ol class="qparts" type="a">
+<li>Explain underfitting, overfitting, and Bias-Variance tradeoff. <span class="m">[4]</span></li>
+<li>Describe the task of a perceptron learning rule. Suppose we have the following perceptron and corresponding learning algorithm: three inputs \(x,y\) and a bias feed into a single unit with weights \(W=0.3,\,0.5,\,0.4\) and threshold \(t=0.0\); the learning loop is: <i>while an epoch produces an error — present the network with the next inputs from the epoch, compute \(\mathrm{Err}=T-O\); if \(\mathrm{Err}\ne0\) then \(W_i \leftarrow W_i + LR\cdot I_i\cdot \mathrm{Err}\)</i>, repeating until an epoch produces no error. Explain the factors and parameters of the above learning (training) approach. <span class="m">[4]</span></li>
+<li>The figure shows examples of handwritten digits from US postal envelopes (five rows of the digits 0–9 in different handwriting styles). What features might you expect a good NN to learn when trained with data like this? Explain the process in neural networks of how features are fed in the input layer and how the hidden layer performs the intermediate operations. <span class="m">[6]</span></li>
+</ol>
+</div>
 
 <div class="part">(a) Underfitting, overfitting, bias–variance trade-off</div>
 <div class="sol">
@@ -1674,6 +1739,13 @@ Check: \(\theta(5)=5.2(25)-0.56(125)=130-70=60\) ✓; \(\dot\theta(5)=10.4(5)-1.
 <div class="q">
 <div class="q-head"><h3>Question 2 — Detection Tasks, NMS, mAP and Precision/Recall Interpretation</h3><span class="marks">3 + 3 + 8</span></div>
 <div class="q-body">
+<div class="qtext"><span class="src">Final Examination 2023 — Question 2 (as set)</span>
+<ol class="qparts" type="a">
+<li>Differentiate among classification, object detection, and instance segmentation. <span class="m">[3]</span></li>
+<li>What approach is used by object detectors to solve overlapping detections? <span class="m">[3]</span></li>
+<li>Consider an object detection system evaluated on a test dataset of dog images. Given the following confidence score thresholds [0.99, 0.95, 0.90, 0.5, 0.10] and using an IoU threshold of 0.5 for matching: i) Explain how the Mean Average Precision (mAP) is calculated. ii) If the detector achieves Precision = 1/1 = 1.0 and Recall = 1/3 = 0.33 for a particular confidence threshold, what does this tell us about the detector's performance at this operating point? <span class="m">[8]</span></li>
+</ol>
+</div>
 
 <div class="part">(a) Classification vs object detection vs instance segmentation</div>
 <div class="sol"><p>Answered in full (comparison table) in the <b>ML In-course 1 tab, Question 1</b>: classification assigns one label per image; detection adds a bounding box per object instance; instance segmentation adds a pixel-precise mask per instance.</p></div>
@@ -1699,6 +1771,14 @@ Check: \(\theta(5)=5.2(25)-0.56(125)=130-70=60\) ✓; \(\dot\theta(5)=10.4(5)-1.
 <div class="q">
 <div class="q-head"><h3>Question 3 — Conv vs FC, 1×1 Convolutions, Residual Connections, EfficientNet</h3><span class="marks">2 + 4 + 4 + 4</span></div>
 <div class="q-body">
+<div class="qtext"><span class="src">Final Examination 2023 — Question 3 (as set)</span>
+<ol class="qparts" type="a">
+<li>What are the advantages of using convolutional layers instead of fully connected ones for visual tasks? <span class="m">[2]</span></li>
+<li>What is the mathematical reasoning behind using 1×1 convolutions as dimension reduction layers before larger convolutions (3×3, 5×5) in the Inception module, and how does this affect the computational complexity? <span class="m">[4]</span></li>
+<li>What happens when we add the input x directly to the output of convolution layers (F(x) + x), and why is this better than just stacking layers? <span class="m">[4]</span></li>
+<li>How does EfficientNet balance the tradeoff between model size and accuracy? <span class="m">[4]</span></li>
+</ol>
+</div>
 
 <div class="part">(a) Advantages of convolutional over fully connected layers for vision</div>
 <div class="sol">
@@ -1736,6 +1816,13 @@ Check: \(\theta(5)=5.2(25)-0.56(125)=130-70=60\) ✓; \(\dot\theta(5)=10.4(5)-1.
 <div class="q">
 <div class="q-head"><h3>Question 4 — R-CNN Disadvantage, Faster R-CNN Pipeline, One-stage vs Two-stage</h3><span class="marks">4 + 5 + 5</span></div>
 <div class="q-body">
+<div class="qtext"><span class="src">Final Examination 2023 — Question 4 (as set)</span>
+<ol class="qparts" type="a">
+<li>What is the primary disadvantage of the Region-based CNN (R-CNN)? <span class="m">[4]</span></li>
+<li>Describe step-by-step how Faster R-CNN processes an input image to produce final object detections. In your explanation, identify which steps belong to the first stage and which belong to the second stage. <span class="m">[5]</span></li>
+<li>Compare and contrast one-stage and two-stage detectors in terms of: i) Speed vs accuracy trade-offs ii) Use cases where each might be preferred iii) Key architectural differences <span class="m">[5]</span></li>
+</ol>
+</div>
 
 <div class="part">(a) Primary disadvantage of R-CNN</div>
 <div class="sol"><p>As detailed in the <b>ML In-course 1 tab, Question 2</b>: extreme slowness/redundancy — a full CNN pass per each of ~2,000 proposals with no shared computation (~47 s/image), plus a fragmented multi-stage training pipeline with heavy feature caching.</p></div>
@@ -1766,6 +1853,13 @@ Check: \(\theta(5)=5.2(25)-0.56(125)=130-70=60\) ✓; \(\dot\theta(5)=10.4(5)-1.
 <div class="q">
 <div class="q-head"><h3>Question 5 — Generative Adversarial Networks</h3><span class="marks">4 + 6 + 4</span></div>
 <div class="q-body">
+<div class="qtext"><span class="src">Final Examination 2023 — Question 5 (as set)</span>
+<ol class="qparts" type="a">
+<li>What are Generative Adversarial Networks (GANs)? <span class="m">[4]</span></li>
+<li>Explain why the cost function of the generator is the opposite of the discriminator. <span class="m">[6]</span></li>
+<li>What happens when the discriminator becomes too strong during a GAN training? <span class="m">[4]</span></li>
+</ol>
+</div>
 
 <div class="part">(a) What are GANs?</div>
 <div class="sol">
@@ -1794,6 +1888,13 @@ Check: \(\theta(5)=5.2(25)-0.56(125)=130-70=60\) ✓; \(\dot\theta(5)=10.4(5)-1.
 <div class="q">
 <div class="q-head"><h3>Question 6 — Multi-Head Attention, LSTM Diagram and Components</h3><span class="marks">4 + 5 + 5</span></div>
 <div class="q-body">
+<div class="qtext"><span class="src">Final Examination 2023 — Question 6 (as set)</span>
+<ol class="qparts" type="a">
+<li>Why does the Transformer use Multi-Head Attention instead of single-head attention, and how does this help capture different types of relationships in the data? <span class="m">[4]</span></li>
+<li>Draw an LSTM network and label all components including cell state, three gates (forget, input, output), activation functions, and input/output connections. Your diagram should clearly show how information flows through the network. <span class="m">[5]</span></li>
+<li>For each component you drew in part b), explain its purpose and how it processes information. <span class="m">[5]</span></li>
+</ol>
+</div>
 
 <div class="part">(a) Why Multi-Head Attention instead of single-head?</div>
 <div class="sol">
@@ -1838,6 +1939,13 @@ Check: \(\theta(5)=5.2(25)-0.56(125)=130-70=60\) ✓; \(\dot\theta(5)=10.4(5)-1.
 <div class="q">
 <div class="q-head"><h3>Question 7 — Seq2seq, the Fixed Context Bottleneck, and Attention</h3><span class="marks">3 + 3 + 8</span></div>
 <div class="q-body">
+<div class="qtext"><span class="src">Final Examination 2023 — Question 7 (as set)</span>
+<ol class="qparts" type="a">
+<li>In basic sequence-to-sequence (seq2seq) models with RNNs, explain how the encoder-decoder architecture processes the input sequence and generates the output sequence. <span class="m">[3]</span></li>
+<li>Identify the key limitation when using a fixed-size context vector for long sequences in a seq2seq model with RNNs. <span class="m">[3]</span></li>
+<li>How does the attention mechanism address these limitations? i) Describe how attention modifies the basic seq2seq architecture. ii) Explain how the context vector is computed differently with attention. <span class="m">[8]</span></li>
+</ol>
+</div>
 
 <div class="part">(a) How the encoder–decoder seq2seq architecture works</div>
 <div class="sol">
@@ -9768,6 +9876,278 @@ Compute \(f_t, i_t, \tilde C_t, C_t, o_t, h_t\).</div>
 
 </section>
 
+
+<!-- ============================ TAB 39: 4221 MATHS (EXTRACTED FROM FINALS) ============================ -->
+<section id="t39" class="tab">
+<div class="paper-head">
+  <h2>RME 4221: Introduction to Machine Learning — Maths</h2>
+  <div class="meta">Numerical / computational questions extracted from the Final Examinations (2023 &amp; 2025), with full worked solutions</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>Problem 1 — Feed-forward Network (3 → 2 ReLU → 1 Sigmoid), Binary Cross-Entropy</h3><span class="marks">Final 2025, Q2 · 14 marks</span></div>
+<div class="q-body">
+<div class="qtext"><span class="src">Final Examination 2025 — Question 2 (as set)</span>
+Consider a feed-forward network with \(x=[0.6,\,0.9,\,0.4]^T\), \(W^{(1)}=\begin{bmatrix}0.3&-0.4\\0.8&0.3\\-0.3&0.2\end{bmatrix}\), \(b^{(1)}=[0.2,\,-0.1]^T\), \(W^{(2)}=[0.3,\;0.4]\), \(b^{(2)}=-0.05\), hidden units with ReLU, and a sigmoid output. Target \(y=0\), loss is binary cross-entropy, learning rate \(\eta=0.1\).
+<ol class="qparts" type="a">
+<li>Compute the hidden layer activations.</li>
+<li>Compute the output layer activation.</li>
+<li>Compute the loss.</li>
+<li>Compute the gradients of the loss with respect to the output layer weights \(W^{(2)}\) and bias \(b^{(2)}\).</li>
+<li>Compute the gradients of the loss with respect to the hidden layer weights \(W^{(1)}\) and bias \(b^{(1)}\).</li>
+<li>Compute the updated output layer weights \(W^{(2)}\) and bias \(b^{(2)}\) using \(\eta=0.1\).</li>
+<li>Compute the updated hidden layer weights \(W^{(1)}\) and bias \(b^{(1)}\) using the same learning rate.</li>
+</ol>
+</div>
+
+<div class="part">(a) Hidden layer activations</div>
+<div class="sol">
+<div class="step">
+\[z^{(1)}_1 = (0.3)(0.6)+(0.8)(0.9)+(-0.3)(0.4)+0.2 = 0.18+0.72-0.12+0.2 = 0.98\]
+\[z^{(1)}_2 = (-0.4)(0.6)+(0.3)(0.9)+(0.2)(0.4)-0.1 = -0.24+0.27+0.08-0.1 = 0.01\]
+</div>
+<p>Both positive, so ReLU passes them through.</p>
+<div class="ans"><b>Answer:</b> \(h=[0.98,\;0.01]^T\).</div>
+</div>
+
+<div class="part">(b) Output layer activation</div>
+<div class="sol">
+<div class="step">
+\[z^{(2)} = (0.3)(0.98)+(0.4)(0.01)-0.05 = 0.294+0.004-0.05 = 0.248\]
+\[\hat y = \sigma(0.248) = \frac{1}{1+e^{-0.248}} = 0.5617\]
+</div>
+<div class="ans"><b>Answer:</b> \(\hat y = 0.5617\).</div>
+</div>
+
+<div class="part">(c) Binary cross-entropy loss, \(y=0\)</div>
+<div class="sol">
+<p>\(L = -[y\ln\hat y + (1-y)\ln(1-\hat y)] = -\ln(1-\hat y) = -\ln(0.4383)\)</p>
+<div class="ans"><b>Answer:</b> \(L = 0.8248\).</div>
+</div>
+
+<div class="part">(d) Gradients w.r.t. \(W^{(2)}, b^{(2)}\)</div>
+<div class="sol">
+<p>For sigmoid output with BCE, the derivatives combine to the well-known compact form:</p>
+<div class="step">
+\[\delta^{(2)} = \frac{\partial L}{\partial z^{(2)}} = \hat y - y = 0.5617 - 0 = 0.5617\]
+\[\nabla_{W^{(2)}}L = \delta^{(2)}h^T = 0.5617\,[0.98,\;0.01] = [0.5504,\;0.0056]\qquad \nabla_{b^{(2)}}L = 0.5617\]
+</div>
+<div class="ans"><b>Answer:</b> \(\nabla_{W^{(2)}}L=[0.5504,\;0.0056]\), \(\nabla_{b^{(2)}}L=0.5617\).</div>
+</div>
+
+<div class="part">(e) Gradients w.r.t. \(W^{(1)}, b^{(1)}\)</div>
+<div class="sol">
+<div class="step">
+\[\frac{\partial L}{\partial h} = W^{(2)T}\delta^{(2)} = [0.3,\;0.4]^T(0.5617) = [0.1685,\;0.2247]^T\]
+ReLU active on both units (\(z^{(1)}>0\)) → \(\delta^{(1)} = [0.1685,\;0.2247]^T\)
+\[\nabla_{W^{(1)}}L = x\,\delta^{(1)T} = \begin{bmatrix}0.6\\0.9\\0.4\end{bmatrix}[0.1685,\;0.2247] = \begin{bmatrix}0.1011&0.1348\\0.1517&0.2022\\0.0674&0.0899\end{bmatrix},\qquad \nabla_{b^{(1)}}L = \begin{bmatrix}0.1685\\0.2247\end{bmatrix}\]
+</div>
+</div>
+
+<div class="part">(f) Updated \(W^{(2)}, b^{(2)}\), \(\eta = 0.1\)</div>
+<div class="sol">
+<div class="step">
+\[W^{(2)}_{new} = [0.3,\;0.4] - 0.1[0.5504,\;0.0056] = [0.2450,\;0.3994]\]
+\[b^{(2)}_{new} = -0.05 - 0.1(0.5617) = -0.1062\]
+</div>
+<div class="ans"><b>Answer:</b> \(W^{(2)}_{new}=[0.2450,\;0.3994]\), \(b^{(2)}_{new}=-0.1062\).</div>
+</div>
+
+<div class="part">(g) Updated \(W^{(1)}, b^{(1)}\)</div>
+<div class="sol">
+<div class="step">
+\[W^{(1)}_{new} = \begin{bmatrix}0.3&-0.4\\0.8&0.3\\-0.3&0.2\end{bmatrix} - 0.1\begin{bmatrix}0.1011&0.1348\\0.1517&0.2022\\0.0674&0.0899\end{bmatrix} = \begin{bmatrix}0.2899 & -0.4135\\ 0.7848 & 0.2798\\ -0.3067 & 0.1910\end{bmatrix}\]
+\[b^{(1)}_{new} = \begin{bmatrix}0.2\\-0.1\end{bmatrix} - 0.1\begin{bmatrix}0.1685\\0.2247\end{bmatrix} = \begin{bmatrix}0.1831\\-0.1225\end{bmatrix}\]
+</div>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>Problem 2 — LSTM Cell Computation</h3><span class="marks">Final 2025, Q4(c–g) · 10 marks</span></div>
+<div class="q-body">
+<div class="qtext"><span class="src">Final Examination 2025 — Question 4(c–g) (as set)</span>
+LSTM cell, hidden dimension 2, gates computed without concatenating \(h_{t-1}\) and \(x_t\) (separate weight matrices). Given \(h_{t-1}=[0.5,\,-0.2]^T\), \(C_{t-1}=[0.3,\,-0.4]^T\), \(x_t=[0.7,\,0.3]^T\), and the gate parameter matrices from the in-course paper:
+<ol class="qparts" type="c" start="3">
+<li>Compute the forget gate activation \(f_t\).</li>
+<li>Compute the input gate activation \(i_t\).</li>
+<li>Compute the candidate cell state \(\tilde C_t\).</li>
+<li>Compute the updated cell state \(C_t\).</li>
+<li>Compute the output gate activation \(o_t\) and the hidden state \(h_t\).</li>
+</ol>
+</div>
+
+<div class="part">(c) Forget gate \(f_t\)</div>
+<div class="sol">
+<div class="step">
+Row 1: \((0.4)(0.5)+(-1.0)(-0.2)+(0.5)(0.7)+(0.6)(0.3)+0.2 = 0.20+0.20+0.35+0.18+0.2 = 1.13\)<br>
+Row 2: \((-0.3)(0.5)+(0.2)(-0.2)+(0.8)(0.7)+(-0.3)(0.3)-0.1 = -0.15-0.04+0.56-0.09-0.1 = 0.18\)
+\[f_t = \sigma([1.13,\;0.18]^T)=[0.7558,\;0.5449]^T\]
+</div>
+<div class="ans"><b>Answer:</b> \(f_t=[0.7558,\;0.5449]^T\).</div>
+</div>
+
+<div class="part">(d) Input gate \(i_t\)</div>
+<div class="sol">
+<div class="step">
+Row 1: \((0.4)(0.5)+(-0.3)(-0.2)+(0.1)(0.7)+(0.4)(0.3)+0 = 0.20+0.06+0.07+0.12 = 0.45\)<br>
+Row 2: \((0.2)(0.5)+(0.4)(-0.2)+(-0.2)(0.7)+(0.5)(0.3)+0.1 = 0.10-0.08-0.14+0.15+0.1 = 0.13\)
+\[i_t=\sigma([0.45,\;0.13]^T)=[0.6106,\;0.5325]^T\]
+</div>
+<div class="ans"><b>Answer:</b> \(i_t=[0.6106,\;0.5325]^T\).</div>
+</div>
+
+<div class="part">(e) Candidate cell state \(\tilde C_t\)</div>
+<div class="sol">
+<div class="step">
+Row 1: \((0.3)(0.5)+(-0.2)(-0.2)+(0.5)(0.7)+(0.1)(0.3)+0 = 0.15+0.04+0.35+0.03 = 0.57\)<br>
+Row 2: \((-0.4)(0.5)+(0.1)(-0.2)+(0.2)(0.7)+(0.3)(0.3)+0.05 = -0.20-0.02+0.14+0.09+0.05 = 0.06\)
+\[\tilde C_t=\tanh([0.57,\;0.06]^T)=[0.5154,\;0.0599]^T\]
+</div>
+<div class="ans"><b>Answer:</b> \(\tilde C_t=[0.5154,\;0.0599]^T\).</div>
+</div>
+
+<div class="part">(f) Updated cell state \(C_t\)</div>
+<div class="sol">
+<div class="step">
+Element 1: \((0.7558)(0.3)+(0.6106)(0.5154) = 0.2268 + 0.3147 = 0.5415\)<br>
+Element 2: \((0.5449)(-0.4)+(0.5325)(0.0599) = -0.2180 + 0.0319 = -0.1860\)
+</div>
+<div class="ans"><b>Answer:</b> \(C_t=[0.5415,\;-0.1860]^T\).</div>
+</div>
+
+<div class="part">(g) Output gate \(o_t\) and hidden state \(h_t\)</div>
+<div class="sol">
+<div class="step">
+Row 1: \((0.5)(0.5)+(-0.2)(-0.2)+(0.3)(0.7)+(0.7)(0.3)+0 = 0.25+0.04+0.21+0.21 = 0.71\)<br>
+Row 2: \((-0.6)(0.5)+(0.4)(-0.2)+(0.5)(0.7)+(-0.1)(0.3)+0.05 = -0.30-0.08+0.35-0.03+0.05 = -0.01\)
+\[o_t=\sigma([0.71,\;-0.01]^T)=[0.6704,\;0.4975]^T\]
+\[\tanh(C_t)=[0.4941,\;-0.1839]^T\]
+\[h_t = o_t\odot\tanh(C_t) = [(0.6704)(0.4941),\;(0.4975)(-0.1839)]^T = [0.3312,\;-0.0915]^T\]
+</div>
+<div class="ans"><b>Answer:</b> \(o_t=[0.6704,\;0.4975]^T\), \(h_t=[0.3312,\;-0.0915]^T\).</div>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>Problem 3 — Parameter Counting: 20 → 5×10 Hidden Layers → Scalar Output</h3><span class="marks">Final 2025, Q5(f) · 2 marks</span></div>
+<div class="q-body">
+<div class="qtext"><span class="src">Final Examination 2025 — Question 5(f) (as set)</span>
+You'd like to train a fully-connected neural network with 5 hidden layers, each with 10 hidden units. The input is 20-dimensional and the output is a scalar. What is the total number of trainable parameters in your network?
+</div>
+<div class="sol">
+<p>A fully connected layer from \(n_{in}\) to \(n_{out}\) units has \(n_{in}n_{out}\) weights + \(n_{out}\) biases.</p>
+<table class="vals">
+<tr><th>Layer</th><th>Weights</th><th>Biases</th><th>Params</th></tr>
+<tr><td>Input 20 → H1 (10)</td><td>200</td><td>10</td><td>210</td></tr>
+<tr><td>H1 → H2</td><td>100</td><td>10</td><td>110</td></tr>
+<tr><td>H2 → H3</td><td>100</td><td>10</td><td>110</td></tr>
+<tr><td>H3 → H4</td><td>100</td><td>10</td><td>110</td></tr>
+<tr><td>H4 → H5</td><td>100</td><td>10</td><td>110</td></tr>
+<tr><td>H5 → output (1)</td><td>10</td><td>1</td><td>11</td></tr>
+</table>
+<div class="ans"><b>Total = 210 + 4(110) + 11 = 661 trainable parameters.</b></div>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>Problem 4 — Convolution Cost: Standard vs Depthwise Separable</h3><span class="marks">Final 2025, Q6(b) · 5 marks</span></div>
+<div class="q-body">
+<div class="qtext"><span class="src">Final Examination 2025 — Question 6(b) (as set)</span>
+Suppose you are given an input feature map of size 64 × 64 × 128. You apply a convolutional layer with 64 filters of size 5 × 5, stride 1, and valid padding.
+<ol class="qparts" type="i">
+<li>Determine the size of the output feature map.</li>
+<li>Compute the computational cost of a standard convolution.</li>
+<li>Compute the computational cost of a depthwise separable convolution.</li>
+<li>Compare the computational costs obtained in parts (ii) and (iii), and quantify the relative computational efficiency gained by using depthwise separable convolution.</li>
+</ol>
+</div>
+<div class="sol">
+<p><b>(i) Output size.</b> Valid padding: \(\left\lfloor\frac{64-5}{1}\right\rfloor+1 = 60\).</p>
+<div class="ans"><b>Output feature map: 60 × 60 × 64.</b></div>
+<p><b>(ii) Standard convolution cost.</b> Each output value needs \(D_K\times D_K\times M = 5\times5\times128\) multiplications; there are \(60\times60\times64\) outputs:</p>
+<div class="step">\[\text{Cost}_{std} = 60\cdot60\cdot64\cdot5\cdot5\cdot128 = 737{,}280{,}000 \approx 7.37\times10^{8}\ \text{multiplications}\]</div>
+<p><b>(iii) Depthwise separable convolution</b> (Howard et al., MobileNets 2017) = depthwise (one 5×5 filter per input channel) + pointwise 1×1 across channels:</p>
+<div class="step">
+\[\text{Depthwise} = 60\cdot60\cdot128\cdot5\cdot5 = 11{,}520{,}000\]
+\[\text{Pointwise} = 60\cdot60\cdot64\cdot128 = 29{,}491{,}200\]
+\[\text{Cost}_{DS} = 11{,}520{,}000 + 29{,}491{,}200 = 41{,}011{,}200 \approx 4.10\times10^{7}\]
+</div>
+<p><b>(iv) Comparison.</b> Theoretical ratio:</p>
+<div class="step">\[\frac{\text{Cost}_{DS}}{\text{Cost}_{std}} = \frac{1}{N}+\frac{1}{D_K^2} = \frac{1}{64}+\frac{1}{25} = 0.0556\]</div>
+<div class="ans"><b>Depthwise separable convolution uses ≈ 5.6% of the standard cost — a speed-up factor of \(737.28/41.01 \approx 18\times\).</b></div>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>Problem 5 — CNN Parameter Counting on a 224×224×3 Network</h3><span class="marks">Final 2025, Q6(c) · 6 marks</span></div>
+<div class="q-body">
+<div class="qtext"><span class="src">Final Examination 2025 — Question 6(c) (as set)</span>
+Suppose you have an input image of size 224 × 224 × 3. Consider a neural network consisting of two convolutional layers, each followed by a 2 × 2 max pooling layer, and then two fully connected layers. The first convolutional layer has 20 filters of size 5 × 5, and the second convolutional layer has 40 filters of size 7 × 7. Assume stride 1 and same padding for all convolutional layers. Max pooling uses a 2 × 2 window with stride 2. The first fully connected layer has 100 hidden neurons, and the final fully connected layer has 5 output neurons.
+<ol class="qparts" type="i">
+<li>Compute the number of trainable parameters in each layer.</li>
+<li>Compute the total number of trainable parameters in the network.</li>
+</ol>
+</div>
+<div class="sol">
+<p>Architecture: conv1 (20 filters, 5×5, same, stride 1) → 2×2 maxpool s2 → conv2 (40 filters, 7×7, same) → 2×2 maxpool s2 → FC(100) → FC(5). Conv layer parameters \(= N_f(D_K^2\,C_{in}+1)\); pooling has none.</p>
+<p>Trace the spatial sizes: 224×224×3 → conv1 (same) → 224×224×20 → pool → 112×112×20 → conv2 (same) → 112×112×40 → pool → <b>56×56×40</b> → flatten = 125,440.</p>
+<table class="vals">
+<tr><th>Layer</th><th>Computation</th><th>Parameters</th></tr>
+<tr><td>Conv1</td><td>\(20(5\cdot5\cdot3+1)=20(76)\)</td><td>1,520</td></tr>
+<tr><td>Pool1</td><td>—</td><td>0</td></tr>
+<tr><td>Conv2</td><td>\(40(7\cdot7\cdot20+1)=40(981)\)</td><td>39,240</td></tr>
+<tr><td>Pool2</td><td>—</td><td>0</td></tr>
+<tr><td>FC1</td><td>\(125{,}440\times100+100\)</td><td>12,544,100</td></tr>
+<tr><td>FC2</td><td>\(100\times5+5\)</td><td>505</td></tr>
+</table>
+<div class="ans"><b>Total = 1,520 + 39,240 + 12,544,100 + 505 = 12,585,365 trainable parameters.</b> (Note that ≈99.7% sit in the first fully connected layer.)</div>
+</div>
+</div>
+</div>
+
+<div class="q">
+<div class="q-head"><h3>Problem 6 — IoU Computation and Non-Max Suppression</h3><span class="marks">Final 2025, Q7(d) · 8 marks</span></div>
+<div class="q-body">
+<div class="qtext"><span class="src">Final Examination 2025 — Question 7(d) (as set)</span>
+You are given four predicted bounding boxes for the same object class, each with an associated confidence score: Box A: (x1,y1)=(30,30), (x2,y2)=(90,90), confidence = 0.88; Box B: (x1,y1)=(40,40), (x2,y2)=(100,100), confidence = 0.80; Box C: (x1,y1)=(35,35), (x2,y2)=(85,85), confidence = 0.72; Box D: (x1,y1)=(150,150), (x2,y2)=(200,200), confidence = 0.60. Assume an Intersection over Union (IoU) threshold of 0.5. Assume no confidence thresholding is applied before non maximum suppression.
+<ol class="qparts" type="i">
+<li>Compute the IoU between Box A and Box B.</li>
+<li>Compute the IoU between Box A and Box C.</li>
+<li>Compute the IoU between Box A and Box D.</li>
+<li>Apply non maximum suppression and list the boxes that remain.</li>
+<li>If the IoU threshold were increased to 0.6, how would the final set of boxes change? Explain your reasoning.</li>
+</ol>
+</div>
+<div class="sol">
+<p>Boxes (same class): A(30,30)-(90,90), conf 0.88; B(40,40)-(100,100), conf 0.80; C(35,35)-(85,85), conf 0.72; D(150,150)-(200,200), conf 0.60.</p>
+
+<p><b>(i) IoU(A,B).</b> Intersection: \(x\in[\max(30,40),\min(90,100)]=[40,90]\), \(y\in[40,90]\) → \(50\times50=2500\). Areas: \(A=60^2=3600\), \(B=60^2=3600\). Union \(=3600+3600-2500=4700\).</p>
+<div class="ans">\(\text{IoU}(A,B) = 2500/4700 = \mathbf{0.532}\)</div>
+
+<p><b>(ii) IoU(A,C).</b> Intersection: \(x\in[35,85], y\in[35,85]\) → \(50\times50=2500\). Areas: 3600 and \(50^2=2500\). Union \(=3600+2500-2500=3600\).</p>
+<div class="ans">\(\text{IoU}(A,C) = 2500/3600 = \mathbf{0.694}\)</div>
+
+<p><b>(iii) IoU(A,D).</b> \(x\)-overlap: \([\max(30,150),\min(90,200)]=[150,90]\) → empty. No intersection.</p>
+<div class="ans">\(\text{IoU}(A,D) = \mathbf{0}\)</div>
+
+<p><b>(iv) NMS at IoU threshold 0.5.</b> Sort by confidence: A(0.88) &gt; B(0.80) &gt; C(0.72) &gt; D(0.60).</p>
+<ol class="tight">
+<li>Select <b>A</b> (highest). Suppress boxes with IoU(·,A) &gt; 0.5: B (0.532 &gt; 0.5) → <b>suppressed</b>; C (0.694 &gt; 0.5) → <b>suppressed</b>; D (0) → survives.</li>
+<li>Select <b>D</b> (highest remaining). Nothing left to compare.</li>
+</ol>
+<div class="ans"><b>Remaining boxes: {A, D}.</b></div>
+
+<p><b>(v) If the IoU threshold is raised to 0.6:</b> a box is now suppressed only if it overlaps a kept box <i>more</i> than 0.6. Select A; check B: IoU 0.532 ≤ 0.6 → <b>B is kept</b>; check C: IoU 0.694 &gt; 0.6 → suppressed; D kept as before.</p>
+<div class="ans"><b>Final set: {A, B, D}.</b> Raising the threshold makes NMS more permissive — boxes must overlap more strongly to be considered duplicates — so B, previously treated as a duplicate of A, now survives. The trade-off: fewer missed neighbours in crowded scenes but more duplicate detections of the same object.</div>
+</div>
+</div>
+</div>
+</section>
+
 </main>
 </div>
 <button id="menu-toggle">Courses</button>
@@ -9819,7 +10199,8 @@ const courses = [
       {type:"section", label:"ML Final 2023", target:"t8"},
       {type:"section", label:"ML Final 2025", target:"t2"},
       {type:"section", label:"ML In-course 2026", target:"t28"},
-      {type:"section", label:"Math Practice \u2014 All Topics", target:"t30"}
+      {type:"section", label:"Math Practice \u2014 All Topics", target:"t30"},
+      {type:"section", label:"Maths", target:"t39"}
     ]
   },
   {
